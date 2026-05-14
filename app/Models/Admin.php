@@ -7,8 +7,17 @@ use App\Models\User;
 
 class Admin extends Model
 {
+    protected $fillable = [
+        'user_id',
+        'full_name',
+    ];
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function scholarships()
+    {
+        return $this->hasMany(Scholarship::class, 'created_by');
     }
 }
