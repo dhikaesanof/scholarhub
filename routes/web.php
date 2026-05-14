@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+use App\Livewire\Admin\Scholarship\ScholarshipList;
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,6 +34,8 @@ Route::middleware(['auth', 'role:MENTOR'])->group(function () {
 Route::middleware(['auth', 'role:ADMIN'])->group(function () {
 
     Route::view('/admin/dashboard', 'admin.dashboard');
+
+    Route::get('/admin/scholarships', ScholarshipList::class);
 
 });
 
