@@ -6,7 +6,13 @@ use Livewire\Component;
 use App\Models\Scholarship;
 
 class ScholarshipList extends Component
-{
+{   
+
+    public function delete($id)
+    {
+        Scholarship::findOrFail($id)->delete();
+    }
+    
     public function render()
     {
         $scholarships = Scholarship::latest()->get();
@@ -15,5 +21,6 @@ class ScholarshipList extends Component
             'scholarships' => $scholarships
         ])->layout('layouts.admin');
     }
+
 }
 

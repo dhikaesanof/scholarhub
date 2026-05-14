@@ -16,6 +16,13 @@
 
             <p>{{ $scholarship->deadline }}</p>
 
+            <a href="/admin/scholarships/{{ $scholarship->id }}/edit">
+                Edit
+            </a>
+
+            <button wire:click="delete({{ $scholarship->id }})">
+                Delete
+            </button>
         </div>
 
     @endforeach

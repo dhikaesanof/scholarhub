@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Livewire\Admin\Scholarship\ScholarshipList;
+use App\Livewire\Admin\Scholarship\CreateScholarship;
+use App\Livewire\Admin\Scholarship\EditScholarship;
 
 Route::get('/', function () {
     return view('welcome');
@@ -36,6 +38,10 @@ Route::middleware(['auth', 'role:ADMIN'])->group(function () {
     Route::view('/admin/dashboard', 'admin.dashboard');
 
     Route::get('/admin/scholarships', ScholarshipList::class);
+
+    Route::get('/admin/scholarships/create', CreateScholarship::class);
+
+    Route::get('/admin/scholarships/{scholarship}/edit', EditScholarship::class);
 
 });
 

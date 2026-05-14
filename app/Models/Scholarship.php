@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Scholarship extends Model
 {
+    use SoftDeletes;    
+
     protected $fillable = [
         'title',
         'provider',
@@ -19,6 +22,11 @@ class Scholarship extends Model
         'thumbnail',
         'status',
         'created_by',
+        'benefits',
+        'minimum_gpa',
+        'required_documents',
+        'registration_open_date',
+        'announcement_date',
     ];
     public function admin()
     {
