@@ -47,6 +47,51 @@
         </div>
 
         <br>
+        <hr>
+
+        <h3>Answer Options</h3>
+
+        @foreach($options as $index => $option)
+
+            <div
+                style="
+                    margin-bottom:20px;
+                    border:1px solid black;
+                    padding:10px;
+                "
+            >
+
+                <input
+                    type="text"
+                    wire:model="options.{{ $index }}.text"
+                    placeholder="Option Text"
+                >
+
+                <input
+                    type="number"
+                    wire:model="options.{{ $index }}.score"
+                    placeholder="Score"
+                >
+
+                <button
+                    type="button"
+                    wire:click="removeOption({{ $index }})"
+                >
+                    Remove
+                </button>
+
+            </div>
+
+        @endforeach
+
+        <button
+            type="button"
+            wire:click="addOption"
+        >
+
+            Add Option
+
+        </button>
 
         <button type="submit">
             Save Question

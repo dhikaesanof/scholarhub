@@ -61,4 +61,10 @@
         {{ $scholarship->deadline }}
     </p>
 
+    <a href="/assessment/{{ $scholarship->id }}">
+
+        Start Assessment
+
+    </a>
+
 </div>

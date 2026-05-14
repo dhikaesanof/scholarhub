@@ -12,6 +12,13 @@ class AssessmentQuestion extends Model
         'weight',
     ];
 
+    public function options()
+    {
+        return $this->hasMany(
+            AssessmentQuestionOption::class
+        );
+    }
+
     public function scholarship()
     {
         return $this->belongsTo(Scholarship::class);

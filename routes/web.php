@@ -8,6 +8,7 @@ use App\Livewire\Admin\Scholarship\EditScholarship;
 use App\Livewire\Student\Scholarship\ScholarshipList as StudentScholarshipList;
 use App\Livewire\Student\Scholarship\ScholarshipDetail;
 use App\Livewire\Admin\Assessment\QuestionList;
+use App\Livewire\Student\Assessment\TakeAssessment;
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,7 +26,10 @@ Route::middleware(['auth', 'role:STUDENT'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
     Route::get('/scholarships', StudentScholarshipList::class);
+
     Route::get('/scholarships/{scholarship}', ScholarshipDetail::class);
+
+    Route::get('/assessment/{scholarship}', TakeAssessment::class);
 
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
