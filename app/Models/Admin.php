@@ -11,4 +11,9 @@ class Admin extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scholarships()
+    {
+        return $this->hasMany(Scholarship::class, 'created_by');
+    }
 }

@@ -3,15 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
 
-class Student extends Model
+class Scholarship extends Model
 {
-    public function user()
+    public function admin()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Admin::class, 'created_by');
     }
-    
+
     public function bookmarks()
     {
         return $this->hasMany(Bookmark::class);
