@@ -28,6 +28,12 @@ class Scholarship extends Model
         'registration_open_date',
         'announcement_date',
     ];
+
+    public function assessmentQuestions()
+    {
+        return $this->hasMany(AssessmentQuestion::class);
+    }
+    
     public function admin()
     {
         return $this->belongsTo(Admin::class, 'created_by');

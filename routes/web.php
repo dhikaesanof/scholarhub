@@ -7,6 +7,7 @@ use App\Livewire\Admin\Scholarship\CreateScholarship;
 use App\Livewire\Admin\Scholarship\EditScholarship;
 use App\Livewire\Student\Scholarship\ScholarshipList as StudentScholarshipList;
 use App\Livewire\Student\Scholarship\ScholarshipDetail;
+use App\Livewire\Admin\Assessment\QuestionList;
 
 Route::get('/', function () {
     return view('welcome');
@@ -47,6 +48,8 @@ Route::middleware(['auth', 'role:ADMIN'])->group(function () {
     Route::get('/admin/scholarships/create', CreateScholarship::class);
 
     Route::get('/admin/scholarships/{scholarship}/edit', EditScholarship::class);
+
+    Route::get('/admin/assessment/questions', QuestionList::class);
 
 });
 
