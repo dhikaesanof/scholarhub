@@ -20,6 +20,10 @@
                 Edit
             </a>
 
+            <a href="/admin/scholarships/{{ $scholarship->id }}/assessments">
+                Manage Assessment
+            </a>
+
             <button wire:click="delete({{ $scholarship->id }})">
                 Delete
             </button>

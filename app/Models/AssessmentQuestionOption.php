@@ -10,6 +10,7 @@ class AssessmentQuestionOption extends Model
         'assessment_question_id',
         'option_text',
         'option_score',
+        'roadmap_text',
     ];
 
     public function question()

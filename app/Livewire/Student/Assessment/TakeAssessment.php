@@ -98,16 +98,16 @@ class TakeAssessment extends Component
 
                 'assessment_question_id' => $question->id,
 
+                'assessment_question_option_id'=> $selectedOption?->id,
+
                 'answer' => $selectedOption?->option_text,
 
                 'score' => $selectedOption?->option_score ?? 0,
             ]);
         }
 
-        session()->flash(
-            'success',
-            'Assessment completed! Your readiness score: '
-            . round($percentage) . '%'
+        return redirect(
+            '/assessment/result/' . $result->id
         );
     }
 

@@ -9,6 +9,10 @@ use App\Models\AssessmentQuestionOption;
 
 class QuestionList extends Component
 {
+    public Scholarship $scholarship;
+
+    public $editingQuestionId = null;
+
     public $scholarship_id;
 
     public $question;
@@ -19,6 +23,7 @@ class QuestionList extends Component
         [
             'text' => '',
             'score' => 1,
+            'roadmap' => '',
         ],
 
         [
@@ -32,6 +37,7 @@ class QuestionList extends Component
         $this->options[] = [
             'text' => '',
             'score' => 1,
+            'roadmap' => '',
         ];
     }
 
@@ -53,25 +59,76 @@ class QuestionList extends Component
             'options' => 'required|array|min:2',
             'options.*.text' => 'required',
             'options.*.score' => 'required|integer|min:1',
+            'options.*.roadmap' => 'required',
         ]);
 
-        $question = AssessmentQuestion::create([
-            'scholarship_id' => $this->scholarship_id,
-            'question' => $this->question,
-            'weight' => $this->weight,
-        ]);
+        if ($this->editingQuestionId) {
+
+            $question = AssessmentQuestion::findOrFail(
+                $this->editingQuestionId
+            );
+
+            $question->update([
+
+                'question' => $this->question,
+
+                'weight' => $this->weight,
+            ]);
+
+        } else {
+
+            $question = AssessmentQuestion::create([
+
+                'scholarship_id' => $this->scholarship_id,
+
+                'question' => $this->question,
+
+                'weight' => $this->weight,
+            ]);
+        }
 
 
         foreach ($this->options as $option) {
 
-            AssessmentQuestionOption::create([
+            if (isset($option['id'])) {
 
-                'assessment_question_id' => $question->id,
+                $existingOption =
+                    AssessmentQuestionOption::find(
+                        $option['id']
+                    );
 
-                'option_text' => $option['text'],
+                if ($existingOption) {
 
-                'option_score' => $option['score'],
-            ]);
+                    $existingOption->update([
+
+                        'option_text' =>
+                            $option['text'],
+
+                        'option_score' =>
+                            $option['score'],
+
+                        'roadmap_text' =>
+                            $option['roadmap'],
+                    ]);
+                }
+
+            } else {
+
+                AssessmentQuestionOption::create([
+
+                    'assessment_question_id' =>
+                        $question->id,
+
+                    'option_text' =>
+                        $option['text'],
+
+                    'option_score' =>
+                        $option['score'],
+
+                    'roadmap_text' =>
+                        $option['roadmap'],
+                ]);
+            }
         }
 
         $this->reset([
@@ -84,14 +141,17 @@ class QuestionList extends Component
             [
                 'text' => '',
                 'score' => 1,
+                'roadmap' => '',
             ],
             [
                 'text' => '',
                 'score' => 3,
+                'roadmap' => '',
             ],
         ];
 
         $this->weight = 10;
+        $this->editingQuestionId = null;
     }
 
     public function delete($id)
@@ -99,14 +159,61 @@ class QuestionList extends Component
         AssessmentQuestion::findOrFail($id)->delete();
     }
 
+    public function edit($id)
+    {
+        $question =
+            AssessmentQuestion::with('options')
+            ->findOrFail($id);
+
+        $this->editingQuestionId =
+            $question->id;
+
+        $this->question =
+            $question->question;
+
+        $this->weight =
+            $question->weight;
+
+        $this->options = [];
+
+        foreach ($question->options as $option) {
+
+            $this->options[] = [
+
+                'id' => $option->id,
+
+                'text' => $option->option_text,
+
+                'score' => $option->option_score,
+
+                'roadmap' => $option->roadmap_text,
+            ];
+        }
+    }
+
+    public function mount(
+        Scholarship $scholarship
+    )
+    {
+        $this->scholarship = $scholarship;
+
+        $this->scholarship_id =
+            $scholarship->id;
+    }
+
     public function render()
     {
+        $questions = AssessmentQuestion::where(
+            'scholarship_id',
+            $this->scholarship->id
+        )->latest()->get();
+
         return view(
             'livewire.admin.assessment.question-list',
             [
-                'scholarships' => Scholarship::all(),
+                'questions' => $questions,
 
-                'questions' => AssessmentQuestion::latest()->get(),
+                'scholarship' => $this->scholarship,
             ]
         )->layout('layouts.admin');
     }

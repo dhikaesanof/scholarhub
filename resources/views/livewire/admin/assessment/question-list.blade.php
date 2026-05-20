@@ -1,32 +1,23 @@
 <div>
 
-    <h1>Assessment Questions</h1>
+    <h1>
+
+        Assessment Questions -
+        {{ $scholarship->title }}
+
+    </h1>
+
+    @if($editingQuestionId)
+
+        <h2>Edit Question</h2>
+
+    @else
+
+        <h2>Create Question</h2>
+
+    @endif
 
     <form wire:submit="save">
-
-        <div>
-
-            <label>Scholarship</label>
-
-            <select wire:model="scholarship_id">
-
-                <option value="">Select Scholarship</option>
-
-                @foreach($scholarships as $scholarship)
-
-                    <option value="{{ $scholarship->id }}">
-
-                        {{ $scholarship->title }}
-
-                    </option>
-
-                @endforeach
-
-            </select>
-
-        </div>
-
-        <br>
 
         <div>
 
@@ -73,6 +64,11 @@
                     placeholder="Score"
                 >
 
+                <textarea
+                    wire:model="options.{{ $index }}.roadmap"
+                    placeholder="Roadmap Suggestion"
+                ></textarea>
+
                 <button
                     type="button"
                     wire:click="removeOption({{ $index }})"
@@ -118,6 +114,10 @@
                 Weight:
                 {{ $question->weight }}
             </p>
+
+            <button wire:click="edit({{ $question->id }})">
+                Edit
+            </button>
 
             <button wire:click="delete({{ $question->id }})">
                 Delete
