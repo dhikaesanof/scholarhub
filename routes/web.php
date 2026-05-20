@@ -10,6 +10,9 @@ use App\Livewire\Student\Scholarship\ScholarshipDetail;
 use App\Livewire\Admin\Assessment\QuestionList;
 use App\Livewire\Student\Assessment\TakeAssessment;
 use App\Livewire\Student\Assessment\AssessmentResultPage;
+use App\Livewire\Student\Assessment\AssessmentHistory;
+use App\Livewire\Student\Bookmark\BookmarkList;
+use App\Livewire\Admin\Dashboard as AdminDashboard;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,6 +30,10 @@ Route::middleware(['auth', 'role:STUDENT'])->group(function () {
     Route::redirect('settings', 'settings/profile');
 
     Route::get('/scholarships', StudentScholarshipList::class);
+
+    Route::get('/bookmarks', BookmarkList::class);
+
+    Route::get('/assessment/history', AssessmentHistory::class);
 
     Route::get('/scholarships/{scholarship}', ScholarshipDetail::class);
 
@@ -48,7 +55,7 @@ Route::middleware(['auth', 'role:MENTOR'])->group(function () {
 
 Route::middleware(['auth', 'role:ADMIN'])->group(function () {
 
-    Route::view('/admin/dashboard', 'admin.dashboard');
+    Route::view('/admin/dashboard', Dashboard::class);
 
     Route::get('/admin/scholarships', ScholarshipList::class);
 
