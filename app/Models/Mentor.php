@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\MentorAvailability;
 
 class Mentor extends Model
 {
@@ -27,5 +28,12 @@ class Mentor extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function availabilities()
+    {
+        return $this->hasMany(
+            MentorAvailability::class
+        );
     }
 }

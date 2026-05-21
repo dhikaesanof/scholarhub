@@ -17,6 +17,9 @@ use App\Livewire\Mentor\Dashboard as MentorDashboard;
 use App\Livewire\Student\Dashboard as StudentDashboard;
 use App\Livewire\Admin\Mentor\MentorList;
 use App\Livewire\Mentor\Profile\Profile;
+use App\Livewire\Student\Mentor\MentorDirectory;
+use App\Livewire\Student\Mentor\MentorDetail;
+use App\Livewire\Mentor\Schedule\ScheduleList;
 
 Route::get('/', function () {
     return view('welcome');
@@ -44,6 +47,10 @@ Route::middleware(['auth', 'role:STUDENT'])->group(function () {
 
     Route::get('/assessment/result/{result}', AssessmentResultPage::class);
 
+    Route::get('/student/mentors', MentorDirectory::class);
+
+    Route::get('/student/mentors/{mentorId}', MentorDetail::class);
+
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
@@ -55,6 +62,8 @@ Route::middleware(['auth', 'role:MENTOR'])->group(function () {
     Route::get('/mentor/dashboard', MentorDashboard::class);
 
     Route::get('/mentor/profile', Profile::class);
+
+    Route::get('/mentor/schedules', ScheduleList::class);
 
 });
 
