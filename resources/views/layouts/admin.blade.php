@@ -75,18 +75,6 @@
                 </a>
 
                 <a
-                    href="/admin/assessment/questions"
-                    class="
-                        block
-                        hover:text-blue-400
-                    "
-                >
-
-                    Assessment
-
-                </a>
-
-                <a
                     href="/admin/mentors"
                     class="
                         block

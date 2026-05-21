@@ -78,6 +78,33 @@
 
             </nav>
 
+            <form
+                    method="POST"
+                    action="{{ route('logout') }}"
+                    class="mt-10"
+                >
+
+                    @csrf
+
+                    <button
+                        type="submit"
+
+                        class="
+                            w-full
+                            bg-red-500
+                            hover:bg-red-600
+                            text-white
+                            py-2
+                            rounded-lg
+                        "
+                    >
+
+                        Logout
+
+                    </button>
+
+                </form>
+
         </div>
 
         <!-- Content -->
