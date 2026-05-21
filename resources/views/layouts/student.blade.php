@@ -7,7 +7,10 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
+        content="
+            width=device-width,
+            initial-scale=1.0
+        "
     >
 
     @vite([
@@ -16,20 +19,35 @@
     ])
 
     <title>
-        ScholarHub Student
+
+        Student Dashboard
+
     </title>
 
 </head>
 
-<body>
+<body class="bg-gray-100">
 
-    <div class="min-h-screen flex">
+    <div class="flex min-h-screen">
 
-        {{-- Sidebar --}}
+        <!-- Sidebar -->
 
-        <div class="w-64 bg-gray-900 text-white p-5">
+        <div
+            class="
+                w-64
+                bg-white
+                shadow-lg
+                p-5
+            "
+        >
 
-            <h1 class="text-2xl font-bold mb-6">
+            <h1
+                class="
+                    text-2xl
+                    font-bold
+                    mb-8
+                "
+            >
 
                 ScholarHub
 
@@ -39,39 +57,123 @@
 
                 <a
                     href="/dashboard"
-                    class="block hover:text-blue-400"
+
+                    class="
+                        block
+                        px-3
+                        py-2
+                        rounded-lg
+                        text-gray-700
+                        hover:bg-gray-100
+                    "
                 >
+
                     Dashboard
+
                 </a>
 
                 <a
                     href="/scholarships"
-                    class="block hover:text-blue-400"
+
+                    class="
+                        block
+                        px-3
+                        py-2
+                        rounded-lg
+                        text-gray-700
+                        hover:bg-gray-100
+                    "
                 >
+
                     Scholarships
+
                 </a>
 
                 <a
                     href="/assessment/history"
-                    class="block hover:text-blue-400"
+
+                    class="
+                        block
+                        px-3
+                        py-2
+                        rounded-lg
+                        text-gray-700
+                        hover:bg-gray-100
+                    "
                 >
+
                     Assessment History
+
                 </a>
 
                 <a
                     href="/bookmarks"
-                    class="block hover:text-blue-400"
+
+                    class="
+                        block
+                        px-3
+                        py-2
+                        rounded-lg
+                        text-gray-700
+                        hover:bg-gray-100
+                    "
                 >
+
                     Bookmarks
+
+                </a>
+
+                <a
+                    href="#"
+
+                    class="
+                        block
+                        px-3
+                        py-2
+                        rounded-lg
+                        text-gray-700
+                        hover:bg-gray-100
+                    "
+                >
+
+                    Mentorship
+
                 </a>
 
             </nav>
 
+            <form
+                method="POST"
+                action="{{ route('logout') }}"
+                class="mt-10"
+            >
+
+                @csrf
+
+                <button
+                    type="submit"
+
+                    class="
+                        w-full
+                        bg-red-500
+                        hover:bg-red-600
+                        text-white
+                        py-2
+                        rounded-lg
+                    "
+                >
+
+                    Logout
+
+                </button>
+
+            </form>
+
         </div>
 
-        {{-- Main Content --}}
+        <!-- Content -->
 
-        <div class="flex-1 p-6 bg-gray-100">
+        <div class="flex-1 p-8">
 
             {{ $slot }}
 

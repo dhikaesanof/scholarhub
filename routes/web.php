@@ -13,6 +13,9 @@ use App\Livewire\Student\Assessment\AssessmentResultPage;
 use App\Livewire\Student\Assessment\AssessmentHistory;
 use App\Livewire\Student\Bookmark\BookmarkList;
 use App\Livewire\Admin\Dashboard as AdminDashboard;
+use App\Livewire\Mentor\Dashboard as MentorDashboard;
+use App\Livewire\Student\Dashboard as StudentDashboard;
+use App\Livewire\Admin\Mentor\MentorList;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,8 +27,7 @@ Route::view('dashboard', 'dashboard')
 
 Route::middleware(['auth', 'role:STUDENT'])->group(function () {
     
-    Route::view('/dashboard', 'dashboard')
-        ->name('dashboard');
+    Route::get('/dashboard', StudentDashboard::class);
 
     Route::redirect('settings', 'settings/profile');
 
@@ -49,17 +51,19 @@ Route::middleware(['auth', 'role:STUDENT'])->group(function () {
 
 Route::middleware(['auth', 'role:MENTOR'])->group(function () {
 
-    Route::view('/mentor/dashboard', 'mentor.dashboard');
+    Route::get('/mentor/dashboard', MentorDashboard::class);
 
 });
 
 Route::middleware(['auth', 'role:ADMIN'])->group(function () {
 
-    Route::view('/admin/dashboard', Dashboard::class);
+    Route::get('/admin/dashboard', AdminDashboard::class);
 
     Route::get('/admin/scholarships', ScholarshipList::class);
 
     Route::get('/admin/scholarships/create', CreateScholarship::class);
+
+    Route::get('/admin/mentors', MentorList::class);
 
     Route::get('/admin/scholarships/{scholarship}/edit', EditScholarship::class);
 
