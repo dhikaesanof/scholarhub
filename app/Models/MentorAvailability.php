@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\MentorBooking;
 
 class MentorAvailability extends Model
 {
@@ -18,6 +19,22 @@ class MentorAvailability extends Model
 
         'is_booked',
     ];
+
+    public function bookings()
+    {
+        return $this->hasMany(
+            MentorBooking::class
+        );
+    }
+
+    public function booking()
+    {
+        return $this->hasOne(
+            MentorBooking::class,
+            'mentor_availability_id'
+        )
+        ->latestOfMany();
+    }
 
     public function mentor()
     {

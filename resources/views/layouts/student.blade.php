@@ -140,6 +140,22 @@
 
                 </a>
 
+                <a
+                    href="/student/bookings"
+                    class="
+                        block
+                        px-3
+                        py-2
+                        rounded-lg
+                        text-gray-700
+                        hover:bg-gray-100
+                    "
+                >
+
+                    Booking History
+
+                </a>
+
             </nav>
 
             <form

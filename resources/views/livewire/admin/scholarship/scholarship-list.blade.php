@@ -4,6 +4,18 @@
 
     <h1>Scholarship List</h1>
 
+    <a
+        href="/admin/scholarships/create"
+        class="
+            block
+            hover:text-blue-400
+        "
+    >
+
+        Add Scholarship
+
+    </a>
+
     @foreach($scholarships as $scholarship)
 
         <div style="margin-bottom:20px; border:1px solid black; padding:10px;">

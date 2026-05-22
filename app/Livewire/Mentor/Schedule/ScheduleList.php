@@ -90,18 +90,91 @@ class ScheduleList extends Component
 
                 'required',
 
+                'date',
+
                 'after_or_equal:today',
 
                 'before_or_equal:' .
                     now()
-                    ->addWeeks(2)
-                    ->toDateString(),
+                        ->addWeeks(2)
+                        ->format('Y-m-d'),
             ],
 
             'start_time' => 'required',
 
             'end_time' => 'required',
         ]);
+
+        $selectedDateTime =
+
+            \Carbon\Carbon::parse(
+
+                $this->date .
+                ' ' .
+                $this->start_time
+
+            );
+
+        if (
+            $selectedDateTime->isPast()
+        ) {
+
+            session()->flash(
+
+                'error',
+
+                'Cannot create schedule in past time.'
+            );
+
+            return;
+        }
+
+        $overlapExists =
+
+            MentorAvailability::where(
+                'mentor_id',
+                auth()->user()->mentor->id
+            )
+
+            ->where(
+                'date',
+                $this->date
+            )
+
+            ->where(function ($query) {
+
+                $query
+
+                    ->whereBetween(
+                        'start_time',
+
+                        [
+                            $this->start_time,
+                            $this->end_time,
+                        ]
+                    )
+
+                    ->orWhereBetween(
+                        'end_time',
+
+                        [
+                            $this->start_time,
+                            $this->end_time,
+                        ]
+                    );
+            })
+
+            ->exists();
+
+        if ($overlapExists) {
+
+            session()->flash(
+                'error',
+                'Schedule overlaps with another slot.'
+            );
+
+            return;
+        }
 
         $mentor =
             auth()->user()->mentor;
@@ -252,6 +325,7 @@ class ScheduleList extends Component
             ->user()
             ->mentor
             ->availabilities()
+            ->with('booking')
 
             ->when(
                 $this->filterDate,

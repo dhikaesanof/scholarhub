@@ -23,6 +23,12 @@ class Mentor extends Model
         'achievements',
 
         'specialization',
+
+        'telegram_link',
+
+        'gmeet_link',
+
+        'instagram_username',
     ];
 
     public function user()
