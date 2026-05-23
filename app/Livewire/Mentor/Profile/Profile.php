@@ -5,9 +5,14 @@ namespace App\Livewire\Mentor\Profile;
 use App\Models\Mentor;
 use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
+use Livewire\WithFileUploads;
 
 class Profile extends Component
 {
+    use WithFileUploads;
+
+    public $profile_photo;
+
     public $current_password;
 
     public $new_password;
@@ -75,11 +80,28 @@ class Profile extends Component
 
         $user = auth()->user();
 
+        $photoPath = $user->profile_photo;
+
+        if ($this->profile_photo) {
+
+            $photoPath =
+
+                $this->profile_photo
+                    ->store(
+
+                        'profile-photos',
+
+                        'public'
+                    );
+        }
+
         $user->update([
 
             'name' => $this->name,
 
             'email' => $this->email,
+            
+            'profile_photo' => $photoPath,
         ]);
 
         $mentor->update([
@@ -105,6 +127,8 @@ class Profile extends Component
             'name' => 'required',
 
             'email' => 'required|email',
+
+            'profile_photo' =>'nullable|image|max:2048',
 
         ]);
 

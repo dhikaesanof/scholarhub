@@ -156,6 +156,23 @@
 
                 </a>
 
+                <a
+                    href="/student/profile"
+
+                    class="
+                        block
+                        px-3
+                        py-2
+                        rounded-lg
+                        text-gray-700
+                        hover:bg-gray-100
+                    "
+                >
+
+                    Profile
+
+                </a>
+
             </nav>
 
             <form

@@ -22,6 +22,7 @@ use App\Livewire\Student\Mentor\MentorDetail;
 use App\Livewire\Mentor\Schedule\ScheduleList;
 use App\Livewire\Student\Booking\BookingCreate;
 use App\Livewire\Student\Booking\BookingHistory;
+use \App\Livewire\Student\Profile\ProfileStudent;
 
 Route::get('/', function () {
     return view('welcome');
@@ -57,6 +58,7 @@ Route::middleware(['auth', 'role:STUDENT'])->group(function () {
     
     Route::get('/student/bookings/create/{slotId}',BookingCreate::class);
 
+    Route::get('/student/profile',ProfileStudent::class);
 
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');

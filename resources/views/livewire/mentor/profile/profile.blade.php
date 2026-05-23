@@ -40,6 +40,33 @@
         "
     >
 
+        @if(auth()->user()->profile_photo)
+
+            <img
+
+                src="{{
+                    asset(
+                        'storage/' .
+                        auth()->user()->profile_photo
+                    )
+                }}"
+
+                class="
+                    w-28
+                    h-28
+                    rounded-full
+                    object-cover
+                    mb-4
+                "
+            >
+
+        @endif
+
+        <input
+            type="file"
+            wire:model="profile_photo"
+        >
+
         <div>
 
             <label class="block mb-1">
