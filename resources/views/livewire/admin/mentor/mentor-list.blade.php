@@ -128,7 +128,7 @@
             "
         >
 
-            {{ $editingMentorId ? 'Update Mentor' : 'Save Mentor' }}
+            Save Mentor
 
         </button>
 
@@ -184,59 +184,6 @@
                     {{ $mentor->mentor?->bio }}
 
                 </p>
-
-                @if($mentor->mentor)
-
-                    <button
-
-                        wire:click="
-                            edit(
-                                {{ $mentor->mentor->id }}
-                            )
-                        "
-
-                        class="
-                            mt-3
-                            text-blue-500
-                        "
-                    >
-
-                        Edit
-
-                    </button>
-
-                @else
-
-                    <p class="mt-3 text-red-500">
-
-                        Mentor profile incomplete
-
-                    </p>
-
-                @endif
-
-                <button
-
-                    wire:click="
-                        delete(
-                            {{ $mentor->mentor->id }}
-                        )
-                    "
-
-                    wire:confirm="
-                        Are you sure?
-                    "
-
-                    class="
-                        mt-3
-                        ml-3
-                        text-black-500
-                    "
-                >
-
-                    Delete
-
-                </button>
 
                 <button
 

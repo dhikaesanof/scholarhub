@@ -10,8 +10,6 @@ class MentorList extends Component
 {
     public $showForm = false;
 
-    public $editingMentorId = null;
-
     public $full_name;
 
     public $email;
@@ -40,50 +38,6 @@ class MentorList extends Component
         ]);
     }
 
-    public function edit($id)
-    {
-        $mentor = Mentor::findOrFail($id);
-
-        $this->editingMentorId =
-            $mentor->id;
-
-        $this->full_name =
-            $mentor->full_name;
-
-        $this->email =
-            $mentor->user->email;
-
-        $this->university =
-            $mentor->university;
-
-        $this->major =
-            $mentor->major;
-
-        $this->bio =
-            $mentor->bio;
-
-        $this->achievements =
-            $mentor->achievements;
-
-        $this->specialization =
-            $mentor->specialization;
-
-        $this->showForm = true;
-    }
-
-    public function delete($mentorId)
-    {
-        $mentor = Mentor::findOrFail(
-            $mentorId
-        );
-
-        $user = $mentor->user;
-
-        $mentor->delete();
-
-        $user->delete();
-    }
-
     public function toggleForm()
     {
         $this->showForm =
@@ -110,87 +64,70 @@ class MentorList extends Component
     
     public function save()
     {
-
-        if ($this->editingMentorId) {
-
-            $mentor = Mentor::findOrFail(
-                $this->editingMentorId
-            );
-
-            // UPDATE USER
-
-            $mentor->user->update([
-
-                'name' => $this->full_name,
-
-                'email' => $this->email,
-            ]);
-
-            // UPDATE MENTOR
-
-            $mentor->update([
-
-                'full_name' => $this->full_name,
-
-                'university' => $this->university,
-
-                'major' => $this->major,
-
-                'bio' => $this->bio,
-
-                'achievements' => $this->achievements,
-
-                'specialization'
-                    => $this->specialization,
-            ]);
-
-            $this->resetForm();
-
-            return;
-        }
-
-        // CREATE MODE
-
         $this->validate([
 
-            'full_name' => 'required',
+            'full_name' =>
+                'required',
 
             'email' =>
+
                 'required|email|unique:users,email',
 
-            'password' => 'required|min:6',
+            'password' =>
 
-            'specialization' => 'required',
+                'required|min:6',
+
+            'specialization' =>
+                'required',
         ]);
 
         $user = User::create([
 
-            'name' => $this->full_name,
+            'name' =>
+                $this->full_name,
 
-            'email' => $this->email,
+            'email' =>
+                $this->email,
 
-            'password' => bcrypt($this->password),
+            'password' =>
+                bcrypt(
+                    $this->password
+                ),
 
-            'role' => 'MENTOR',
+            'role' =>
+                'MENTOR',
         ]);
 
         Mentor::create([
 
-            'user_id' => $user->id,
+            'user_id' =>
+                $user->id,
 
-            'full_name' => $this->full_name,
+            'full_name' =>
+                $this->full_name,
 
-            'university' => $this->university,
+            'university' =>
+                $this->university,
 
-            'major' => $this->major,
+            'major' =>
+                $this->major,
 
-            'bio' => $this->bio,
+            'bio' =>
+                $this->bio,
 
-            'achievements' => $this->achievements,
+            'achievements' =>
+                $this->achievements,
 
-            'specialization'
-                => $this->specialization,
+            'specialization' =>
+                $this->specialization,
         ]);
+
+        session()->flash(
+
+            'success',
+
+            'Mentor created successfully.'
+        );
 
         $this->resetForm();
     }
@@ -215,8 +152,6 @@ class MentorList extends Component
 
             'specialization',
         ]);
-
-        $this->editingMentorId = null;
 
         $this->showForm = false;
     }
