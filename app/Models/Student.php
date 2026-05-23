@@ -9,7 +9,6 @@ class Student extends Model
 {
     protected $fillable = [
         'user_id',
-        'full_name',
         'university',
         'major',
         'semester',

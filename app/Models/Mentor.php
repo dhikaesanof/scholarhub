@@ -12,8 +12,6 @@ class Mentor extends Model
 
         'user_id',
 
-        'full_name',
-
         'university',
 
         'major',

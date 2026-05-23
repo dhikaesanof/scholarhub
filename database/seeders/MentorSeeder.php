@@ -24,9 +24,6 @@ class MentorSeeder extends Seeder
             'user_id' =>
                 $mentorUser->id,
 
-            'full_name' =>
-                'Mentor One',
-
             'university' =>
                 'University of Oxford',
 

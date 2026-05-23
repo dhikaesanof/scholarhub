@@ -39,9 +39,6 @@ class ProfileStudent extends Component
                     'user_id' =>
                         $user->id,
 
-                    'full_name' =>
-                        $user->name,
-
                     'university' =>
                         '',
 
@@ -54,7 +51,7 @@ class ProfileStudent extends Component
         }
 
         $this->full_name =
-            $student->full_name;
+            $user->name;
 
         $this->email =
             $user->email;
@@ -116,6 +113,9 @@ class ProfileStudent extends Component
 
         $user->update([
 
+            'name' =>
+                $this->full_name,
+
             'email' =>
                 $this->email,
 
@@ -124,9 +124,6 @@ class ProfileStudent extends Component
         ]);
 
         $student->update([
-
-            'full_name' =>
-                $this->full_name,
 
             'university' =>
                 $this->university,

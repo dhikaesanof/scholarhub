@@ -38,13 +38,12 @@ class Profile extends Component
         $user = auth()->user();
 
         // AUTO CREATE PROFILE
+
         if (!$user->mentor) {
 
             Mentor::create([
 
                 'user_id' => $user->id,
-
-                'full_name' => $user->name,
             ]);
 
             $user->refresh();
@@ -76,11 +75,26 @@ class Profile extends Component
 
     public function save()
     {
-        $mentor = auth()->user()->mentor;
+        $this->validate([
 
-        $user = auth()->user();
+            'name' =>
+                'required',
 
-        $photoPath = $user->profile_photo;
+            'email' =>
+                'required|email',
+
+            'profile_photo' =>
+                'nullable|image|max:2048',
+        ]);
+
+        $mentor =
+            auth()->user()->mentor;
+
+        $user =
+            auth()->user();
+
+        $photoPath =
+            $user->profile_photo;
 
         if ($this->profile_photo) {
 
@@ -97,11 +111,14 @@ class Profile extends Component
 
         $user->update([
 
-            'name' => $this->name,
+            'name' =>
+                $this->name,
 
-            'email' => $this->email,
-            
-            'profile_photo' => $photoPath,
+            'email' =>
+                $this->email,
+
+            'profile_photo' =>
+                $photoPath,
         ]);
 
         $mentor->update([
@@ -122,18 +139,10 @@ class Profile extends Component
                 $this->instagram_username,
         ]);
 
-        $this->validate([
-
-            'name' => 'required',
-
-            'email' => 'required|email',
-
-            'profile_photo' =>'nullable|image|max:2048',
-
-        ]);
-
         session()->flash(
+
             'success',
+
             'Profile updated successfully.'
         );
     }
@@ -164,7 +173,9 @@ class Profile extends Component
         ) {
 
             session()->flash(
+
                 'password_error',
+
                 'Current password is incorrect.'
             );
 
@@ -176,7 +187,9 @@ class Profile extends Component
         $user->update([
 
             'password' =>
-                bcrypt($this->new_password),
+                bcrypt(
+                    $this->new_password
+                ),
         ]);
 
         // RESET INPUT
@@ -191,7 +204,9 @@ class Profile extends Component
         ]);
 
         session()->flash(
+
             'password_success',
+
             'Password updated successfully.'
         );
     }
@@ -200,6 +215,10 @@ class Profile extends Component
     {
         return view(
             'livewire.mentor.profile.profile'
-        )->layout('layouts.mentor');
+        )
+
+        ->layout(
+            'layouts.mentor'
+        );
     }
 }

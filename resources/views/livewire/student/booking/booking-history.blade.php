@@ -68,7 +68,7 @@
                     "
                 >
 
-                    {{ $booking->mentor->full_name }}
+                    {{ $booking->mentor->user->name }}
 
                 </h2>
 

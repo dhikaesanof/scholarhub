@@ -343,7 +343,8 @@
                             {{
                                 $booking
                                     ->student
-                                    ->full_name
+                                    ->user
+                                    ->name
                             }}
 
                             booked
@@ -351,7 +352,8 @@
                             {{
                                 $booking
                                     ->mentor
-                                    ->full_name
+                                    ->user
+                                    ->name
                             }}
 
                         </p>

@@ -103,9 +103,6 @@ class MentorList extends Component
             'user_id' =>
                 $user->id,
 
-            'full_name' =>
-                $this->full_name,
-
             'university' =>
                 $this->university,
 

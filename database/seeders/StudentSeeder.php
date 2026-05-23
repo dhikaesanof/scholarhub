@@ -24,9 +24,6 @@ class StudentSeeder extends Seeder
             'user_id' =>
                 $studentUser->id,
 
-            'full_name' =>
-                'Student One',
-
             'university' =>
                 'Universitas Indonesia',
 

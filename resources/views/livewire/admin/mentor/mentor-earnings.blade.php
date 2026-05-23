@@ -99,7 +99,8 @@
 
                             {{
                                 $data['mentor']
-                                    ->full_name
+                                    ->user
+                                    ->name
                             }}
 
                         </td>

@@ -17,7 +17,7 @@
             "
         >
 
-            {{ $mentor->full_name }}
+            {{ $mentor->user->name }}
 
         </h1>
 
@@ -290,7 +290,8 @@
                                 {{
                                     $review
                                         ->student
-                                        ->full_name
+                                        ->user
+                                        ->name
                                 }}
 
                             </p>

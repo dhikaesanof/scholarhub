@@ -49,7 +49,7 @@
 
                         <p>
 
-                            {{ $selectedBooking->mentor->full_name }}
+                            {{ $selectedBooking->mentor->user->name }}
 
                         </p>
 

@@ -270,7 +270,7 @@
                                         Student:
                                     </span>
 
-                                    {{ $booking->student->full_name }}
+                                    {{ $booking->student->user->name }}
 
                                 </p>
 

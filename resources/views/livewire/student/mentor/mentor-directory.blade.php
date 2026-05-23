@@ -39,7 +39,7 @@
                     "
                 >
 
-                    {{ $mentor->full_name }}
+                    {{ $mentor->user->name }}
 
                 </h2>
 

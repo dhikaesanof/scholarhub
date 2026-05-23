@@ -54,8 +54,7 @@ class ScholarshipSeeder extends Seeder
             'status' =>
                 'OPEN',
 
-            'created_by' =>
-                $admin->id,
+            'created_by' => \App\Models\Admin::first()->id,
 
             'benefits' =>
                 'Tuition fee, living allowance, airfare',
@@ -108,8 +107,7 @@ class ScholarshipSeeder extends Seeder
             'status' =>
                 'OPEN',
 
-            'created_by' =>
-                $admin->id,
+            'created_by' => \App\Models\Admin::first()->id,
 
             'benefits' =>
                 'Full tuition, visa, monthly stipend',
@@ -162,8 +160,7 @@ class ScholarshipSeeder extends Seeder
             'status' =>
                 'OPEN',
 
-            'created_by' =>
-                $admin->id,
+            'created_by' => \App\Models\Admin::first()->id,
 
             'benefits' =>
                 'Tuition fee, stipend, accommodation',
