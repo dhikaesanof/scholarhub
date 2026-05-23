@@ -31,6 +31,13 @@ class Mentor extends Model
         'instagram_username',
     ];
 
+    public function bookings()
+    {
+        return $this->hasMany(
+            \App\Models\MentorBooking::class
+        );
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

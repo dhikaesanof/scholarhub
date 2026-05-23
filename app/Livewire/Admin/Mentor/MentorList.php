@@ -28,6 +28,18 @@ class MentorList extends Component
 
     public $specialization;
 
+    public function toggleBlock($id)
+    {
+        $user =
+            User::findOrFail($id);
+
+        $user->update([
+
+            'is_blocked' =>
+                !$user->is_blocked,
+        ]);
+    }
+
     public function edit($id)
     {
         $mentor = Mentor::findOrFail($id);

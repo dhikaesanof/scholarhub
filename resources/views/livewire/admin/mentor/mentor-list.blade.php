@@ -133,6 +133,7 @@
         </button>
 
     </div>
+    @endif
 
     {{-- LIST MENTOR --}}
 
@@ -229,7 +230,7 @@
                     class="
                         mt-3
                         ml-3
-                        text-red-500
+                        text-black-500
                     "
                 >
 
@@ -237,11 +238,30 @@
 
                 </button>
 
+                <button
+
+                    wire:click="
+                        toggleBlock(
+                            {{ $mentor->id }}
+                        )
+                    "
+
+                    class="
+                        mt-3
+                        ml-3
+                        text-red-500
+                    "
+                >
+
+                    {{ $mentor->is_blocked
+                        ? 'Unblock'
+                        : 'Block'
+                    }}
+
+                </button>
+
             </div>
 
         @endforeach
-
-    </div>
-    @endif
 
 </div>

@@ -25,6 +25,9 @@ class UserSeeder extends Seeder
 
             'role' =>
                 'ADMIN',
+
+            'is_blocked' =>
+                false,
         ]);
 
         User::create([
@@ -40,6 +43,9 @@ class UserSeeder extends Seeder
 
             'role' =>
                 'MENTOR',
+
+            'is_blocked' =>
+                false,
         ]);
 
         User::create([
@@ -55,6 +61,9 @@ class UserSeeder extends Seeder
 
             'role' =>
                 'STUDENT',
+
+            'is_blocked' =>
+                false,
         ]);
     }
 }

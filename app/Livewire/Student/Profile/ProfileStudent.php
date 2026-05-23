@@ -24,14 +24,40 @@ class ProfileStudent extends Component
 
     public function mount()
     {
+        $user =
+            auth()->user();
+
         $student =
-            auth()->user()->student;
+            $user->student;
+
+        if (!$student) {
+
+            $student =
+
+                \App\Models\Student::create([
+
+                    'user_id' =>
+                        $user->id,
+
+                    'full_name' =>
+                        $user->name,
+
+                    'university' =>
+                        '',
+
+                    'major' =>
+                        '',
+
+                    'semester' =>
+                        1,
+                ]);
+        }
 
         $this->full_name =
             $student->full_name;
 
         $this->email =
-            auth()->user()->email;
+            $user->email;
 
         $this->university =
             $student->university;

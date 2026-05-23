@@ -62,6 +62,32 @@
 
                 </a>
 
+                 <a
+
+                    href="/admin/students"
+
+                    class="
+                        block
+                        hover:text-blue-400
+                    "
+                >
+
+                    Students
+
+                </a>
+
+                <a
+                    href="/admin/mentors"
+                    class="
+                        block
+                        hover:text-blue-400
+                    "
+                >
+
+                    Mentors
+
+                </a>
+
                 <a
                     href="/admin/scholarships"
                     class="
@@ -75,14 +101,14 @@
                 </a>
 
                 <a
-                    href="/admin/mentors"
+                    href="/admin/mentor-earnings"
                     class="
                         block
                         hover:text-blue-400
                     "
                 >
 
-                    Mentors
+                    Revenue
 
                 </a>
 

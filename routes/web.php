@@ -12,7 +12,7 @@ use App\Livewire\Student\Assessment\TakeAssessment;
 use App\Livewire\Student\Assessment\AssessmentResultPage;
 use App\Livewire\Student\Assessment\AssessmentHistory;
 use App\Livewire\Student\Bookmark\BookmarkList;
-use App\Livewire\Admin\Dashboard as AdminDashboard;
+use App\Livewire\Admin\Dashboard\Dashboard as AdminDashboard;
 use App\Livewire\Mentor\Dashboard as MentorDashboard;
 use App\Livewire\Student\Dashboard as StudentDashboard;
 use App\Livewire\Admin\Mentor\MentorList;
@@ -23,6 +23,8 @@ use App\Livewire\Mentor\Schedule\ScheduleList;
 use App\Livewire\Student\Booking\BookingCreate;
 use App\Livewire\Student\Booking\BookingHistory;
 use \App\Livewire\Student\Profile\ProfileStudent;
+use App\Livewire\Admin\Student\StudentList;
+use App\Livewire\Admin\Mentor\MentorEarnings;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,7 +34,7 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
-Route::middleware(['auth', 'role:STUDENT'])->group(function () {
+Route::middleware(['auth', 'blocked', 'role:STUDENT'])->group(function () {
     
     Route::get('/dashboard', StudentDashboard::class);
 
@@ -66,7 +68,7 @@ Route::middleware(['auth', 'role:STUDENT'])->group(function () {
     
 });
 
-Route::middleware(['auth', 'role:MENTOR'])->group(function () {
+Route::middleware(['auth', 'blocked', 'role:MENTOR'])->group(function () {
 
     Route::get('/mentor/dashboard', MentorDashboard::class);
 
@@ -76,7 +78,7 @@ Route::middleware(['auth', 'role:MENTOR'])->group(function () {
 
 });
 
-Route::middleware(['auth', 'role:ADMIN'])->group(function () {
+Route::middleware(['auth', 'blocked', 'role:ADMIN'])->group(function () {
 
     Route::get('/admin/dashboard', AdminDashboard::class);
 
@@ -91,6 +93,11 @@ Route::middleware(['auth', 'role:ADMIN'])->group(function () {
     Route::get('/admin/assessment/questions', QuestionList::class);
 
     Route::get('/admin/scholarships/{scholarship}/assessments', QuestionList::class);
+
+    Route::get('/admin/students', StudentList::class);
+
+    Route::get('/admin/mentor-earnings', MentorEarnings::class
+);
 
 });
 

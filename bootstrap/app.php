@@ -14,7 +14,11 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'role' => \App\Http\Middleware\CheckRole::class,
+            'blocked' => \App\Http\Middleware\CheckBlockedUser::class,
         ]);
+
+        $middleware->append(\App\Http\Middleware\CheckBlockedUser::class
+        );
         
     })
     ->withExceptions(function (Exceptions $exceptions) {
