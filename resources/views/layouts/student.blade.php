@@ -157,6 +157,40 @@
                 </a>
 
                 <a
+                    href="/student/documents"
+
+                    class="
+                        block
+                        px-3
+                        py-2
+                        rounded-lg
+                        text-gray-700
+                        hover:bg-gray-100
+                    "
+                >
+
+                    Documents
+
+                </a>
+
+                <a
+                    href="/student/my-documents"
+
+                    class="
+                        block
+                        px-3
+                        py-2
+                        rounded-lg
+                        text-gray-700
+                        hover:bg-gray-100
+                    "
+                >
+
+                    My Documents
+
+                </a>
+
+                <a
                     href="/student/profile"
 
                     class="

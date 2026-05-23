@@ -25,6 +25,10 @@ use App\Livewire\Student\Booking\BookingHistory;
 use \App\Livewire\Student\Profile\ProfileStudent;
 use App\Livewire\Admin\Student\StudentList;
 use App\Livewire\Admin\Mentor\MentorEarnings;
+use \App\Livewire\Admin\Document\DocumentList;
+use App\Livewire\Student\Document\DocumentMarketplace;
+use App\Http\Controllers\Student\DocumentPreviewController;
+use App\Livewire\Student\Document\MyDocuments;
 
 Route::get('/', function () {
     return view('welcome');
@@ -62,6 +66,14 @@ Route::middleware(['auth', 'blocked', 'role:STUDENT'])->group(function () {
 
     Route::get('/student/profile',ProfileStudent::class);
 
+    Route::get('/student/documents', DocumentMarketplace::class);
+
+    Route::get('/student/documents/{id}/preview', DocumentPreviewController::class)->name('student.documents.preview');
+
+    Route::get('/student/my-documents', MyDocuments::class);
+
+    Route::get('/student/documents/{id}/stream',[DocumentPreviewController::class, 'stream'])->name('student.documents.stream');
+
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
@@ -96,8 +108,9 @@ Route::middleware(['auth', 'blocked', 'role:ADMIN'])->group(function () {
 
     Route::get('/admin/students', StudentList::class);
 
-    Route::get('/admin/mentor-earnings', MentorEarnings::class
-);
+    Route::get('/admin/mentor-earnings', MentorEarnings::class);
+
+    Route::get('/admin/documents', DocumentList::class);
 
 });
 

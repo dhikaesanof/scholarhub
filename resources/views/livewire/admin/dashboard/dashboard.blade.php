@@ -150,8 +150,8 @@
         <div
             class="
                 bg-white
-                p-6
                 rounded-2xl
+                p-6
                 shadow-sm
                 border
             "
@@ -160,11 +160,10 @@
             <p
                 class="
                     text-gray-500
-                    text-sm
                 "
             >
 
-                Total Bookings
+                Document Sales
 
             </p>
 
@@ -176,7 +175,9 @@
                 "
             >
 
-                {{ $totalBookings }}
+                {{
+                    $this->totalDocumentSales
+                }}
 
             </h2>
 
@@ -287,6 +288,82 @@
             </a>
 
         </div>
+
+    </div>
+
+    <div
+        class="
+            bg-white
+            rounded-2xl
+            p-6
+            shadow-sm
+            border
+        "
+    >
+
+        <p
+            class="
+                text-gray-500
+            "
+        >
+
+            Document Revenue
+
+        </p>
+
+        <h2
+            class="
+                text-3xl
+                font-bold
+                mt-2
+            "
+        >
+
+            Rp
+            {{
+                number_format(
+                    $this->totalDocumentRevenue
+                )
+            }}
+
+        </h2>
+
+    </div>
+
+    <div
+        class="
+            bg-white
+            rounded-2xl
+            p-6
+            shadow-sm
+            border
+        "
+    >
+
+        <p
+            class="
+                text-gray-500
+            "
+        >
+
+            Top Selling Document
+
+        </p>
+
+        <h2
+            class="
+                text-xl
+                font-bold
+                mt-2
+            "
+        >
+
+            {{
+                $this->topSellingDocument?->title
+                ?? '-'
+            }}
+
+        </h2>
 
     </div>
 

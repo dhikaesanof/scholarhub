@@ -3,9 +3,17 @@
 namespace App\Livewire\Admin\Dashboard;
 
 use Livewire\Component;
+use App\Models\Document;
+use App\Models\DocumentPurchase;
 
 class Dashboard extends Component
 {
+    public $totalDocumentRevenue;
+
+    public $totalDocumentSales;
+
+    public $topSellingDocument;
+
     public $totalStudents;
 
     public $totalMentors;
@@ -18,6 +26,63 @@ class Dashboard extends Component
 
     public function mount()
     {
+        $this->totalDocumentSales =
+
+            DocumentPurchase::where(
+
+                'payment_status',
+
+                'PAID'
+
+            )->count();
+
+        $this->totalDocumentRevenue =
+
+            DocumentPurchase::where(
+
+                'payment_status',
+
+                'PAID'
+
+            )
+
+            ->join(
+
+                'documents',
+
+                'document_purchases.document_id',
+
+                '=',
+
+                'documents.id'
+            )
+
+            ->sum(
+                'documents.price'
+            );
+
+        $this->topSellingDocument =
+
+            Document::withCount([
+
+                'purchases' => function ($query) {
+
+                    $query->where(
+
+                        'payment_status',
+
+                        'PAID'
+                    );
+                }
+
+            ])
+
+            ->orderByDesc(
+                'purchases_count'
+            )
+
+            ->first();
+
         $this->totalStudents =
             \App\Models\Student::count();
 

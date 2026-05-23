@@ -101,6 +101,18 @@
                 </a>
 
                 <a
+                    href="/admin/documents"
+                    class="
+                        block
+                        hover:text-blue-400
+                    "
+                >
+
+                    Documents
+
+                </a>
+
+                <a
                     href="/admin/mentor-earnings"
                     class="
                         block
