@@ -7,6 +7,7 @@ use App\Models\Scholarship;
 use App\Models\AssessmentQuestion;
 use App\Models\AssessmentResult;
 use App\Models\AssessmentAnswer;
+use App\Models\AssessmentRoadmap;
 
 class TakeAssessment extends Component
 {
@@ -83,6 +84,11 @@ class TakeAssessment extends Component
             $result->id
         )->delete();
 
+        AssessmentRoadmap::where(
+            'assessment_result_id',
+            $result->id
+        )->delete();
+
         foreach ($questions as $question) {
 
             $selectedOptionId =
@@ -94,16 +100,55 @@ class TakeAssessment extends Component
                 );
 
             AssessmentAnswer::create([
-                'assessment_result_id' => $result->id,
 
-                'assessment_question_id' => $question->id,
+                'assessment_result_id' =>
+                    $result->id,
 
-                'assessment_question_option_id'=> $selectedOption?->id,
+                'assessment_question_id' =>
+                    $question->id,
 
-                'answer' => $selectedOption?->option_text,
+                'assessment_question_option_id' =>
+                    $selectedOption?->id,
 
-                'score' => $selectedOption?->option_score ?? 0,
+                'answer' =>
+                    $selectedOption?->option_text,
+
+                'score' =>
+                    $selectedOption?->option_score ?? 0,
             ]);
+
+            // GENERATE ROADMAP
+
+            if ($selectedOption) {
+
+                $highestScore =
+
+                    $question->options
+                        ->max('option_score');
+
+                // ONLY CREATE ROADMAP
+                // IF ANSWER IS NOT THE BEST
+
+                if (
+
+                    $selectedOption->option_score
+                    < $highestScore
+
+                    &&
+
+                    $selectedOption->roadmap_text
+                ) {
+
+                    AssessmentRoadmap::create([
+
+                        'assessment_result_id' =>
+                            $result->id,
+
+                        'task' =>
+                            $selectedOption->roadmap_text,
+                    ]);
+                }
+            }
         }
 
         return redirect(

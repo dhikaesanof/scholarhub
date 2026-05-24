@@ -14,6 +14,14 @@ class AssessmentAnswer extends Model
         'score',
     ];
 
+    public function question()
+    {
+        return $this->belongsTo(
+            AssessmentQuestion::class,
+            'assessment_question_id'
+        );
+    }
+
     public function option()
     {
         return $this->belongsTo(

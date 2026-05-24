@@ -106,6 +106,23 @@
 
                 </a>
 
+                 <a
+                    href="/student/roadmaps"
+
+                    class="
+                        block
+                        px-3
+                        py-2
+                        rounded-lg
+                        text-gray-700
+                        hover:bg-gray-100
+                    "
+                >
+
+                    Roadmap History
+
+                </a>
+
                 <a
                     href="/bookmarks"
 

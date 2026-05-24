@@ -12,7 +12,7 @@
             "
         >
 
-            Assessment History
+            My Roadmaps
 
         </h1>
 
@@ -23,13 +23,13 @@
             "
         >
 
-            Review your scholarship readiness assessment results.
+            Track your scholarship preparation progress.
 
         </p>
 
     </div>
 
-    {{-- RESULT GRID --}}
+    {{-- ROADMAP LIST --}}
 
     <div
         class="
@@ -48,7 +48,7 @@
                     border
                     rounded-3xl
                     shadow-sm
-                    overflow-hidden
+                    p-6
                     flex
                     flex-col
                     justify-between
@@ -57,7 +57,7 @@
 
                 {{-- TOP CONTENT --}}
 
-                <div class="p-6">
+                <div>
 
                     {{-- SCHOLARSHIP INFO --}}
 
@@ -65,11 +65,10 @@
                         class="
                             flex
                             items-center
-                            gap-5
+                            gap-4
+                            mb-5
                         "
                     >
-
-                        {{-- THUMBNAIL --}}
 
                         @if(
                             $result->scholarship->thumbnail
@@ -87,8 +86,8 @@
                                 "
 
                                 class="
-                                    w-24
-                                    h-24
+                                    w-20
+                                    h-20
                                     object-cover
                                     rounded-2xl
                                     border
@@ -99,8 +98,8 @@
 
                             <div
                                 class="
-                                    w-24
-                                    h-24
+                                    w-20
+                                    h-20
                                     rounded-2xl
                                     bg-gray-100
                                     border
@@ -108,8 +107,6 @@
                             ></div>
 
                         @endif
-
-                        {{-- TITLE --}}
 
                         <div>
 
@@ -144,7 +141,79 @@
 
                     </div>
 
-                    {{-- DATE --}}
+                    {{-- PROGRESS SECTION --}}
+
+                    <div class="mt-6">
+
+                        <div
+                            class="
+                                flex
+                                items-center
+                                justify-between
+                                mb-3
+                            "
+                        >
+
+                            <p
+                                class="
+                                    text-gray-600
+                                    font-medium
+                                "
+                            >
+
+                                Roadmap Progress
+
+                            </p>
+
+                            <p
+                                class="
+                                    text-blue-600
+                                    font-bold
+                                    text-lg
+                                "
+                            >
+
+                                {{
+                                    $result->progress
+                                }}%
+
+                            </p>
+
+                        </div>
+
+                        {{-- BAR --}}
+
+                        <div
+                            class="
+                                w-full
+                                bg-gray-200
+                                rounded-full
+                                h-4
+                                overflow-hidden
+                            "
+                        >
+
+                            <div
+
+                                class="
+                                    bg-blue-600
+                                    h-4
+                                    rounded-full
+                                "
+
+                                style="
+                                    width:
+                                    {{
+                                        $result->progress
+                                    }}%
+                                "
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+                    {{-- SCORE --}}
 
                     <div class="mt-6">
 
@@ -155,63 +224,40 @@
                             "
                         >
 
-                            Assessed on
+                            Assessment Score
 
                         </p>
 
-                        <p
+                        <h3
                             class="
-                                text-lg
-                                font-semibold
-                                text-gray-800
+                                text-3xl
+                                font-bold
+                                text-gray-900
                                 mt-1
                             "
                         >
 
                             {{
-                                $result->created_at
-                                    ->format('d M Y')
-                            }}
+                                round(
+                                    $result->readiness_percentage
+                                )
+                            }}%
 
-                        </p>
+                        </h3>
 
                     </div>
 
                 </div>
 
-                {{-- BUTTONS --}}
+                {{-- BUTTON --}}
 
                 <div
                     class="
+                        mt-8
                         border-t
-                        p-6
-                        flex
-                        flex-col
-                        gap-3
+                        pt-5
                     "
                 >
-
-                    <a
-
-                        href="
-                            /assessment/result/{{ $result->id }}
-                        "
-
-                        class="
-                            bg-blue-600
-                            hover:bg-blue-700
-                            text-white
-                            text-center
-                            py-3
-                            rounded-2xl
-                            font-medium
-                            transition
-                        "
-                    >
-
-                        View Result
-
-                    </a>
 
                     <a
 
@@ -220,6 +266,8 @@
                         "
 
                         class="
+                            block
+                            w-full
                             bg-slate-800
                             hover:bg-slate-900
                             text-white
@@ -253,7 +301,7 @@
                 "
             >
 
-                No assessment history yet.
+                No roadmap history yet.
 
             </div>
 

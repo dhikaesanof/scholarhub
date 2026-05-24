@@ -29,6 +29,8 @@ use \App\Livewire\Admin\Document\DocumentList;
 use App\Livewire\Student\Document\DocumentMarketplace;
 use App\Http\Controllers\Student\DocumentPreviewController;
 use App\Livewire\Student\Document\MyDocuments;
+use \App\Livewire\Student\Roadmap\RoadmapDetail;
+use App\Livewire\Student\Roadmap\RoadmapHistory;
 
 Route::get('/', function () {
     return view('welcome');
@@ -73,6 +75,10 @@ Route::middleware(['auth', 'blocked', 'role:STUDENT'])->group(function () {
     Route::get('/student/my-documents', MyDocuments::class);
 
     Route::get('/student/documents/{id}/stream',[DocumentPreviewController::class, 'stream'])->name('student.documents.stream');
+
+    Route::get('/student/roadmaps', RoadmapHistory::class);
+
+    Route::get('/student/roadmaps/{id}', RoadmapDetail::class);
 
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');

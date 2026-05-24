@@ -14,6 +14,13 @@ class AssessmentResult extends Model
         'readiness_percentage',
     ];
 
+    public function roadmaps()
+    {
+        return $this->hasMany(
+            \App\Models\AssessmentRoadmap::class
+        );
+    }
+
     public function answers()
     {
         return $this->hasMany(AssessmentAnswer::class);

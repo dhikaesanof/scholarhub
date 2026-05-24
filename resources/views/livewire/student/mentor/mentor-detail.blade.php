@@ -1,135 +1,297 @@
-<div>
+<div class="p-8">
+
+    {{-- TOP PROFILE SECTION --}}
 
     <div
         class="
             bg-white
-            p-6
-            rounded-lg
-            shadow
+            border
+            rounded-3xl
+            shadow-sm
+            overflow-hidden
             mb-8
         "
     >
 
-        <h1
-            class="
-                text-3xl
-                font-bold
-            "
-        >
-
-            {{ $mentor->user->name }}
-
-        </h1>
-
         <div
             class="
+                p-8
                 flex
-                items-center
-                gap-2
-                mt-3
+                flex-col
+                lg:flex-row
+                gap-8
             "
         >
 
-            <span
-                class="
-                    text-yellow-500
-                    text-xl
-                "
-            >
+            {{-- PROFILE PHOTO --}}
 
-                ⭐
+            <div>
 
-            </span>
+                @if($mentor->user->profile_photo)
 
-            <span
-                class="
-                    font-semibold
-                "
-            >
+                    <img
 
-                {{ $mentor->average_rating ?? 0 }}
+                        src="
+                            {{
+                                asset(
+                                    'storage/' .
+                                    $mentor->user->profile_photo
+                                )
+                            }}
+                        "
 
-            </span>
+                        class="
+                            w-52
+                            h-52
+                            object-cover
+                            rounded-3xl
+                            border
+                        "
+                    >
 
-            <span
-                class="
-                    text-gray-500
-                    text-sm
-                "
-            >
+                @else
 
-                (
-                    {{ $reviews->count() }}
-                    reviews
-                )
+                    <div
+                        class="
+                            w-52
+                            h-52
+                            rounded-3xl
+                            border
+                            bg-gray-100
+                            flex
+                            items-center
+                            justify-center
+                            text-gray-400
+                            text-lg
+                        "
+                    >
 
-            </span>
+                        No Photo
 
-        </div>
+                    </div>
 
-        <p
-            class="
-                text-blue-500
-                mt-2
-            "
-        >
+                @endif
 
-            {{ $mentor->specialization }}
+            </div>
 
-        </p>
+            {{-- MAIN CONTENT --}}
 
-        <p
-            class="
-                text-gray-600
-                mt-4
-            "
-        >
+            <div class="flex-1">
 
-            {{ $mentor->bio }}
+                <h1
+                    class="
+                        text-4xl
+                        font-bold
+                        text-gray-900
+                    "
+                >
 
-        </p>
+                    {{ $mentor->user->name }}
 
-        <div class="mt-5 space-y-2">
+                </h1>
 
-            @if($mentor->telegram_link)
+                {{-- RATING --}}
 
-                <p>
+                <div
+                    class="
+                        flex
+                        items-center
+                        gap-3
+                        mt-4
+                    "
+                >
 
-                    Telegram:
-                    {{ $mentor->telegram_link }}
+                    <div
+                        class="
+                            flex
+                            items-center
+                            gap-2
+                            bg-yellow-100
+                            text-yellow-700
+                            px-4
+                            py-2
+                            rounded-full
+                        "
+                    >
 
-                </p>
+                        <span class="text-lg">
+                            ⭐
+                        </span>
 
-            @endif
+                        <span class="font-semibold">
 
-            @if($mentor->instagram_username)
+                            {{
+                                number_format(
+                                    $mentor->average_rating ?? 0,
+                                    1
+                                )
+                            }}
 
-                <p>
+                        </span>
 
-                    Instagram:
-                    {{ $mentor->instagram_username }}
+                    </div>
 
-                </p>
+                    <span
+                        class="
+                            text-gray-500
+                        "
+                    >
 
-            @endif
+                        {{
+                            $reviews->count()
+                        }}
+                        reviews
+
+                    </span>
+
+                </div>
+
+                {{-- SPECIALIZATION --}}
+
+                <div class="mt-6">
+
+                    <span
+                        class="
+                            bg-blue-100
+                            text-blue-700
+                            px-4
+                            py-2
+                            rounded-full
+                            text-sm
+                        "
+                    >
+
+                        {{ $mentor->specialization }}
+
+                    </span>
+
+                </div>
+
+                {{-- BIO --}}
+
+                <div class="mt-8">
+
+                    <h2
+                        class="
+                            text-xl
+                            font-bold
+                            mb-3
+                        "
+                    >
+
+                        About Mentor
+
+                    </h2>
+
+                    <p
+                        class="
+                            text-gray-600
+                            leading-8
+                        "
+                    >
+
+                        {{ $mentor->bio }}
+
+                    </p>
+
+                </div>
+
+                {{-- SOCIAL LINKS --}}
+
+                <div
+                    class="
+                        flex
+                        flex-wrap
+                        gap-4
+                        mt-8
+                    "
+                >
+
+                    @if($mentor->instagram_username)
+
+                        <a
+
+                            href="
+                                https://instagram.com/{{ $mentor->instagram_username }}
+                            "
+
+                            target="_blank"
+
+                            class="
+                                bg-pink-100
+                                text-pink-700
+                                px-4
+                                py-2
+                                rounded-xl
+                                text-sm
+                            "
+                        >
+
+                            Instagram
+
+                        </a>
+
+                    @endif
+
+                </div>
+
+            </div>
 
         </div>
 
     </div>
 
-    <div>
+    {{-- SLOT SECTION --}}
 
-        <h2
+    <div
+        class="
+            bg-white
+            border
+            rounded-3xl
+            shadow-sm
+            p-8
+        "
+    >
+
+        <div
             class="
-                text-2xl
-                font-bold
-                mb-5
+                flex
+                items-center
+                justify-between
+                mb-8
             "
         >
 
-            Available Slots
+            <div>
 
-        </h2>
+                <h2
+                    class="
+                        text-3xl
+                        font-bold
+                        text-gray-900
+                    "
+                >
+
+                    Available Slots
+
+                </h2>
+
+                <p
+                    class="
+                        text-gray-500
+                        mt-1
+                    "
+                >
+
+                    Choose your preferred mentoring session.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        {{-- ALERTS --}}
 
         @if(session()->has('success'))
 
@@ -137,9 +299,9 @@
                 class="
                     bg-green-100
                     text-green-700
-                    p-3
-                    rounded
-                    mb-5
+                    p-4
+                    rounded-2xl
+                    mb-6
                 "
             >
 
@@ -155,9 +317,9 @@
                 class="
                     bg-red-100
                     text-red-700
-                    p-3
-                    rounded
-                    mb-5
+                    p-4
+                    rounded-2xl
+                    mb-6
                 "
             >
 
@@ -167,134 +329,76 @@
 
         @endif
 
-        <div class="space-y-4">
+        {{-- SLOT LIST --}}
+
+        <div class="space-y-5">
 
             @forelse($availabilities as $slot)
 
                 <div
                     class="
-                        bg-white
-                        p-5
-                        rounded-lg
-                        shadow
+                        border
+                        rounded-2xl
+                        p-6
                         flex
+                        flex-col
+                        lg:flex-row
                         justify-between
-                        items-center
+                        lg:items-center
+                        gap-5
                     "
                 >
 
+                    {{-- SLOT INFO --}}
+
                     <div>
 
-                        <p class="font-semibold">
+                        <h3
+                            class="
+                                text-xl
+                                font-bold
+                                text-gray-900
+                            "
+                        >
 
-                            {{ $slot->date }}
+                            {{
+                                \Carbon\Carbon::parse(
+                                    $slot->date
+                                )->format('d M Y')
+                            }}
 
-                        </p>
+                        </h3>
 
-                        <p>
+                        <p
+                            class="
+                                text-gray-600
+                                mt-2
+                            "
+                        >
 
-                            {{ $slot->start_time }}
+                            {{
+                                $slot->start_time
+                            }}
                             -
-                            {{ $slot->end_time }}
+                            {{
+                                $slot->end_time
+                            }}
 
                         </p>
 
                     </div>
 
-                    <a
-
-                        href="
-                            /student/bookings/create/{{ $slot->id }}
-                        "
-
-                        class="
-                            bg-blue-500
-                            text-white
-                            px-5
-                            py-2
-                            rounded
-                        "
-                    >
-
-                        Book Session
-
-                    </a>
-
-                </div>
-
-            @empty
-
-                <div
-                    class="
-                        bg-white
-                        p-5
-                        rounded-lg
-                        shadow
-                    "
-                >
-
-                    No available slots yet.
-
-                </div>
-
-            @endforelse
-
-        </div>
-
-        </div>
-
-        <div class="mt-10">
-
-        <h2
-            class="
-                text-2xl
-                font-bold
-                mb-5
-            "
-        >
-
-            Student Reviews
-
-        </h2>
-
-        <div class="space-y-4">
-
-            @forelse($reviews as $review)
-
-                <div
-                    class="
-                        bg-white
-                        p-5
-                        rounded-lg
-                        shadow
-                    "
-                >
+                    {{-- PRICE + BUTTON --}}
 
                     <div
                         class="
                             flex
                             items-center
-                            justify-between
-                            mb-3
+                            gap-5
                         "
                     >
 
                         <div>
-
-                            <p
-                                class="
-                                    font-semibold
-                                "
-                            >
-
-                                {{
-                                    $review
-                                        ->student
-                                        ->user
-                                        ->name
-                                }}
-
-                            </p>
 
                             <p
                                 class="
@@ -303,80 +407,47 @@
                                 "
                             >
 
-                                {{
-                                    $review
-                                        ->created_at
-                                        ->format('d M Y')
-                                }}
+                                Session Price
 
                             </p>
 
+                            <h3
+                                class="
+                                    text-2xl
+                                    font-bold
+                                    text-gray-900
+                                "
+                            >
+
+                                Rp75.000
+
+                            </h3>
+
                         </div>
 
-                        <div
+                        <a
+
+                            href="
+                                /student/bookings/create/{{ $slot->id }}
+                            "
+
                             class="
-                                text-yellow-500
-                                font-bold
+                                bg-blue-600
+                                hover:bg-blue-700
+                                text-white
+                                px-6
+                                py-3
+                                rounded-2xl
+                                transition
+                                font-medium
                             "
                         >
 
-                            ⭐
-                            {{ $review->rating }}
+                            Book Session
 
-                        </div>
+                        </a>
 
                     </div>
-
-                    @if($review->strengths)
-
-                        <div
-                            class="
-                                flex
-                                flex-wrap
-                                gap-2
-                                mb-3
-                            "
-                        >
-
-                            @foreach(
-                                $review->strengths
-                                as $strength
-                            )
-
-                                <span
-                                    class="
-                                        bg-blue-100
-                                        text-blue-700
-                                        text-xs
-                                        px-3
-                                        py-1
-                                        rounded-full
-                                    "
-                                >
-
-                                    {{ $strength }}
-
-                                </span>
-
-                            @endforeach
-
-                        </div>
-
-                    @endif
-
-                    @if($review->review)
-
-                        <p
-                            class="
-                                text-gray-700
-                            "
-                        >
-
-                            {{ $review->review }}
-
-                        </p>
-
-                    @endif
 
                 </div>
 
@@ -384,13 +455,16 @@
 
                 <div
                     class="
-                        bg-gray-100
-                        p-5
-                        rounded-lg
+                        bg-gray-50
+                        border
+                        rounded-2xl
+                        p-10
+                        text-center
+                        text-gray-500
                     "
                 >
 
-                    No reviews yet.
+                    No available slots yet.
 
                 </div>
 

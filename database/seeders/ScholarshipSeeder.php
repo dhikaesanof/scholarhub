@@ -72,72 +72,21 @@ class ScholarshipSeeder extends Seeder
                 now()->addMonths(3),
         ]);
 
-        Scholarship::create([
-
-            'title' =>
-                'Chevening Scholarship',
-
-            'provider' =>
-                'UK Government',
-
-            'description' =>
-                'UK fully funded scholarship for future leaders.',
-
-            'requirements' =>
-                'Leadership experience',
-
-            'education_level' =>
-                'Master',
-
-            'category' =>
-                'International',
-
-            'funding_type' =>
-                'Fully Funded',
-
-            'deadline' =>
-                now()->addMonths(1),
-
-            'registration_link' =>
-                'https://www.chevening.org',
-
-            'thumbnail' =>
-                null,
-
-            'status' =>
-                'OPEN',
-
-            'created_by' => \App\Models\Admin::first()->id,
-
-            'benefits' =>
-                'Full tuition, visa, monthly stipend',
-
-            'minimum_gpa' =>
-                3.00,
-
-            'required_documents' =>
-                'Essay, Recommendation Letter',
-
-            'registration_open_date' =>
-                now(),
-
-            'announcement_date' =>
-                now()->addMonths(2),
-        ]);
+        // BEASISWA UNGGULAN
 
         Scholarship::create([
 
             'title' =>
-                'MEXT Scholarship',
+                'Beasiswa Unggulan',
 
             'provider' =>
-                'Japanese Government',
+                'Kemendikbud RI',
 
             'description' =>
-                'Scholarship program for international students in Japan.',
+                'Scholarship program from Indonesian government for high-achieving students.',
 
             'requirements' =>
-                'Strong academic record',
+                'Excellent academic achievement and active organizational experience.',
 
             'education_level' =>
                 'Bachelor',
@@ -146,30 +95,87 @@ class ScholarshipSeeder extends Seeder
                 'Government',
 
             'funding_type' =>
-                'Fully Funded',
+                'Full Funded',
 
             'deadline' =>
-                now()->addWeeks(3),
+                now()->addMonths(3),
 
             'registration_link' =>
-                'https://www.studyinjapan.go.jp',
+                'https://beasiswaunggulan.kemdikbud.go.id',
 
             'thumbnail' =>
-                null,
+                'scholarships/bu.jpg',
 
             'status' =>
                 'OPEN',
 
-            'created_by' => \App\Models\Admin::first()->id,
+            'created_by' =>
+                $admin->id,
 
             'benefits' =>
-                'Tuition fee, stipend, accommodation',
+                'Tuition fee and living allowance.',
 
             'minimum_gpa' =>
-                3.20,
+                3.25,
 
             'required_documents' =>
-                'Passport, Essay, Transcript',
+                'CV, Essay, Certificate, Transcript',
+
+            'registration_open_date' =>
+                now(),
+
+            'announcement_date' =>
+                now()->addMonths(5),
+        ]);
+
+        // TANOTO
+
+        Scholarship::create([
+
+            'title' =>
+                'Tanoto Foundation Scholarship',
+
+            'provider' =>
+                'Tanoto Foundation',
+
+            'description' =>
+                'Leadership and scholarship development program for outstanding Indonesian students.',
+
+            'requirements' =>
+                'Active undergraduate student with strong leadership and academic commitment.',
+
+            'education_level' =>
+                'Bachelor',
+
+            'category' =>
+                'Academic',
+
+            'funding_type' =>
+                'Full Funded',
+
+            'deadline' =>
+                now()->addMonths(2),
+
+            'registration_link' =>
+                'https://www.tanotofoundation.org',
+
+            'thumbnail' =>
+                'scholarships/tanoto.jpg',
+
+            'status' =>
+                'OPEN',
+
+            'created_by' =>
+                $admin->id,
+
+            'benefits' =>
+                'Tuition support, leadership training, networking opportunities.',
+
+            'minimum_gpa' =>
+                3.00,
+
+            'required_documents' =>
+                'CV, Transcript, Essay, Recommendation Letter',
 
             'registration_open_date' =>
                 now(),

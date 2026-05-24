@@ -4,9 +4,14 @@ namespace App\Livewire\Admin\Scholarship;
 
 use Livewire\Component;
 use App\Models\Scholarship;
+use Livewire\WithFileUploads;
 
 class CreateScholarship extends Component
 {
+    use WithFileUploads;
+
+    public $thumbnail;
+    
     public $title;
 
     public $provider;
@@ -40,6 +45,7 @@ class CreateScholarship extends Component
     public function save()
     {
         $this->validate([
+            'thumbnail' => 'nullable|image|max:2048',
             'title' => 'required',
             'provider' => 'required',
             'description' => 'required',
@@ -57,7 +63,23 @@ class CreateScholarship extends Component
             'status' => 'required',
         ]);
 
+        $thumbnailPath = null;
+
+        if ($this->thumbnail) {
+
+            $thumbnailPath =
+
+                $this->thumbnail
+                    ->store(
+
+                        'scholarships',
+
+                        'public'
+                    );
+        }
+
         Scholarship::create([
+            'thumbnail' => $thumbnailPath,
             'title' => $this->title,
             'provider' => $this->provider,
             'description' => $this->description,

@@ -17,17 +17,19 @@ class DatabaseSeeder extends Seeder
 
             UserSeeder::class,
 
-            AdminSeeder::class,
-
-            MentorSeeder::class,
-
-            StudentSeeder::class,
-
             ScholarshipSeeder::class,
 
-            BookingSeeder::class,
+            TanotoAssessmentSeeder::class,
 
-            ReviewSeeder::class,
+            DocumentSeeder::class,
+
+            MentorAvailabilitySeeder::class,
+
+            MentorBookingSeeder::class,
+
+            MentorReviewSeeder::class,
+
+            DocumentPurchaseSeeder::class,
         ]);
     }
 }

@@ -1,22 +1,42 @@
-<div>
+<div class="p-8">
 
-    <h1
-        class="
-            text-3xl
-            font-bold
-            mb-6
-        "
-    >
+    {{-- HEADER --}}
 
-        Find Mentors
+    <div class="mb-8">
 
-    </h1>
+        <h1
+            class="
+                text-4xl
+                font-bold
+                text-gray-900
+            "
+        >
+
+            Find Mentors
+
+        </h1>
+
+        <p
+            class="
+                text-gray-500
+                mt-2
+            "
+        >
+
+            Connect with experienced scholarship awardees and mentors.
+
+        </p>
+
+    </div>
+
+    {{-- MENTOR GRID --}}
 
     <div
         class="
             grid
             grid-cols-1
             md:grid-cols-2
+            xl:grid-cols-3
             gap-6
         "
     >
@@ -26,65 +46,157 @@
             <div
                 class="
                     bg-white
+                    border
+                    rounded-3xl
+                    shadow-sm
                     p-6
-                    rounded-lg
-                    shadow
+                    flex
+                    flex-col
+                    justify-between
+                    hover:shadow-md
+                    transition
                 "
             >
 
-                <h2
+                {{-- TOP CONTENT --}}
+
+                <div>
+
+                    {{-- PROFILE PHOTO --}}
+
+                    <div class="mb-5">
+
+                        @if($mentor->user->profile_photo)
+
+                            <img
+
+                                src="
+                                    {{
+                                        asset(
+                                            'storage/' .
+                                            $mentor->user->profile_photo
+                                        )
+                                    }}
+                                "
+
+                                class="
+                                    w-24
+                                    h-24
+                                    object-cover
+                                    rounded-2xl
+                                    border
+                                "
+                            >
+
+                        @else
+
+                            <div
+                                class="
+                                    w-24
+                                    h-24
+                                    rounded-2xl
+                                    bg-gray-200
+                                "
+                            ></div>
+
+                        @endif
+
+                    </div>
+
+                    {{-- NAME --}}
+
+                    <h2
+                        class="
+                            text-3xl
+                            font-bold
+                            text-slate-800
+                            leading-tight
+                        "
+                    >
+
+                        {{ $mentor->user->name }}
+
+                    </h2>
+
+                    {{-- SPECIALIZATION --}}
+
+                    <p
+                        class="
+                            text-slate-600
+                            mt-3
+                            text-lg
+                        "
+                    >
+
+                        {{ $mentor->specialization }}
+
+                    </p>
+
+                    {{-- EMAIL --}}
+
+                    <p
+                        class="
+                            text-slate-700
+                            mt-3
+                        "
+                    >
+
+                        {{ $mentor->user->email }}
+
+                    </p>
+
+                    {{-- BIO --}}
+
+                    <p
+                        class="
+                            text-gray-500
+                            mt-5
+                            leading-7
+                            line-clamp-3
+                        "
+                    >
+
+                        {{ $mentor->bio }}
+
+                    </p>
+
+                </div>
+
+                {{-- BUTTON --}}
+
+                <div
                     class="
-                        text-2xl
-                        font-bold
+                        border-t
+                        mt-6
+                        pt-5
                     "
                 >
 
-                    {{ $mentor->user->name }}
+                    <a
 
-                </h2>
+                        href="
+                            /student/mentors/{{ $mentor->id }}
+                        "
 
-                <p
-                    class="
-                        text-blue-500
-                        mt-2
-                    "
-                >
+                        class="
+                            block
+                            w-full
+                            bg-slate-800
+                            hover:bg-slate-900
+                            text-white
+                            text-center
+                            py-3
+                            rounded-2xl
+                            font-medium
+                            transition
+                        "
+                    >
 
-                    {{ $mentor->specialization }}
+                        View Mentor
 
-                </p>
+                    </a>
 
-                <p
-                    class="
-                        text-gray-600
-                        mt-4
-                    "
-                >
-
-                    {{ $mentor->bio }}
-
-                </p>
-
-                <a
-
-                    href="
-                        /student/mentors/{{ $mentor->id }}
-                    "
-
-                    class="
-                        inline-block
-                        mt-5
-                        bg-blue-500
-                        text-white
-                        px-5
-                        py-2
-                        rounded
-                    "
-                >
-
-                    View Mentor
-
-                </a>
+                </div>
 
             </div>
 
