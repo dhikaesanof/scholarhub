@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\MentorBooking;
 use App\Models\MentorAvailability;
 use App\Models\MentorReview;
+use Carbon\Carbon;
 
 class MentorDetail extends Component
 {
@@ -83,16 +84,24 @@ class MentorDetail extends Component
             ->get();
             
         $availabilities =
-            $this->mentor
-            ->availabilities()
 
-            ->where('is_booked', false)
+            MentorAvailability::where(
 
-            ->orderBy('date')
+                'mentor_id',
 
-            ->orderBy('start_time')
+                $this->mentor->id
+            )
 
-            ->get();
+            ->get()
+
+            ->filter(function ($slot) {
+
+                return Carbon::parse(
+
+                    $slot->date . ' ' . $slot->start_time
+
+                )->isFuture();
+            });
 
         return view(
             'livewire.student.mentor.mentor-detail',

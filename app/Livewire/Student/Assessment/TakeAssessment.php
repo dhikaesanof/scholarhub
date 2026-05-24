@@ -11,7 +11,7 @@ use App\Models\AssessmentRoadmap;
 
 class TakeAssessment extends Component
 {
-    public Scholarship $scholarship;
+    public $scholarship;
 
     public $answers = [];
 
@@ -99,6 +99,14 @@ class TakeAssessment extends Component
                     $selectedOptionId
                 );
 
+            // VERY IMPORTANT
+            // MUST BE BEFORE CREATE
+
+            if (!$selectedOption) {
+
+                continue;
+            }
+
             AssessmentAnswer::create([
 
                 'assessment_result_id' =>
@@ -108,46 +116,38 @@ class TakeAssessment extends Component
                     $question->id,
 
                 'assessment_question_option_id' =>
-                    $selectedOption?->id,
+                    $selectedOption->id,
 
                 'answer' =>
-                    $selectedOption?->option_text,
+                    $selectedOption->option_text,
 
                 'score' =>
-                    $selectedOption?->option_score ?? 0,
+                    $selectedOption->option_score,
             ]);
 
-            // GENERATE ROADMAP
+            $highestScore =
 
-            if ($selectedOption) {
+                $question->options
+                    ->max('option_score');
 
-                $highestScore =
+            if (
 
-                    $question->options
-                        ->max('option_score');
+                $selectedOption->option_score
+                < $highestScore
 
-                // ONLY CREATE ROADMAP
-                // IF ANSWER IS NOT THE BEST
+                &&
 
-                if (
+                $selectedOption->roadmap_text
+            ) {
 
-                    $selectedOption->option_score
-                    < $highestScore
+                AssessmentRoadmap::create([
 
-                    &&
+                    'assessment_result_id' =>
+                        $result->id,
 
-                    $selectedOption->roadmap_text
-                ) {
-
-                    AssessmentRoadmap::create([
-
-                        'assessment_result_id' =>
-                            $result->id,
-
-                        'task' =>
-                            $selectedOption->roadmap_text,
-                    ]);
-                }
+                    'task' =>
+                        $selectedOption->roadmap_text,
+                ]);
             }
         }
 
