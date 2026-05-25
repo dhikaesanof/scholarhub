@@ -13,11 +13,49 @@ class MentorDetail extends Component
 {
     public Mentor $mentor;
 
-    public function book($availabilityId)
+    public $selectedDate = null;
+
+    public $selectedSlot = null;
+
+    public function selectSlot($slotId)
+    {
+        $this->selectedSlot = $slotId;
+    }
+
+    public function selectDate($date)
+    {
+        $this->selectedDate = $date;
+
+        $this->selectedSlot = null;
+    }
+
+    public function continueBooking()
+    {
+        if (!$this->selectedSlot) {
+
+            session()->flash(
+
+                'error',
+
+                'Please select a slot first.'
+            );
+
+            return;
+        }
+
+        return redirect(
+
+            '/student/bookings/create/' .
+
+            $this->selectedSlot
+        );
+    }
+
+    public function book()
     {
         $availability =
             MentorAvailability::findOrFail(
-                $availabilityId
+                $this->selectedSlot
             );
 
         // PREVENT DOUBLE BOOK
@@ -88,6 +126,36 @@ class MentorDetail extends Component
         $this->mentor = Mentor::findOrFail(
             $mentorId
         );
+
+        $firstAvailability =
+
+            MentorAvailability::where(
+
+                'mentor_id',
+
+                $this->mentor->id
+            )
+
+            ->where(
+
+                'date',
+
+                '<=',
+
+                now()
+                    ->addWeek()
+                    ->toDateString()
+            )
+
+            ->orderBy('date')
+
+            ->first();
+
+        if ($firstAvailability) {
+
+            $this->selectedDate =
+                $firstAvailability->date;
+        }
     }
 
     public function render()
@@ -113,8 +181,6 @@ class MentorDetail extends Component
                 $this->mentor->id
             )
 
-            // MAX 7 DAYS
-
             ->where(
 
                 'date',
@@ -132,8 +198,6 @@ class MentorDetail extends Component
 
             ->get()
 
-            // HIDE PAST SLOT
-
             ->filter(function ($slot) {
 
                 return Carbon::parse(
@@ -143,13 +207,39 @@ class MentorDetail extends Component
                 )->isFuture();
             });
 
+        $availableDates =
+
+            $availabilities
+
+                ->pluck('date')
+
+                ->unique()
+
+                ->values();
+
+        $filteredSlots =
+
+            $availabilities
+
+                ->where(
+                    'date',
+                    $this->selectedDate
+                );
+
         return view(
             'livewire.student.mentor.mentor-detail',
             [
                 'availabilities'
                     => $availabilities,
+
                 'reviews' =>
                     $reviews,
+
+                'availableDates' =>
+                    $availableDates,
+
+                'filteredSlots' =>
+                    $filteredSlots,
             ]
         )->layout('layouts.student');
     }
