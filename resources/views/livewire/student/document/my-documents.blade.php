@@ -99,33 +99,85 @@
 
                     </p>
 
-                    <a
+                    @if($purchase->payment_status === 'PAID')
 
-                        href="
-                            {{
-                                route(
+                        <a
 
-                                    'student.documents.preview',
+                            href="
+                                {{
+                                    route(
 
-                                    $purchase->document->id
+                                        'student.documents.preview',
+
+                                        $purchase->document->id
+                                    )
+                                }}
+                            "
+
+                            class="
+                                inline-block
+                                mt-4
+                                bg-green-600
+                                text-white
+                                px-4
+                                py-2
+                                rounded-lg
+                            "
+                        >
+
+                            Open Document
+
+                        </a>
+
+                    @elseif($purchase->payment_status === 'PENDING')
+
+                        <button
+
+                            wire:click="
+                                continuePayment(
+                                    {{ $purchase->id }}
                                 )
-                            }}
-                        "
+                            "
 
-                        class="
-                            inline-block
-                            mt-4
-                            bg-green-600
-                            text-white
-                            px-4
-                            py-2
-                            rounded-lg
-                        "
-                    >
+                            class="
+                                inline-block
+                                mt-4
+                                bg-yellow-500
+                                text-white
+                                px-4
+                                py-2
+                                rounded-lg
+                            "
+                        >
 
-                        Open Document
+                            Continue Payment
 
-                    </a>
+                        </button>
+
+                        <button
+
+                            wire:click="
+                                cancelPurchase(
+                                    {{ $purchase->id }}
+                                )
+                            "
+
+                            class="
+                                inline-block
+                                mt-2
+                                bg-red-500
+                                text-white
+                                px-4
+                                py-2
+                                rounded-lg
+                            "
+                        >
+
+                            Cancel Buying
+
+                        </button>
+
+                    @endif
 
                 </div>
 
@@ -146,5 +198,46 @@
         @endforelse
 
     </div>
+
+    @if($showPaymentModal)
+
+        <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+
+            <div class="bg-white rounded-2xl p-6 w-full max-w-md">
+
+                <h2 class="text-2xl font-bold mb-4">
+
+                    Complete Payment
+
+                </h2>
+
+                <img
+                    src="{{ asset('images/booking/qrisdummy.png') }}"
+                    class="w-64 mx-auto"
+                >
+
+                <div class="mt-6 flex gap-3">
+
+                    <button
+                        wire:click="confirmPayment"
+                        class="flex-1 bg-green-600 text-white py-2 rounded-lg"
+                    >
+                        Already Paid
+                    </button>
+
+                    <button
+                        wire:click="closePaymentModal"
+                        class="flex-1 bg-gray-200 py-2 rounded-lg"
+                    >
+                        Exit
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    @endif
 
 </div>

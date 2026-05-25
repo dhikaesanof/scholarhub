@@ -2,105 +2,35 @@
 
     @if($showPaymentModal)
 
-        <div
-            class="
-                fixed
-                inset-0
-                bg-black/50
-                flex
-                items-center
-                justify-center
-                z-50
-            "
-        >
+        <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
 
-            <div
-                class="
-                    bg-white
-                    p-8
-                    rounded-lg
-                    shadow-lg
-                    w-full
-                    max-w-md
-                "
-            >
+            <div class="bg-white rounded-2xl p-6 w-full max-w-md">
 
-                <h2
-                    class="
-                        text-2xl
-                        font-bold
-                        mb-5
-                    "
-                >
+                <h2 class="text-2xl font-bold mb-4">
 
-                    QRIS Payment
+                    Complete Payment
 
                 </h2>
 
-                <div
-                    class="
-                        w-56
-                        h-56
-                        bg-gray-300
-                        mx-auto
-                        flex
-                        items-center
-                        justify-center
-                        mb-6
-                    "
+                <img
+                    src="{{ asset('images/booking/qrisdummy.png') }}"
+                    class="w-64 mx-auto"
                 >
 
-                    QRIS IMAGE
-
-                </div>
-
-                <div
-                    class="
-                        flex
-                        justify-end
-                        gap-4
-                    "
-                >
+                <div class="mt-6 flex gap-3">
 
                     <button
-
-                        wire:click="
-                            $set(
-                                'showPaymentModal',
-                                false
-                            )
-                        "
-
-                        class="
-                            bg-gray-400
-                            text-white
-                            px-5
-                            py-2
-                            rounded
-                        "
+                        wire:click="confirmPayment"
+                        class="flex-1 bg-green-600 text-white py-2 rounded-lg"
                     >
-
-                        Exit
-
+                        Already Paid
                     </button>
 
                     <button
-
-                        wire:click="
-                            confirmPayment
-                        "
-
-                        class="
-                            bg-green-500
-                            text-white
-                            px-5
-                            py-2
-                            rounded
-                        "
+                        wire:click="closePaymentModal"
+                        class="flex-1 bg-gray-200 py-2 rounded-lg"
                     >
-
-                        Already Paid
-
+                        Exit
                     </button>
 
                 </div>

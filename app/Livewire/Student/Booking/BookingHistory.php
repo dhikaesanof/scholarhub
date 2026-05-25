@@ -28,6 +28,11 @@ class BookingHistory extends Component
 
     public $strengths = [];
 
+    public function closePaymentModal()
+    {
+        $this->showPaymentModal = false;
+    }
+
     public function submitReview()
     {
         $booking =
