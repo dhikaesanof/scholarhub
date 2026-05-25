@@ -77,3 +77,5 @@
 
 - File menggunakan Laravel local storage
 - Database hanya menyimpan file_path
+
+## Coba pull request via github
