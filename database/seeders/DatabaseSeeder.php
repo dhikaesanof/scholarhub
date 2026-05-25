@@ -22,14 +22,6 @@ class DatabaseSeeder extends Seeder
             TanotoAssessmentSeeder::class,
 
             DocumentSeeder::class,
-
-            MentorAvailabilitySeeder::class,
-
-            MentorBookingSeeder::class,
-
-            MentorReviewSeeder::class,
-
-            DocumentPurchaseSeeder::class,
         ]);
     }
 }

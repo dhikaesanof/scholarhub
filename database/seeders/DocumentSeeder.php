@@ -31,7 +31,7 @@ class DocumentSeeder extends Seeder
                 'documents/essay-guide.pdf',
 
             'thumbnail' =>
-                'documents/essay-guide.jpg',
+                'https://i1.rgstatic.net/publication/355357600_Penulisan_Esai_Akademik_dan_Strategi_untuk_Lolos_Konferensi_Internasional/links/616bf939039ba2684452191d/largepreview.png',
 
             'price' =>
                 49000,
@@ -53,10 +53,10 @@ class DocumentSeeder extends Seeder
                 'Professional CV template specifically designed for scholarship applications.',
 
             'pdf_file' =>
-                'documents/cv-template.pdf',
+                'documents/essay-guide.pdf',
 
             'thumbnail' =>
-                'documents/cv-template.jpg',
+                'https://www.cvtemplate.co.uk/_next/static/media/cv-template-simple.b83ef691.png',
 
             'price' =>
                 39000,
@@ -78,10 +78,10 @@ class DocumentSeeder extends Seeder
                 'Prepare for scholarship interviews with common questions and strategies.',
 
             'pdf_file' =>
-                'documents/interview-guide.pdf',
+                'documents/essay-guide.pdf',
 
             'thumbnail' =>
-                'documents/interview-guide.jpg',
+                'https://m.media-amazon.com/images/I/61s36PkBdTL._AC_UF1000,1000_QL80_.jpg',
 
             'price' =>
                 59000,

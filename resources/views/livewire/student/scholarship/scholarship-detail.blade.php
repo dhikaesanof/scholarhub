@@ -34,12 +34,23 @@
                     <img
 
                         src="
+
                             {{
-                                asset(
+                                Str::startsWith(
+
+                                    $scholarship->thumbnail,
+
+                                    'http'
+                                )
+
+                                ? $scholarship->thumbnail
+
+                                : asset(
                                     'storage/' .
                                     $scholarship->thumbnail
                                 )
                             }}
+
                         "
 
                         class="

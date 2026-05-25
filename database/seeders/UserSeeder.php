@@ -62,6 +62,9 @@ class UserSeeder extends Seeder
 
             'role' =>
                 'MENTOR',
+
+            'profile_photo' =>
+                'https://i.pinimg.com/1200x/e8/09/8a/e8098a3d487b4fd7b8d591d7d9db32bb.jpg',
         ]);
 
         Mentor::create([
@@ -108,6 +111,9 @@ class UserSeeder extends Seeder
 
             'role' =>
                 'MENTOR',
+
+            'profile_photo' =>
+                'https://images.unsplash.com/photo-1591655694472-cc751117d95f?q=80&w=2655&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         ]);
 
         Mentor::create([

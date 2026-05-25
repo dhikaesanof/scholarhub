@@ -69,14 +69,25 @@
                         @if($mentor->user->profile_photo)
 
                             <img
-
+                            
                                 src="
+
                                     {{
-                                        asset(
+                                        Str::startsWith(
+
+                                            $mentor->user->profile_photo,
+
+                                            'http'
+                                        )
+
+                                        ? $mentor->user->profile_photo
+
+                                        : asset(
                                             'storage/' .
                                             $mentor->user->profile_photo
                                         )
                                     }}
+
                                 "
 
                                 class="
