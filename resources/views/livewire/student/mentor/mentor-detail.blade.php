@@ -344,31 +344,6 @@
 
                                 @endif
 
-                                @if($mentor->telegram_link)
-
-                                    <a
-
-                                        href="{{ $mentor->telegram_link }}"
-
-                                        target="_blank"
-
-                                        class="
-                                            bg-blue-100
-                                            text-blue-700
-                                            px-5
-                                            py-3
-                                            rounded-2xl
-                                            text-sm
-                                            font-medium
-                                        "
-                                    >
-
-                                        Telegram
-
-                                    </a>
-
-                                @endif
-
                             </div>
 
                         </div>

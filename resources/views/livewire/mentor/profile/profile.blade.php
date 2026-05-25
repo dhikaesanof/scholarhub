@@ -254,150 +254,150 @@
     </div>
 
     <div
+        class="
+            bg-white
+            p-6
+            rounded-lg
+            shadow
+            mt-8
+            space-y-5
+        "
+    >
+
+        <h2
             class="
-                bg-white
-                p-6
-                rounded-lg
-                shadow
-                mt-8
-                space-y-5
+                text-2xl
+                font-bold
             "
         >
 
-            <h2
+            Change Password
+
+        </h2>
+
+        @if(session()->has('password_success'))
+
+            <div
                 class="
-                    text-2xl
-                    font-bold
-                "
-            >
-
-                Change Password
-
-            </h2>
-
-            @if(session()->has('password_success'))
-
-                <div
-                    class="
-                        bg-green-100
-                        text-green-700
-                        p-3
-                        rounded
-                    "
-                >
-
-                    {{ session('password_success') }}
-
-                </div>
-
-            @endif
-
-            @if(session()->has('password_error'))
-
-                <div
-                    class="
-                        bg-red-100
-                        text-red-700
-                        p-3
-                        rounded
-                    "
-                >
-
-                    {{ session('password_error') }}
-
-                </div>
-
-            @endif
-
-            <div>
-
-                <label class="block mb-1">
-
-                    Current Password
-
-                </label>
-
-                <input
-
-                    type="password"
-
-                    wire:model="current_password"
-
-                    class="
-                        w-full
-                        border
-                        rounded
-                        p-2
-                    "
-                >
-
-            </div>
-
-            <div>
-
-                <label class="block mb-1">
-
-                    New Password
-
-                </label>
-
-                <input
-
-                    type="password"
-
-                    wire:model="new_password"
-
-                    class="
-                        w-full
-                        border
-                        rounded
-                        p-2
-                    "
-                >
-
-            </div>
-
-            <div>
-
-                <label class="block mb-1">
-
-                    Confirm New Password
-
-                </label>
-
-                <input
-
-                    type="password"
-
-                    wire:model="new_password_confirmation"
-
-                    class="
-                        w-full
-                        border
-                        rounded
-                        p-2
-                    "
-                >
-
-            </div>
-
-            <button
-
-                wire:click="updatePassword"
-
-                class="
-                    bg-red-500
-                    text-white
-                    px-5
-                    py-2
+                    bg-green-100
+                    text-green-700
+                    p-3
                     rounded
                 "
             >
 
-                Update Password
+                {{ session('password_success') }}
 
-            </button>
+            </div>
+
+        @endif
+
+        @if(session()->has('password_error'))
+
+            <div
+                class="
+                    bg-red-100
+                    text-red-700
+                    p-3
+                    rounded
+                "
+            >
+
+                {{ session('password_error') }}
+
+            </div>
+
+        @endif
+
+        <div>
+
+            <label class="block mb-1">
+
+                Current Password
+
+            </label>
+
+            <input
+
+                type="password"
+
+                wire:model="current_password"
+
+                class="
+                    w-full
+                    border
+                    rounded
+                    p-2
+                "
+            >
 
         </div>
+
+        <div>
+
+            <label class="block mb-1">
+
+                New Password
+
+            </label>
+
+            <input
+
+                type="password"
+
+                wire:model="new_password"
+
+                class="
+                    w-full
+                    border
+                    rounded
+                    p-2
+                "
+            >
+
+        </div>
+
+        <div>
+
+            <label class="block mb-1">
+
+                Confirm New Password
+
+            </label>
+
+            <input
+
+                type="password"
+
+                wire:model="new_password_confirmation"
+
+                class="
+                    w-full
+                    border
+                    rounded
+                    p-2
+                "
+            >
+
+        </div>
+
+        <button
+
+            wire:click="updatePassword"
+
+            class="
+                bg-red-500
+                text-white
+                px-5
+                py-2
+                rounded
+            "
+        >
+
+            Update Password
+
+        </button>
+
+    </div>
 
 </div>
