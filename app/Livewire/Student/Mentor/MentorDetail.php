@@ -32,6 +32,27 @@ class MentorDetail extends Component
             return;
         }
 
+        if (
+
+            Carbon::parse(
+
+                $availability->date . ' ' .
+
+                $availability->start_time
+
+            )->isPast()
+        ) {
+
+            session()->flash(
+
+                'error',
+
+                'This slot has expired.'
+            );
+
+            return;
+        }
+
         $student =
             auth()->user()->student;
 
@@ -92,7 +113,26 @@ class MentorDetail extends Component
                 $this->mentor->id
             )
 
+            // MAX 7 DAYS
+
+            ->where(
+
+                'date',
+
+                '<=',
+
+                now()
+                    ->addWeek()
+                    ->toDateString()
+            )
+
+            ->orderBy('date')
+
+            ->orderBy('start_time')
+
             ->get()
+
+            // HIDE PAST SLOT
 
             ->filter(function ($slot) {
 

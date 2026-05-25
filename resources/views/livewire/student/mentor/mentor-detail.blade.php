@@ -331,13 +331,21 @@
 
         {{-- SLOT LIST --}}
 
-        <div class="space-y-5">
+        <div class="space-y-4">
 
             @forelse($availabilities as $slot)
+
+                @php
+
+                    $isBooked =
+                        $slot->is_booked;
+
+                @endphp
 
                 <div
                     class="
                         border
+                        border-gray-200
                         rounded-2xl
                         p-6
                         flex
@@ -346,6 +354,9 @@
                         justify-between
                         lg:items-center
                         gap-5
+                        bg-white
+                        hover:shadow-md
+                        transition
                     "
                 >
 
@@ -355,7 +366,7 @@
 
                         <h3
                             class="
-                                text-xl
+                                text-2xl
                                 font-bold
                                 text-gray-900
                             "
@@ -371,17 +382,24 @@
 
                         <p
                             class="
-                                text-gray-600
+                                text-gray-500
                                 mt-2
+                                text-lg
                             "
                         >
 
                             {{
-                                $slot->start_time
+                                \Carbon\Carbon::parse(
+                                    $slot->start_time
+                                )->format('H:i')
                             }}
+
                             -
+
                             {{
-                                $slot->end_time
+                                \Carbon\Carbon::parse(
+                                    $slot->end_time
+                                )->format('H:i')
                             }}
 
                         </p>
@@ -394,11 +412,11 @@
                         class="
                             flex
                             items-center
-                            gap-5
+                            gap-6
                         "
                     >
 
-                        <div>
+                        <div class="text-right">
 
                             <p
                                 class="
@@ -413,7 +431,7 @@
 
                             <h3
                                 class="
-                                    text-2xl
+                                    text-3xl
                                     font-bold
                                     text-gray-900
                                 "
@@ -425,27 +443,55 @@
 
                         </div>
 
-                        <a
+                        @if($isBooked)
 
-                            href="
-                                /student/bookings/create/{{ $slot->id }}
-                            "
+                            <button
 
-                            class="
-                                bg-blue-600
-                                hover:bg-blue-700
-                                text-white
-                                px-6
-                                py-3
-                                rounded-2xl
-                                transition
-                                font-medium
-                            "
-                        >
+                                disabled
 
-                            Book Session
+                                class="
+                                    bg-gray-200
+                                    text-gray-500
+                                    px-6
+                                    py-3
+                                    rounded-2xl
+                                    font-semibold
+                                    cursor-not-allowed
+                                    min-w-[150px]
+                                "
+                            >
 
-                        </a>
+                                Booked
+
+                            </button>
+
+                        @else
+
+                            <a
+
+                                href="
+                                    /student/bookings/create/{{ $slot->id }}
+                                "
+
+                                class="
+                                    bg-blue-600
+                                    hover:bg-blue-700
+                                    text-white
+                                    px-6
+                                    py-3
+                                    rounded-2xl
+                                    transition
+                                    font-semibold
+                                    min-w-[150px]
+                                    text-center
+                                "
+                            >
+
+                                Book Session
+
+                            </a>
+
+                        @endif
 
                     </div>
 
@@ -457,14 +503,24 @@
                     class="
                         bg-gray-50
                         border
+                        border-dashed
+                        border-gray-300
                         rounded-2xl
-                        p-10
+                        p-12
                         text-center
-                        text-gray-500
                     "
                 >
 
-                    No available slots yet.
+                    <p
+                        class="
+                            text-gray-500
+                            text-lg
+                        "
+                    >
+
+                        No available slots yet.
+
+                    </p>
 
                 </div>
 

@@ -23,7 +23,10 @@ class MentorAvailability extends Model
     public function bookings()
     {
         return $this->hasMany(
-            MentorBooking::class
+
+            \App\Models\MentorBooking::class,
+
+            'mentor_availability_id'
         );
     }
 
