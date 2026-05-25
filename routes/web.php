@@ -13,10 +13,10 @@ use App\Livewire\Student\Assessment\AssessmentResultPage;
 use App\Livewire\Student\Assessment\AssessmentHistory;
 use App\Livewire\Student\Bookmark\BookmarkList;
 use App\Livewire\Admin\Dashboard\Dashboard as AdminDashboard;
-use App\Livewire\Mentor\Dashboard as MentorDashboard;
+use App\Livewire\Mentor\Dashboard\Dashboard as MentorDashboard;
 use App\Livewire\Student\Dashboard as StudentDashboard;
 use App\Livewire\Admin\Mentor\MentorList;
-use App\Livewire\Mentor\Profile\Profile;
+use App\Livewire\Mentor\Profile\ProfileEdit;
 use App\Livewire\Student\Mentor\MentorDirectory;
 use App\Livewire\Student\Mentor\MentorDetail;
 use App\Livewire\Mentor\Schedule\ScheduleList;
@@ -32,6 +32,7 @@ use App\Livewire\Student\Document\MyDocuments;
 use \App\Livewire\Student\Roadmap\RoadmapDetail;
 use App\Livewire\Student\Roadmap\RoadmapHistory;
 use App\Livewire\Public\LandingPage;
+use App\Livewire\Mentor\Profile\ProfileView;
 
 Route::get('/', LandingPage::class)->name('home');
 
@@ -87,11 +88,13 @@ Route::middleware(['auth', 'blocked', 'role:STUDENT'])->group(function () {
 
 Route::middleware(['auth', 'blocked', 'role:MENTOR'])->group(function () {
 
-    Route::get('/mentor/dashboard', MentorDashboard::class);
+    Route::get('/mentor/dashboard', MentorDashboard::class)->name('mentor.dashboard.dashboard');
 
-    Route::get('/mentor/profile', Profile::class);
+    Route::get('/mentor/profile', ProfileView::class)->name('mentor.profile');
 
-    Route::get('/mentor/schedules', ScheduleList::class);
+    Route::get('/mentor/profile/edit', ProfileEdit::class)->name('mentor.profile.edit');
+
+    Route::get('/mentor/schedules', ScheduleList::class)->name('mentor.schedules');
 
 });
 

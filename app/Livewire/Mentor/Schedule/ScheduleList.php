@@ -105,6 +105,10 @@ class ScheduleList extends Component
             'end_time' => 'required',
         ]);
 
+        $createdCount = 0;
+
+        $duplicateCount = 0;
+
         $selectedDateTime =
 
             \Carbon\Carbon::parse(
@@ -134,6 +138,20 @@ class ScheduleList extends Component
             MentorAvailability::where(
                 'mentor_id',
                 auth()->user()->mentor->id
+            )
+
+            ->when(
+
+                $this->editingId,
+
+                function ($query) {
+
+                    $query->where(
+                        'id',
+                        '!=',
+                        $this->editingId
+                    );
+                }
             )
 
             ->where(

@@ -7,7 +7,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Hash;
 use Livewire\WithFileUploads;
 
-class Profile extends Component
+class ProfileEdit extends Component
 {
     use WithFileUploads;
 
@@ -23,9 +23,15 @@ class Profile extends Component
 
     public $email;
 
+    public $university;
+
+    public $major;
+
     public $specialization;
 
     public $bio;
+
+    public $achievements;
 
     public $telegram_link;
 
@@ -56,9 +62,18 @@ class Profile extends Component
 
         $this->email =
             $user->email;
+        
+        $this->university =
+            $mentor->university;
+
+        $this->major =
+            $mentor->major;
 
         $this->specialization =
             $mentor->specialization;
+        
+         $this->achievements =
+            $mentor->achievements;
 
         $this->bio =
             $mentor->bio;
@@ -71,6 +86,9 @@ class Profile extends Component
 
         $this->instagram_username =
             $mentor->instagram_username;
+
+        $this->achievements =
+            $mentor->achievements;
     }
 
     public function save()
@@ -137,6 +155,9 @@ class Profile extends Component
 
             'instagram_username' =>
                 $this->instagram_username,
+
+            'achievements' =>
+                $this->achievements,
         ]);
 
         session()->flash(
@@ -144,6 +165,10 @@ class Profile extends Component
             'success',
 
             'Profile updated successfully.'
+        );
+
+        return redirect()->route(
+            'mentor.profile'
         );
     }
 
@@ -209,12 +234,16 @@ class Profile extends Component
 
             'Password updated successfully.'
         );
+
+        return redirect()->route(
+            'mentor.profile'
+        );
     }
 
     public function render()
     {
         return view(
-            'livewire.mentor.profile.profile'
+            'livewire.mentor.profile.profile-edit'
         )
 
         ->layout(

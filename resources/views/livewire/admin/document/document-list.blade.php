@@ -202,12 +202,31 @@
                     <img
 
                         src="
+
                             {{
-                                asset(
-                                    'storage/' .
-                                    $document->thumbnail
+                                $document->thumbnail
+
+                                ? (
+
+                                    Str::startsWith(
+
+                                        $document->thumbnail,
+
+                                        'http'
+                                    )
+
+                                    ? $document->thumbnail
+
+                                    : asset(
+                                        'storage/' .
+                                        $document->thumbnail
+                                    )
+
                                 )
+
+                                : 'https://placehold.co/600x400?text=Document'
                             }}
+
                         "
 
                         class="

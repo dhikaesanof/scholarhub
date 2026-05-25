@@ -52,15 +52,32 @@
                     <img
 
                         src="
+
                             {{
-                                asset(
+                                $purchase->document->thumbnail
 
-                                    'storage/' .
+                                ? (
 
-                                    $purchase->document->thumbnail
+                                    Str::startsWith(
+
+                                        $purchase->document->thumbnail,
+
+                                        'http'
+                                    )
+
+                                    ? $purchase->document->thumbnail
+
+                                    : asset(
+                                        'storage/' .
+                                        $purchase->document->thumbnail
+                                    )
+
                                 )
+
+                                : 'https://placehold.co/600x400?text=Document'
                             }}
-                        "
+
+                            "
 
                         class="
                             w-full
