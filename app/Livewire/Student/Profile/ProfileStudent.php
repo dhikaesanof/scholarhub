@@ -3,12 +3,18 @@
 namespace App\Livewire\Student\Profile;
 
 use Livewire\Component;
-
+use Illuminate\Support\Facades\Hash;
 use Livewire\WithFileUploads;
 
 class ProfileStudent extends Component
 {
     use WithFileUploads;
+
+    public $current_password;
+
+    public $new_password;
+
+    public $new_password_confirmation;
 
     public $full_name;
 
@@ -21,6 +27,71 @@ class ProfileStudent extends Component
     public $semester;
 
     public $profile_photo;
+
+    public function updatePassword()
+    {
+
+        $this->validate([
+
+            'current_password' =>
+                'required',
+
+            'new_password' =>
+                'required|min:6|same:new_password_confirmation',
+
+            'new_password_confirmation' =>
+                'required',
+        ]);
+
+        $user = auth()->user();
+
+        // CHECK CURRENT PASSWORD
+
+        if (
+            !Hash::check(
+                $this->current_password,
+                $user->password
+            )
+        ) {
+
+            session()->flash(
+
+                'password_error',
+
+                'Current password is incorrect.'
+            );
+
+            return;
+        }
+
+        // UPDATE PASSWORD
+
+        $user->update([
+
+            'password' =>
+                bcrypt(
+                    $this->new_password
+                ),
+        ]);
+
+        // RESET INPUT
+
+        $this->reset([
+
+            'current_password',
+
+            'new_password',
+
+            'new_password_confirmation',
+        ]);
+
+        session()->flash(
+
+            'password_success',
+
+            'Password updated successfully.'
+        );
+    }
 
     public function mount()
     {
