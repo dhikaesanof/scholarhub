@@ -43,13 +43,26 @@
         @if(auth()->user()->profile_photo)
 
             <img
+            
+                src="
 
-                src="{{
-                    asset(
-                        'storage/' .
-                        auth()->user()->profile_photo
-                    )
-                }}"
+                    {{
+                        Str::startsWith(
+
+                            auth()->user()->profile_photo,
+
+                            'http'
+                        )
+
+                        ? auth()->user()->profile_photo
+
+                        : asset(
+                            'storage/' .
+                            auth()->user()->profile_photo
+                        )
+                    }}
+
+                "
 
                 class="
                     w-28

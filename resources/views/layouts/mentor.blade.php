@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -7,95 +8,258 @@
 
     <meta
         name="viewport"
-        content="
-            width=device-width,
-            initial-scale=1.0
-        "
+        content="width=device-width, initial-scale=1.0"
     >
+
+    <title>ScholarHub Mentor</title>
 
     @vite([
         'resources/css/app.css',
         'resources/js/app.js'
     ])
 
-    <title>
-
-        Mentor Dashboard
-
-    </title>
+    @livewireStyles
 
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-[#F6F7FB]">
 
-    <div class="flex min-h-screen">
+    <div class="flex h-screen overflow-hidden">
 
-        <!-- Sidebar -->
+        {{-- SIDEBAR --}}
 
-        <div
+        <aside
             class="
                 w-64
+                h-screen
+                sticky
+                top-0
                 bg-white
-                shadow-lg
-                p-5
+                border-r
+                flex
+                flex-col
+                justify-between
+                px-6
+                py-8
+                shrink-0
             "
         >
 
-            <h1
+            <div>
+
+                {{-- LOGO --}}
+
+                <div
+                    class="
+                        flex
+                        items-center
+                        gap-3
+                        mb-10
+                    "
+                >
+
+                    <div
+                        class="
+                            w-10
+                            h-10
+                            rounded-xl
+                            bg-[#1E3A6D]
+                            flex
+                            items-center
+                            justify-center
+                            text-white
+                            font-bold
+                        "
+                    >
+                        🎓
+                    </div>
+
+                    <div>
+
+                        <h1
+                            class="
+                                text-xl
+                                font-bold
+                                text-[#1E3A6D]
+                            "
+                        >
+                            ScholarHub
+                        </h1>
+
+                        <p
+                            class="
+                                text-sm
+                                text-green-600
+                            "
+                        >
+                            Mentor
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {{-- MENU --}}
+
+                <nav
+                    class="
+                        flex
+                        flex-col
+                        gap-3
+                    "
+                >
+
+                    <a
+
+                        href="{{ route('mentor.dashboard.dashboard') }}"
+
+                        class="
+                            flex
+                            items-center
+                            gap-3
+                            px-4
+                            py-3
+                            rounded-xl
+                            bg-blue-100
+                            text-[#1E3A6D]
+                            font-semibold
+                        "
+                    >
+
+                        🏠 Home
+
+                    </a>
+
+                    <a
+
+                        href="{{ route('mentor.schedules') }}"
+
+                        class="
+                            flex
+                            items-center
+                            gap-3
+                            px-4
+                            py-3
+                            rounded-xl
+                            text-gray-600
+                            hover:bg-gray-100
+                        "
+                    >
+
+                        📅 Schedule
+
+                    </a>
+
+                    <a
+
+                        href="{{ route('mentor.profile') }}"
+
+                        class="
+                            flex
+                            items-center
+                            gap-3
+                            px-4
+                            py-3
+                            rounded-xl
+                            text-gray-600
+                            hover:bg-gray-100
+                        "
+                    >
+
+                        👤 Profile
+
+                    </a>
+
+                </nav>
+
+            </div>
+
+            {{-- PROFILE --}}
+
+            <div
                 class="
-                    text-2xl
-                    font-bold
-                    mb-8
+                    border-t
+                    pt-5
                 "
             >
 
-                Mentor Panel
-
-            </h1>
-
-            <nav class="space-y-3">
-
-                <a
-                    href="/mentor/dashboard"
-                    class="block text-gray-700"
+                <div
+                    class="
+                        flex
+                        items-center
+                        gap-3
+                    "
                 >
-                    Dashboard
-                </a>
 
-                <a
-                    href="/mentor/profile"
-                    class="block text-gray-700"
-                >
-                    Profile
-                </a>
+                    <img
 
-                <a
-                    href="/mentor/schedules"
-                    class="block text-gray-700"
-                >
-                    Schedules
-                </a>
+                        src="
+                            {{
+                                auth()->user()->profile_photo
 
-            </nav>
+                                ? (
 
-            <form
+                                    Str::startsWith(
+
+                                        auth()->user()->profile_photo,
+
+                                        'http'
+                                    )
+
+                                    ? auth()->user()->profile_photo
+
+                                    : asset(
+                                        'storage/' .
+                                        auth()->user()->profile_photo
+                                    )
+
+                                )
+
+                                : 'https://placehold.co/100x100?text=Mentor'
+                            }}
+                        "
+
+                        class="
+                            w-12
+                            h-12
+                            rounded-full
+                            object-cover
+                        "
+                    >
+
+                    <div>
+
+                        <h2
+                            class="
+                                font-semibold
+                                text-[#1E3A6D]
+                                leading-tight
+                            "
+                        >
+
+                            {{
+                                auth()->user()->name
+                            }}
+
+                        </h2>
+
+                    </div>
+
+                </div>
+
+                <form
                     method="POST"
                     action="{{ route('logout') }}"
-                    class="mt-10"
+                    class="mt-5"
                 >
 
                     @csrf
 
                     <button
                         type="submit"
-
                         class="
-                            w-full
-                            bg-red-500
-                            hover:bg-red-600
-                            text-white
-                            py-2
-                            rounded-lg
+                            text-red-500
+                            font-medium
                         "
                     >
 
@@ -105,17 +269,28 @@
 
                 </form>
 
-        </div>
+            </div>
 
-        <!-- Content -->
+        </aside>
 
-        <div class="flex-1 p-8">
+        {{-- MAIN CONTENT --}}
+
+        <main
+            class="
+                flex-1
+                overflow-y-auto
+                p-10
+            "
+        >
 
             {{ $slot }}
 
-        </div>
+        </main>
 
     </div>
 
+    @livewireScripts
+
 </body>
+
 </html>

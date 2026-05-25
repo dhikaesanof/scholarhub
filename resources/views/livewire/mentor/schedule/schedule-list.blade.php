@@ -1,16 +1,24 @@
 <div>
-    
-    <h1
-        class="
-            text-3xl
-            font-bold
-            mb-6
-        "
-    >
 
-        Mentor Schedules
+    {{-- PAGE TITLE --}}
 
-    </h1>
+    <div class="mb-10">
+
+        <h1
+            class="
+                text-4xl
+                font-bold
+                text-[#1E3A6D]
+            "
+        >
+
+            Mentor Schedule
+
+        </h1>
+
+    </div>
+
+    {{-- ALERTS --}}
 
     @if(session()->has('error'))
 
@@ -18,9 +26,10 @@
             class="
                 bg-red-100
                 text-red-700
-                p-3
-                rounded
-                mb-5
+                px-4
+                py-3
+                rounded-2xl
+                mb-6
             "
         >
 
@@ -36,9 +45,10 @@
             class="
                 bg-green-100
                 text-green-700
-                p-3
-                rounded
-                mb-5
+                px-4
+                py-3
+                rounded-2xl
+                mb-6
             "
         >
 
@@ -54,9 +64,10 @@
             class="
                 bg-yellow-100
                 text-yellow-700
-                p-3
-                rounded
-                mb-5
+                px-4
+                py-3
+                rounded-2xl
+                mb-6
             "
         >
 
@@ -66,20 +77,44 @@
 
     @endif
 
+    {{-- CREATE SCHEDULE --}}
+
     <div
         class="
             bg-white
-            p-6
-            rounded-lg
-            shadow
-            mb-8
-            space-y-4
+            rounded-3xl
+            p-8
+            border
+            mb-10
         "
     >
 
-        <div>
+        <h2
+            class="
+                text-3xl
+                font-bold
+                text-[#1E3A6D]
+                mb-8
+            "
+        >
 
-            <label class="block mb-1">
+            Create Schedule
+
+        </h2>
+
+        {{-- DATE --}}
+
+        <div class="mb-6">
+
+            <label
+                class="
+                    block
+                    text-lg
+                    font-semibold
+                    text-[#1E3A6D]
+                    mb-3
+                "
+            >
 
                 Date
 
@@ -98,58 +133,99 @@
                 class="
                     w-full
                     border
-                    rounded
-                    p-2
+                    rounded-2xl
+                    px-5
+                    py-4
+                    focus:outline-none
+                    focus:ring-2
+                    focus:ring-blue-200
                 "
             >
 
         </div>
 
-        <div>
+        {{-- TIME --}}
 
-            <label class="block mb-1">
+        <div
+            class="
+                grid
+                grid-cols-2
+                gap-6
+                mb-8
+            "
+        >
 
-                Start Time
+            <div>
 
-            </label>
+                <label
+                    class="
+                        block
+                        text-lg
+                        font-semibold
+                        text-[#1E3A6D]
+                        mb-3
+                    "
+                >
 
-            <input
+                    Start Time
 
-                type="time"
+                </label>
 
-                wire:model="start_time"
+                <input
 
-                class="
-                    w-full
-                    border
-                    rounded
-                    p-2
-                "
-            >
+                    type="time"
 
-        </div>
+                    wire:model="start_time"
 
-        <div>
+                    class="
+                        w-full
+                        border
+                        rounded-2xl
+                        px-5
+                        py-4
+                        focus:outline-none
+                        focus:ring-2
+                        focus:ring-blue-200
+                    "
+                >
 
-            <label class="block mb-1">
+            </div>
 
-                End Time
+            <div>
 
-            </label>
+                <label
+                    class="
+                        block
+                        text-lg
+                        font-semibold
+                        text-[#1E3A6D]
+                        mb-3
+                    "
+                >
 
-            <input
+                    End Time
 
-                type="time"
+                </label>
 
-                wire:model="end_time"
+                <input
 
-                class="
-                    w-full
-                    border
-                    rounded
-                    p-2
-                "
-            >
+                    type="time"
+
+                    wire:model="end_time"
+
+                    class="
+                        w-full
+                        border
+                        rounded-2xl
+                        px-5
+                        py-4
+                        focus:outline-none
+                        focus:ring-2
+                        focus:ring-blue-200
+                    "
+                >
+
+            </div>
 
         </div>
 
@@ -158,292 +234,288 @@
             wire:click="save"
 
             class="
-                bg-blue-500
+                bg-[#1E3A6D]
+                hover:bg-[#27457D]
                 text-white
-                px-5
-                py-2
-                rounded
+                px-6
+                py-3
+                rounded-2xl
+                font-semibold
             "
         >
 
-            {{ $editingId ? 'Update Schedule' : 'Generate Schedule' }}
+            {{ $editingId ? 'Update Schedule' : 'Create Schedule' }}
 
         </button>
 
     </div>
 
-    <div
-        class="
-            bg-white
-            p-4
-            rounded-lg
-            shadow
-            mb-5
-        "
-    >
+    {{-- ALL SCHEDULES --}}
 
-        <label class="block mb-2">
+    <div class="mb-8">
 
-            Filter by Date
-
-        </label>
-
-        <input
-
-            type="date"
-
-            wire:model.live="filterDate"
-
+        <h2
             class="
-                border
-                rounded
-                p-2
+                text-3xl
+                font-bold
+                text-[#1E3A6D]
+                mb-6
             "
         >
 
-    </div>
+            All Schedules
 
-    <div class="space-y-4">
+        </h2>
 
-        @foreach($availabilities as $availability)
+        {{-- FILTER --}}
 
-            <div
+        <div
+            class="
+                bg-white
+                rounded-3xl
+                border
+                p-6
+                mb-8
+            "
+        >
+
+            <label
                 class="
-                    bg-white
-                    p-5
-                    rounded-lg
-                    shadow
-                    flex
-                    justify-between
-                    items-center
+                    block
+                    text-lg
+                    font-semibold
+                    text-[#1E3A6D]
+                    mb-3
                 "
             >
 
-                <div>
+                Filter by Date
 
-                    <p class="font-semibold">
+            </label>
 
-                        {{ $availability->date }}
+            <input
 
-                    </p>
+                type="date"
 
-                    <p>
+                wire:model.live="filterDate"
 
-                        {{ $availability->start_time }}
-                        -
-                        {{ $availability->end_time }}
+                class="
+                    w-full
+                    border
+                    rounded-2xl
+                    px-5
+                    py-4
+                    focus:outline-none
+                    focus:ring-2
+                    focus:ring-blue-200
+                "
+            >
 
-                    </p>
+        </div>
 
-                    @if(
-                        $availability->booking
-                        &&
-                        $availability->booking->payment_status
-                            === 'PAID'
-                    )
-                        @php
+        {{-- SCHEDULE LIST --}}
 
-                            $booking =
-                                $availability
-                                    ->bookings
-                                    ->first();
+        <div class="space-y-6">
 
-                        @endphp
+            @foreach($availabilities as $availability)
 
-                        @if($booking)
+                <div
+                    class="
+                        bg-white
+                        rounded-3xl
+                        border
+                        p-6
+                    "
+                >
+
+                    <div
+                        class="
+                            flex
+                            justify-between
+                            items-start
+                            mb-5
+                        "
+                    >
+
+                        <div>
+
+                            <h3
+                                class="
+                                    text-2xl
+                                    font-bold
+                                    text-[#1E3A6D]
+                                "
+                            >
+
+                                {{
+                                    \Carbon\Carbon::parse(
+                                        $availability->date
+                                    )->format('d M Y')
+                                }}
+
+                            </h3>
+
+                            <p
+                                class="
+                                    text-lg
+                                    text-[#1E3A6D]
+                                    mt-2
+                                "
+                            >
+
+                                {{ $availability->start_time }}
+                                -
+                                {{ $availability->end_time }}
+
+                            </p>
+
+                        </div>
+
+                        @if($availability->is_booked)
 
                             <div
                                 class="
-                                    mt-4
-                                    mb-4
-                                    bg-gray-100
-                                    p-4
-                                    rounded-lg
-                                    space-y-2
-                                    max-w-sm
-                                "
-                            >
-
-                                <p class="text-sm">
-
-                                    <span class="font-semibold">
-                                        Student:
-                                    </span>
-
-                                    {{ $booking->student->user->name }}
-
-                                </p>
-
-                                <p class="text-sm">
-
-                                    <span class="font-semibold">
-                                        Topic:
-                                    </span>
-
-                                    {{ $booking->topic }}
-
-                                </p>
-
-                            </div>
-
-                        @endif
-
-                        @php
-
-                            $startDateTime =
-                                \Carbon\Carbon::parse(
-
-                                    $availability->date .
-                                    ' ' .
-                                    $availability->start_time
-
-                                );
-
-                            $endDateTime =
-                                \Carbon\Carbon::parse(
-
-                                    $availability->date .
-                                    ' ' .
-                                    $availability->end_time
-
-                                );
-
-                        @endphp
-
-                        @if(!$availability->is_booked)
-
-                            <span
-                                class="
-                                    bg-green-100
-                                    text-green-700
-                                    px-3
-                                    py-1
-                                    rounded-full
-                                    text-sm
-                                "
-                            >
-
-                                Available
-
-                            </span>
-
-                        @elseif(
-                            $availability->booking
-                            &&
-                            $availability->booking->payment_status
-                                === 'PENDING'
-                        )
-
-                            <span
-                                class="
-                                    bg-yellow-100
-                                    text-yellow-700
-                                    px-3
-                                    py-1
-                                    rounded-full
-                                    text-sm
-                                "
-                            >
-
-                                Pending
-
-                            </span>
-
-                        @elseif(
-                            $availability->booking
-                            &&
-                            $availability->booking->payment_status
-                                === 'PAID'
-                        )
-
-                            <span
-                                class="
                                     bg-blue-100
                                     text-blue-700
-                                    px-3
-                                    py-1
+                                    px-4
+                                    py-2
                                     rounded-full
                                     text-sm
+                                    font-semibold
                                 "
                             >
 
                                 Booked
 
-                            </span>
+                            </div>
+
+                        @else
+
+                            <div
+                                class="
+                                    bg-green-100
+                                    text-green-700
+                                    px-4
+                                    py-2
+                                    rounded-full
+                                    text-sm
+                                    font-semibold
+                                "
+                            >
+
+                                Available
+
+                            </div>
 
                         @endif
 
-                    @else
+                    </div>
 
-                        <span
+                    {{-- BOOKING INFO --}}
+
+                    @if(
+                        $availability->booking
+                        &&
+                        $availability->booking->payment_status == 'PAID'
+                    )
+
+                        <div
                             class="
-                                inline-block
-                                mt-2
-                                bg-green-100
-                                text-green-700
-                                text-sm
-                                px-3
-                                py-1
-                                rounded-full
+                                bg-[#EAF1FB]
+                                border
+                                rounded-2xl
+                                p-5
+                                mb-5
                             "
                         >
 
-                            Available
+                            <h4
+                                class="
+                                    text-2xl
+                                    font-bold
+                                    text-[#1E3A6D]
+                                "
+                            >
 
-                        </span>
+                                {{
+                                    $availability
+                                        ->booking
+                                        ->student
+                                        ->user
+                                        ->name
+                                }}
+
+                            </h4>
+
+                            <p
+                                class="
+                                    text-[#1E3A6D]
+                                    mt-2
+                                "
+                            >
+
+                                Topic:
+                                {{
+                                    $availability
+                                        ->booking
+                                        ->topic
+                                }}
+
+                            </p>
+
+                        </div>
 
                     @endif
 
+                    {{-- ACTION BUTTONS --}}
+
+                    <div class="flex gap-3">
+
+                        <button
+
+                            wire:click="edit({{ $availability->id }})"
+
+                            class="
+                                bg-[#1E3A6D]
+                                hover:bg-[#27457D]
+                                text-white
+                                px-5
+                                py-2
+                                rounded-xl
+                                font-semibold
+                            "
+                        >
+
+                            Edit Schedule
+
+                        </button>
+
+                        <button
+
+                            wire:click="delete({{ $availability->id }})"
+
+                            class="
+                                bg-red-700
+                                hover:bg-red-800
+                                text-white
+                                px-5
+                                py-2
+                                rounded-xl
+                                font-semibold
+                            "
+                        >
+
+                            Delete Schedule
+
+                        </button>
+
+                    </div>
+
                 </div>
 
-                {{-- ACTION BUTTONS --}}
+            @endforeach
 
-                <div class="flex items-center">
-
-                    <button
-
-                        wire:click="
-                            edit(
-                                {{ $availability->id }}
-                            )
-                        "
-
-                        class="
-                            text-blue-500
-                            mr-4
-                        "
-                    >
-
-                        Edit
-
-                    </button>
-
-                    <button
-
-                        onclick="
-                            confirm(
-                                'Delete this schedule?'
-                            ) || event.stopImmediatePropagation()
-                        "
-
-                        wire:click="
-                            delete(
-                                {{ $availability->id }}
-                            )
-                        "
-
-                        class="text-red-500"
-                    >
-
-                        Delete
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        @endforeach
+        </div>
 
     </div>
 

@@ -13,7 +13,7 @@ use App\Livewire\Student\Assessment\AssessmentResultPage;
 use App\Livewire\Student\Assessment\AssessmentHistory;
 use App\Livewire\Student\Bookmark\BookmarkList;
 use App\Livewire\Admin\Dashboard\Dashboard as AdminDashboard;
-use App\Livewire\Mentor\Dashboard as MentorDashboard;
+use App\Livewire\Mentor\Dashboard\Dashboard as MentorDashboard;
 use App\Livewire\Student\Dashboard as StudentDashboard;
 use App\Livewire\Admin\Mentor\MentorList;
 use App\Livewire\Mentor\Profile\Profile;
@@ -87,11 +87,11 @@ Route::middleware(['auth', 'blocked', 'role:STUDENT'])->group(function () {
 
 Route::middleware(['auth', 'blocked', 'role:MENTOR'])->group(function () {
 
-    Route::get('/mentor/dashboard', MentorDashboard::class);
+    Route::get('/mentor/dashboard', MentorDashboard::class)->name('mentor.dashboard.dashboard');
 
-    Route::get('/mentor/profile', Profile::class);
+    Route::get('/mentor/profile', Profile::class)->name('mentor.profile');
 
-    Route::get('/mentor/schedules', ScheduleList::class);
+    Route::get('/mentor/schedules', ScheduleList::class)->name('mentor.schedules');
 
 });
 
