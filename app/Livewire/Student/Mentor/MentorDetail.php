@@ -31,6 +31,11 @@ class MentorDetail extends Component
 
     public function continueBooking()
     {
+        if (!auth()->check()) {
+
+            return redirect('/login');
+        }
+
         if (!$this->selectedSlot) {
 
             session()->flash(
@@ -241,6 +246,10 @@ class MentorDetail extends Component
                 'filteredSlots' =>
                     $filteredSlots,
             ]
-        )->layout('layouts.student');
+        )->layout(auth()->check()
+
+            ? 'layouts.student'
+
+            : 'layouts.public');
     }
 }

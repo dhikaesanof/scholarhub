@@ -18,6 +18,10 @@ class MentorDirectory extends Component
             [
                 'mentors' => $mentors,
             ]
-        )->layout('layouts.student');
+        )->layout(auth()->check()
+
+            ? 'layouts.student'
+
+            : 'layouts.public');
     }
 }

@@ -16,8 +16,13 @@ class ScholarshipList extends Component
 
     public function bookmark($scholarshipId)
     {
+        if (!auth()->check()) {
+
+            return redirect('/login');
+        }
+        
         Bookmark::firstOrCreate([
-            'student_id' => auth()->user()->student->id,
+            'student_id' => auth()->user()?->student->id,
             'scholarship_id' => $scholarshipId,
         ]);
     }
@@ -26,7 +31,7 @@ class ScholarshipList extends Component
     {
         return Bookmark::where(
             'student_id',
-            auth()->user()->student->id
+            auth()->user()?->student->id
         )
         ->where(
             'scholarship_id',
@@ -85,6 +90,10 @@ class ScholarshipList extends Component
             [
                 'scholarships' => $scholarships
             ]
-        )->layout('layouts.student');
+        )->layout(auth()->check()
+
+            ? 'layouts.student'
+
+            : 'layouts.public');
     }
 }

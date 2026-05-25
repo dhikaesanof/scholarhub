@@ -158,6 +158,7 @@ class TakeAssessment extends Component
 
     public function render()
     {
+
         return view(
             'livewire.student.assessment.take-assessment',
             [

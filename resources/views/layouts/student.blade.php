@@ -54,23 +54,42 @@
             </h1>
 
             <nav class="space-y-3">
+                
+                @auth
+                    <a
+                        href="/dashboard"
 
-                <a
-                    href="/dashboard"
+                        class="
+                            block
+                            px-3
+                            py-2
+                            rounded-lg
+                            text-gray-700
+                            hover:bg-gray-100
+                        "
+                    >
 
-                    class="
-                        block
-                        px-3
-                        py-2
-                        rounded-lg
-                        text-gray-700
-                        hover:bg-gray-100
-                    "
-                >
+                        Dashboard
 
-                    Dashboard
+                    </a>
+                @else
+                    <a
+                        href="/login"
 
-                </a>
+                        class="
+                            block
+                            px-3
+                            py-2
+                            rounded-lg
+                            text-gray-700
+                            hover:bg-gray-100
+                        "
+                    >
+
+                        Login
+
+                    </a>
+                @endauth
 
                 <a
                     href="/scholarships"
@@ -141,7 +160,7 @@
                 </a>
 
                 <a
-                    href="/student/mentors"
+                    href="/mentors"
 
                     class="
                         block
@@ -174,7 +193,7 @@
                 </a>
 
                 <a
-                    href="/student/documents"
+                    href="/documents"
 
                     class="
                         block
