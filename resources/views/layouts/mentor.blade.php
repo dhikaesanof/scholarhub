@@ -120,9 +120,14 @@
                             px-4
                             py-3
                             rounded-xl
-                            bg-blue-100
-                            text-[#1E3A6D]
-                            font-semibold
+
+                            {{
+                                request()->routeIs('mentor.dashboard.*')
+
+                                ? 'bg-blue-100 text-[#1E3A6D] font-semibold'
+
+                                : 'text-gray-600 hover:bg-gray-100'
+                            }}
                         "
                     >
 
@@ -141,8 +146,14 @@
                             px-4
                             py-3
                             rounded-xl
-                            text-gray-600
-                            hover:bg-gray-100
+
+                            {{
+                                request()->routeIs('mentor.schedules')
+
+                                ? 'bg-blue-100 text-[#1E3A6D] font-semibold'
+
+                                : 'text-gray-600 hover:bg-gray-100'
+                            }}
                         "
                     >
 
@@ -161,8 +172,14 @@
                             px-4
                             py-3
                             rounded-xl
-                            text-gray-600
-                            hover:bg-gray-100
+
+                            {{
+                                request()->routeIs('mentor.profile.*')
+
+                                ? 'bg-blue-100 text-[#1E3A6D] font-semibold'
+
+                                : 'text-gray-600 hover:bg-gray-100'
+                            }}
                         "
                     >
 
