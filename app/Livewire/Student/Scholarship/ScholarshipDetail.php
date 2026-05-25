@@ -18,6 +18,10 @@ class ScholarshipDetail extends Component
     {
         return view(
             'livewire.student.scholarship.scholarship-detail'
-        )->layout('layouts.student');
+        )->layout(auth()->check()
+
+            ? 'layouts.student'
+
+            : 'layouts.public');
     }
 }

@@ -175,7 +175,7 @@
                     <a
 
                         href="
-                            /student/mentors/{{ $mentor->id }}
+                            /mentors/{{ $mentor->id }}
                         "
 
                         class="

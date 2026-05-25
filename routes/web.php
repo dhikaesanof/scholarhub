@@ -31,14 +31,23 @@ use App\Http\Controllers\Student\DocumentPreviewController;
 use App\Livewire\Student\Document\MyDocuments;
 use \App\Livewire\Student\Roadmap\RoadmapDetail;
 use App\Livewire\Student\Roadmap\RoadmapHistory;
+use App\Livewire\Public\LandingPage;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', LandingPage::class)->name('home');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+Route::get('/scholarships', StudentScholarshipList::class);
+
+Route::get('/scholarships/{scholarship}', ScholarshipDetail::class);
+
+Route::get('/mentors', MentorDirectory::class);
+
+Route::get('/mentors/{mentorId}', MentorDetail::class);
+
+Route::get('/documents', DocumentMarketplace::class);
 
 Route::middleware(['auth', 'blocked', 'role:STUDENT'])->group(function () {
     
@@ -46,29 +55,19 @@ Route::middleware(['auth', 'blocked', 'role:STUDENT'])->group(function () {
 
     Route::redirect('settings', 'settings/profile');
 
-    Route::get('/scholarships', StudentScholarshipList::class);
-
     Route::get('/bookmarks', BookmarkList::class);
 
     Route::get('/assessment/history', AssessmentHistory::class);
 
-    Route::get('/scholarships/{scholarship}', ScholarshipDetail::class);
-
     Route::get('/assessment/{scholarship}', TakeAssessment::class);
 
     Route::get('/assessment/result/{result}', AssessmentResultPage::class);
-
-    Route::get('/student/mentors', MentorDirectory::class);
-
-    Route::get('/student/mentors/{mentorId}', MentorDetail::class);
     
     Route::get('/student/bookings', BookingHistory::class);
     
     Route::get('/student/bookings/create/{slotId}',BookingCreate::class);
 
     Route::get('/student/profile',ProfileStudent::class);
-
-    Route::get('/student/documents', DocumentMarketplace::class);
 
     Route::get('/student/documents/{id}/preview', DocumentPreviewController::class)->name('student.documents.preview');
 

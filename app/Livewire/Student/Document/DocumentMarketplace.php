@@ -10,8 +10,13 @@ class DocumentMarketplace extends Component
 {
     public function purchase($documentId)
     {
+        if (!auth()->check()) {
+
+            return redirect('/login');
+        }
+
         $student =
-            auth()->user()->student;
+            auth()->user()?->student;
 
         $alreadyPurchased =
 
@@ -61,31 +66,36 @@ class DocumentMarketplace extends Component
     public function render()
     {
         $student =
-            auth()->user()->student;
+            auth()->user()?->student;
 
-        $purchasedIds =
+        $purchasedIds = [];
 
-            DocumentPurchase::where(
+            if ($student) {
 
-                'student_id',
+                $purchasedIds =
 
-                $student->id
+                    DocumentPurchase::where(
 
-            )
+                        'student_id',
 
-            ->where(
+                        $student->id
 
-                'payment_status',
+                    )
 
-                'PAID'
+                    ->where(
 
-            )
+                        'payment_status',
 
-            ->pluck(
-                'document_id'
-            )
+                        'PAID'
 
-            ->toArray();
+                    )
+
+                    ->pluck(
+                        'document_id'
+                    )
+
+                    ->toArray();
+            }
 
         return view(
 
@@ -102,8 +112,10 @@ class DocumentMarketplace extends Component
                     $purchasedIds,
             ]
 
-        )->layout(
-            'layouts.student'
-        );
+        )->layout(auth()->check()
+
+            ? 'layouts.student'
+
+            : 'layouts.public');
     }
 }
