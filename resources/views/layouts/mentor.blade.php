@@ -22,7 +22,7 @@
 
 </head>
 
-<body class="bg-[#F6F7FB]">
+<body class="bg-[#F5F7FB]">
 
     <div class="flex h-screen overflow-hidden">
 
@@ -30,18 +30,17 @@
 
         <aside
             class="
-                w-64
-                h-screen
-                sticky
-                top-0
+                w-72
                 bg-white
                 border-r
+                px-6
+                py-8
                 flex
                 flex-col
                 justify-between
-                px-6
-                py-8
-                shrink-0
+                h-screen
+                sticky
+                top-0
             "
         >
 
@@ -53,46 +52,57 @@
                     class="
                         flex
                         items-center
-                        gap-3
-                        mb-10
+                        gap-4
+                        mb-12
                     "
                 >
 
                     <div
                         class="
-                            w-10
-                            h-10
-                            rounded-xl
-                            bg-[#1E3A6D]
+                            w-14
+                            h-14
+                            rounded-2xl
+                            bg-blue-950
                             flex
                             items-center
                             justify-center
-                            text-white
-                            font-bold
                         "
                     >
-                        🎓
+
+                        <x-lucide-school
+                            class="
+                                w-7
+                                h-7
+                                text-white
+                            "
+                        />
+
                     </div>
 
                     <div>
 
                         <h1
                             class="
-                                text-xl
+                                text-3xl
                                 font-bold
-                                text-[#1E3A6D]
+                                text-[#1B2B5B]
                             "
                         >
+
                             ScholarHub
+
                         </h1>
 
                         <p
                             class="
-                                text-sm
-                                text-green-600
+                                text-green-700
+                                text-lg
+                                font-medium
                             "
                         >
+
                             Mentor
+
                         </p>
 
                     </div>
@@ -116,10 +126,12 @@
                         class="
                             flex
                             items-center
-                            gap-3
-                            px-4
-                            py-3
-                            rounded-xl
+                            gap-4
+                            px-5
+                            py-4
+                            rounded-2xl
+                            transition
+                            font-semibold
 
                             {{
                                 request()->routeIs('mentor.dashboard.*')
@@ -131,7 +143,18 @@
                         "
                     >
 
-                        🏠 Home
+                        <x-lucide-house
+                            class="
+                                w-7
+                                h-7
+                            "
+                        />
+
+                        <span>
+
+                            Home
+
+                        </span>
 
                     </a>
 
@@ -142,10 +165,12 @@
                         class="
                             flex
                             items-center
-                            gap-3
-                            px-4
-                            py-3
-                            rounded-xl
+                            gap-4
+                            px-5
+                            py-4
+                            rounded-2xl
+                            transition
+                            font-semibold
 
                             {{
                                 request()->routeIs('mentor.schedules')
@@ -157,7 +182,18 @@
                         "
                     >
 
-                        📅 Schedule
+                        <x-lucide-calendar-days
+                            class="
+                                w-7
+                                h-7
+                            "
+                        />
+
+                        <span>
+
+                            Schedule
+
+                        </span>
 
                     </a>
 
@@ -168,13 +204,15 @@
                         class="
                             flex
                             items-center
-                            gap-3
-                            px-4
-                            py-3
-                            rounded-xl
+                            gap-4
+                            px-5
+                            py-4
+                            rounded-2xl
+                            transition
+                            font-semibold
 
                             {{
-                                request()->routeIs('mentor.profile.*')
+                                request()->routeIs('mentor.profile*')
 
                                 ? 'bg-blue-100 text-[#1E3A6D] font-semibold'
 
@@ -183,7 +221,18 @@
                         "
                     >
 
-                        👤 Profile
+                        <x-lucide-user
+                            class="
+                                w-7
+                                h-7
+                            "
+                        />
+
+                        <span>
+
+                            Profile
+
+                        </span>
 
                     </a>
 
@@ -196,7 +245,8 @@
             <div
                 class="
                     border-t
-                    pt-5
+                    pt-8
+                    space-y-8
                 "
             >
 
@@ -274,11 +324,24 @@
 
                     <button
                         type="submit"
+
                         class="
-                            text-red-500
+                            flex
+                            items-center
+                            gap-3
+                            text-[#1B2B5B]
+                            hover:text-red-500
+                            transition
                             font-medium
                         "
                     >
+
+                        <x-lucide-log-out
+                            class="
+                                w-7
+                                h-7
+                            "
+                        />
 
                         Logout
 

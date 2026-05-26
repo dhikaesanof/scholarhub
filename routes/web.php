@@ -100,25 +100,25 @@ Route::middleware(['auth', 'blocked', 'role:MENTOR'])->group(function () {
 
 Route::middleware(['auth', 'blocked', 'role:ADMIN'])->group(function () {
 
-    Route::get('/admin/dashboard', AdminDashboard::class);
+    Route::get('/admin/dashboard', AdminDashboard::class)->name('admin.dashboard');
 
-    Route::get('/admin/scholarships', ScholarshipList::class);
+    Route::get('/admin/scholarships', ScholarshipList::class)->name('admin.scholarships');
 
-    Route::get('/admin/scholarships/create', CreateScholarship::class);
+    Route::get('/admin/scholarships/create', CreateScholarship::class)->name('admin.scholarships.create');
 
-    Route::get('/admin/mentors', MentorList::class);
+    Route::get('/admin/scholarships/{scholarship}/edit', EditScholarship::class)->name('admin.scholarships.edit');
+    
+    Route::get('/admin/scholarships/{scholarship}/assessments', QuestionList::class)->name('admin.scholarships.assessments');
+    
+    Route::get('/admin/mentors', MentorList::class)->name('admin.mentors');
+    
+    Route::get('/admin/mentor-earnings', MentorEarnings::class)->name('admin.mentor-earnings');
+    
+    Route::get('/admin/assessment/questions', QuestionList::class)->name('admin.assessment.questions');
+    
+    Route::get('/admin/students', StudentList::class)->name('admin.students');
 
-    Route::get('/admin/scholarships/{scholarship}/edit', EditScholarship::class);
-
-    Route::get('/admin/assessment/questions', QuestionList::class);
-
-    Route::get('/admin/scholarships/{scholarship}/assessments', QuestionList::class);
-
-    Route::get('/admin/students', StudentList::class);
-
-    Route::get('/admin/mentor-earnings', MentorEarnings::class);
-
-    Route::get('/admin/documents', DocumentList::class);
+    Route::get('/admin/documents', DocumentList::class)->name('admin.documents');
 
 });
 
