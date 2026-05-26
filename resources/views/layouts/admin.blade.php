@@ -16,158 +16,471 @@
     ])
 
     <title>
+
         ScholarHub Admin
+
     </title>
 
 </head>
 
-<body>
+<body
+    class="
+        bg-[#F5F7FB]
+    "
+>
 
     <div class="min-h-screen flex">
 
-        {{-- Sidebar --}}
+        {{-- SIDEBAR --}}
 
-        <div
+        <aside
             class="
-                w-64
-                bg-gray-900
-                text-white
-                p-5
+                w-72
+                bg-white
+                border-r
+                px-6
+                py-8
+                flex
+                flex-col
+                justify-between
+                h-screen
+                sticky
+                top-0
             "
         >
 
-            <h1
-                class="
-                    text-2xl
-                    font-bold
-                    mb-6
-                "
-            >
+            <div>
 
-                ScholarHub Admin
+                {{-- LOGO --}}
 
-            </h1>
-
-            <nav class="space-y-3">
-
-                <a
-                    href="/admin/dashboard"
+                <div
                     class="
-                        block
-                        hover:text-blue-400
+                        flex
+                        items-center
+                        gap-4
+                        mb-12
                     "
                 >
 
-                    Dashboard
-
-                </a>
-
-                 <a
-
-                    href="/admin/students"
-
-                    class="
-                        block
-                        hover:text-blue-400
-                    "
-                >
-
-                    Students
-
-                </a>
-
-                <a
-                    href="/admin/mentors"
-                    class="
-                        block
-                        hover:text-blue-400
-                    "
-                >
-
-                    Mentors
-
-                </a>
-
-                <a
-                    href="/admin/scholarships"
-                    class="
-                        block
-                        hover:text-blue-400
-                    "
-                >
-
-                    Scholarships
-
-                </a>
-
-                <a
-                    href="/admin/documents"
-                    class="
-                        block
-                        hover:text-blue-400
-                    "
-                >
-
-                    Documents
-
-                </a>
-
-                <a
-                    href="/admin/mentor-earnings"
-                    class="
-                        block
-                        hover:text-blue-400
-                    "
-                >
-
-                    Revenue
-
-                </a>
-
-                <form
-                    method="POST"
-                    action="{{ route('logout') }}"
-                    class="mt-10"
-                >
-
-                    @csrf
-
-                    <button
-                        type="submit"
-
+                    <div
                         class="
-                            w-full
-                            bg-red-500
-                            hover:bg-red-600
-                            text-white
-                            py-2
-                            rounded-lg
+                            w-14
+                            h-14
+                            rounded-2xl
+                            bg-blue-950
+                            flex
+                            items-center
+                            justify-center
                         "
                     >
 
-                        Logout
+                        <x-lucide-school
+                            class="
+                                w-7
+                                h-7
+                                text-white
+                            "
+                        />
 
-                    </button>
+                    </div>
 
-                </form>
+                    <div>
 
-            </nav>
+                        <h1
+                            class="
+                                text-3xl
+                                font-bold
+                                text-[#1B2B5B]
+                            "
+                        >
 
-        </div>
+                            ScholarHub
 
-        {{-- Content --}}
+                        </h1>
 
-        <div
+                        <p
+                            class="
+                                text-orange-400
+                                text-lg
+                                font-medium
+                            "
+                        >
+
+                            Administrator
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {{-- NAVIGATION --}}
+
+                <nav class="space-y-3">
+
+                    {{-- HOME --}}
+
+                    <a
+                        href="/admin/dashboard"
+
+                        class="
+                            flex
+                            items-center
+                            gap-4
+                            px-5
+                            py-4
+                            rounded-2xl
+                            transition
+
+                            {{
+                                request()->is(
+                                    'admin/dashboard'
+                                )
+
+                                ?
+
+                                'bg-blue-100 text-[#1B2B5B] font-semibold'
+
+                                :
+
+                                'text-[#1B2B5B] hover:bg-blue-50 font-medium'
+                            }}
+                        "
+                    >
+
+                        <x-lucide-house
+                            class="
+                                w-7
+                                h-7
+                            "
+                        />
+
+                        <span>
+
+                            Home
+
+                        </span>
+
+                    </a>
+
+                    {{-- STUDENTS --}}
+
+                    <a
+                        href="/admin/students"
+
+                        class="
+                            flex
+                            items-center
+                            gap-4
+                            px-5
+                            py-4
+                            rounded-2xl
+                            transition
+
+                            {{
+                                request()->is(
+                                    'admin/students'
+                                )
+
+                                ?
+
+                                'bg-blue-100 text-[#1B2B5B] font-semibold'
+
+                                :
+
+                                'text-[#1B2B5B] hover:bg-blue-50 font-medium'
+                            }}
+                        "
+                    >
+
+                        <x-lucide-user
+                            class="
+                                w-7
+                                h-7
+                            "
+                        />
+
+                        <span>
+
+                            Students
+
+                        </span>
+
+                    </a>
+
+                    {{-- MENTORS --}}
+
+                    <a
+                        href="/admin/mentors"
+
+                        class="
+                            flex
+                            items-center
+                            gap-4
+                            px-5
+                            py-4
+                            rounded-2xl
+                            transition
+
+                            {{
+                                request()->is(
+                                    'admin/mentors'
+                                )
+
+                                ?
+
+                                'bg-blue-100 text-[#1B2B5B] font-semibold'
+
+                                :
+
+                                'text-[#1B2B5B] hover:bg-blue-50 font-medium'
+                            }}
+                        "
+                    >
+
+                        <x-lucide-user-star
+                            class="
+                                w-7
+                                h-7
+                            "
+                        />
+
+                        <span>
+
+                            Mentors
+
+                        </span>
+
+                    </a>
+
+                    {{-- SCHOLARSHIPS --}}
+
+                    <a
+                        href="/admin/scholarships"
+
+                        class="
+                            flex
+                            items-center
+                            gap-4
+                            px-5
+                            py-4
+                            rounded-2xl
+                            transition
+
+                            {{
+                                request()->is(
+                                    'admin/scholarships*'
+                                )
+                            
+                                ?
+
+                                'bg-blue-100 text-[#1B2B5B] font-semibold'
+
+                                :
+
+                                'text-[#1B2B5B] hover:bg-blue-50 font-medium'
+                            }}
+                        "
+                    >
+
+                        <x-lucide-graduation-cap
+                            class="
+                                w-7
+                                h-7
+                            "
+                        />
+
+                        <span>
+
+                            Scholarships
+
+                        </span>
+
+                    </a>
+
+                    {{-- DOCUMENTS --}}
+
+                    <a
+                        href="/admin/documents"
+
+                        class="
+                            flex
+                            items-center
+                            gap-4
+                            px-5
+                            py-4
+                            rounded-2xl
+                            transition
+
+                            {{
+                                request()->is(
+                                    'admin/documents'
+                                )
+
+                                ?
+
+                                'bg-blue-100 text-[#1B2B5B] font-semibold'
+
+                                :
+
+                                'text-[#1B2B5B] hover:bg-blue-50 font-medium'
+                            }}
+                        "
+                    >
+
+                        <x-lucide-file-text
+                            class="
+                                w-7
+                                h-7
+                            "
+                        />
+
+                        <span>
+
+                            Documents
+
+                        </span>
+
+                    </a>
+
+                    {{-- REVENUE --}}
+
+                    <a
+                        href="/admin/mentor-earnings"
+
+                        class="
+                            flex
+                            items-center
+                            gap-4
+                            px-5
+                            py-4
+                            rounded-2xl
+                            transition
+
+                            {{
+                                request()->is(
+                                    'admin/mentor-earnings'
+                                )
+
+                                ?
+
+                                'bg-blue-100 text-[#1B2B5B] font-semibold'
+
+                                :
+
+                                'text-[#1B2B5B] hover:bg-blue-50 font-medium'
+                            }}
+                        "
+                    >
+
+                        <x-lucide-wallet
+                            class="
+                                w-7
+                                h-7
+                            "
+                        />
+
+                        <span>
+
+                            Revenue
+
+                        </span>
+
+                    </a>
+
+                </nav>
+
+            </div>
+
+            {{-- FOOTER --}}
+
+            <div>
+
+                <div
+                    class="
+                        border-t
+                        pt-6
+                    "
+                >
+
+                    <div class="mb-6">
+
+                        <h3
+                            class="
+                                font-semibold
+                                text-[#1B2B5B]
+                            "
+                        >
+
+                            Admin ScholarHub
+
+                        </h3>
+
+                        <p
+                            class="
+                                text-sm
+                                text-gray-400
+                            "
+                        >
+
+                            admin@scholarhub.com
+
+                        </p>
+
+                    </div>
+
+                    <form
+                        method="POST"
+                        action="{{ route('logout') }}"
+                    >
+
+                        @csrf
+
+                        <button
+                            type="submit"
+
+                            class="
+                                flex
+                                items-center
+                                gap-3
+                                text-[#1B2B5B]
+                                hover:text-red-500
+                                transition
+                                font-medium
+                            "
+                        >
+
+                            <x-lucide-log-out
+                                class="
+                                    w-7
+                                    h-7
+                                "
+                            />
+
+                            Logout
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+        {{-- CONTENT --}}
+
+        <main
             class="
                 flex-1
-                p-6
-                bg-gray-100
+                p-8
             "
         >
 
             {{ $slot }}
 
-        </div>
+        </main>
 
     </div>
 
