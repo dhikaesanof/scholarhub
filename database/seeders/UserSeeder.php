@@ -153,7 +153,7 @@ class UserSeeder extends Seeder
                 'Ahmad Rizki',
 
             'email' =>
-                'student1@test.com',
+                'dhikaesanof@student.ub.ac.id',
 
             'password' =>
                 Hash::make('password'),
@@ -187,7 +187,7 @@ class UserSeeder extends Seeder
                 'Dewi Lestari',
 
             'email' =>
-                'student2@test.com',
+                'fajarokta@student.ub.ac.id',
 
             'password' =>
                 Hash::make('password'),
