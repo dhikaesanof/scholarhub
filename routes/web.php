@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Volt\Volt;
 use App\Livewire\Admin\Scholarship\ScholarshipList;
 use App\Livewire\Admin\Scholarship\CreateScholarship;
@@ -33,6 +34,51 @@ use \App\Livewire\Student\Roadmap\RoadmapDetail;
 use App\Livewire\Student\Roadmap\RoadmapHistory;
 use App\Livewire\Public\LandingPage;
 use App\Livewire\Mentor\Profile\ProfileView;
+use App\Models\User;
+use App\Models\Scholarship;
+use App\Notifications\ScholarshipClosingSoonNotification;
+
+Route::get(
+    '/test-notification',
+    function () {
+
+        $user =
+            User::first();
+
+        $scholarship =
+            Scholarship::first();
+
+        $user->notify(
+
+            new ScholarshipClosingSoonNotification(
+                $scholarship
+            )
+        );
+
+        return 'Notification Sent';
+    }
+);
+
+Route::get('/test-email', function () {
+
+    Mail::raw(
+
+        'Hello from ScholarHub',
+
+        function ($message) {
+
+            $message->to(
+                'dhikaesanof@student.ub.ac.id'
+            );
+
+            $message->subject(
+                'ScholarHub Test'
+            );
+        }
+    );
+
+    return 'Email sent!';
+});
 
 Route::get('/', LandingPage::class)->name('home');
 
