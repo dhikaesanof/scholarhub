@@ -70,21 +70,11 @@ class Dashboard extends Component
                 'PAID'
 
             )
-
-            ->join(
-
-                'documents',
-
-                'document_purchases.document_id',
-
-                '=',
-
-                'documents.id'
-            )
-
-            ->sum(
-                'documents.price'
-            );
+            ->with('document')
+            ->get()
+            ->sum(function ($purchase) {
+                return $purchase->document->price;
+            });
 
         $this->topSellingDocument =
 
@@ -165,19 +155,21 @@ class Dashboard extends Component
                 '>=',
                 Carbon::now()->startOfMonth()
             )
-            ->join(
-                'documents',
-                'document_purchases.document_id',
-                '=',
-                'documents.id'
-            )
-            ->sum('documents.price');
+            ->with('document')
+            ->get()
+            ->sum(function ($purchase) {
+                return $purchase->document->price;
+            });
 
         $this->totalMentorEarnings = MentorBooking::where(
             'payment_status',
             'PAID'
         )
-            ->sum('price');
+            ->with('mentor')
+            ->get()
+            ->sum(function ($booking) {
+                return $booking->mentor->session_price;
+            });
 
         $this->averageRating = MentorReview::avg('rating') ?? 0;
 
