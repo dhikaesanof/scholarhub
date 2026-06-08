@@ -76,8 +76,8 @@
 
                         <x-lucide-school
                             class="
-                                w-7
-                                h-7
+                                w-8
+                                h-8
                                 text-white
                             "
                         />
@@ -88,7 +88,7 @@
 
                         <h1
                             class="
-                                text-3xl
+                                text-2xl
                                 font-bold
                                 text-[#1B2B5B]
                             "
@@ -101,8 +101,8 @@
                         <p
                             class="
                                 text-orange-400
-                                text-lg
-                                font-medium
+                                text-md
+                                font-semibold
                             "
                         >
 
@@ -150,8 +150,8 @@
 
                         <x-lucide-house
                             class="
-                                w-7
-                                h-7
+                                w-6
+                                h-6
                             "
                         />
 
@@ -195,8 +195,8 @@
 
                         <x-lucide-user
                             class="
-                                w-7
-                                h-7
+                                w-6
+                                h-6
                             "
                         />
 
@@ -240,8 +240,8 @@
 
                         <x-lucide-user-star
                             class="
-                                w-7
-                                h-7
+                                w-6
+                                h-6
                             "
                         />
 
@@ -271,7 +271,7 @@
                                 request()->is(
                                     'admin/scholarships*'
                                 )
-                            
+
                                 ?
 
                                 'bg-blue-100 text-[#1B2B5B] font-semibold'
@@ -285,8 +285,8 @@
 
                         <x-lucide-graduation-cap
                             class="
-                                w-7
-                                h-7
+                                w-6
+                                h-6
                             "
                         />
 
@@ -330,8 +330,8 @@
 
                         <x-lucide-file-text
                             class="
-                                w-7
-                                h-7
+                                w-6
+                                h-6
                             "
                         />
 
@@ -375,8 +375,8 @@
 
                         <x-lucide-wallet
                             class="
-                                w-7
-                                h-7
+                                w-6
+                                h-6
                             "
                         />
 
@@ -452,8 +452,8 @@
 
                             <x-lucide-log-out
                                 class="
-                                    w-7
-                                    h-7
+                                    w-5
+                                    h-5
                                 "
                             />
 
