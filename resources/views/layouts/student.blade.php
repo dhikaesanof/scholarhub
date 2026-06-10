@@ -22,7 +22,7 @@
 
 </head>
 
-<body class="bg-[#F5F7FB]">
+<body class="bg-scholarhub-background">
 
     <div class="flex h-screen overflow-hidden">
 
@@ -30,15 +30,17 @@
 
         <aside
             class="
-                w-72
-                bg-white
-                border-r
-                px-6
-                py-8
                 flex
+                h-screen
+                w-[260px]
+                shrink-0
                 flex-col
                 justify-between
-                h-screen
+                overflow-hidden
+                border-r-2
+                border-scholarhub-border
+                bg-scholarhub-background
+                p-6
                 sticky
                 top-0
             "
@@ -52,60 +54,46 @@
                     class="
                         flex
                         items-center
-                        gap-4
-                        mb-12
+                        gap-3
+                        pb-8
                     "
                 >
 
                     <div
                         class="
-                            w-14
-                            h-14
-                            rounded-2xl
-                            bg-blue-950
                             flex
+                            h-10
+                            w-10
                             items-center
                             justify-center
+                            rounded-[10px]
+                            bg-scholarhub-primary
+                            p-[6.667px]
                         "
                     >
 
                         <x-lucide-school
                             class="
-                                w-7
-                                h-7
+                                h-[26.667px]
+                                w-[26.667px]
                                 text-white
                             "
                         />
 
                     </div>
 
-                    <div>
+                    <h1
+                        class="
+                            text-[25px]
+                            font-bold
+                            leading-[1.2]
+                            text-scholarhub-primary
+                        "
+                    >
 
-                        <h1
-                            class="
-                                text-3xl
-                                font-bold
-                                text-[#1B2B5B]
-                            "
-                        >
+                        ScholarHub
 
-                            ScholarHub
-
-                        </h1>
-
-                        <p
-                            class="
-                                text-blue-700
-                                text-lg
-                                font-medium
-                            "
-                        >
-
-                            Student
-
-                        </p>
-
-                    </div>
+                    </h1>
 
                 </div>
 
@@ -115,7 +103,7 @@
                     class="
                         flex
                         flex-col
-                        gap-3
+                        gap-2
                     "
                 >
 
@@ -129,25 +117,25 @@
                             flex
                             items-center
                             gap-4
-                            px-5
-                            py-4
-                            rounded-2xl
+                            rounded-lg
+                            px-4
+                            py-3
                             transition
 
                             {{
                                 request()->is('dashboard')
 
-                                ? 'bg-blue-100 text-[#1B2B5B] font-semibold'
+                                ? 'bg-scholarhub-active text-scholarhub-primary-active font-semibold'
 
-                                : 'text-[#1B2B5B] hover:bg-blue-50 font-medium'
+                                : 'text-scholarhub-primary-dark hover:bg-scholarhub-border font-medium'
                             }}
                         "
                     >
 
                         <x-lucide-house
                             class="
-                                w-7
-                                h-7
+                                h-6
+                                w-6
                             "
                         />
 
@@ -169,25 +157,25 @@
                             flex
                             items-center
                             gap-4
-                            px-5
-                            py-4
-                            rounded-2xl
+                            rounded-lg
+                            px-4
+                            py-3
                             transition
 
                             {{
                                 request()->is('scholarships*')
 
-                                ? 'bg-blue-100 text-[#1B2B5B] font-semibold'
+                                ? 'bg-scholarhub-active text-scholarhub-primary-active font-semibold'
 
-                                : 'text-[#1B2B5B] hover:bg-blue-50 font-medium'
+                                : 'text-scholarhub-primary-dark hover:bg-scholarhub-border font-medium'
                             }}
                         "
                     >
 
                         <x-lucide-graduation-cap
                             class="
-                                w-7
-                                h-7
+                                h-6
+                                w-6
                             "
                         />
 
@@ -209,25 +197,25 @@
                             flex
                             items-center
                             gap-4
-                            px-5
-                            py-4
-                            rounded-2xl
+                            rounded-lg
+                            px-4
+                            py-3
                             transition
 
                             {{
                                 request()->is('student/roadmaps*')
 
-                                ? 'bg-blue-100 text-[#1B2B5B] font-semibold'
+                                ? 'bg-scholarhub-active text-scholarhub-primary-active font-semibold'
 
-                                : 'text-[#1B2B5B] hover:bg-blue-50 font-medium'
+                                : 'text-scholarhub-primary-dark hover:bg-scholarhub-border font-medium'
                             }}
                         "
                     >
 
                         <x-lucide-map
                             class="
-                                w-7
-                                h-7
+                                h-6
+                                w-6
                             "
                         />
 
@@ -249,25 +237,25 @@
                             flex
                             items-center
                             gap-4
-                            px-5
-                            py-4
-                            rounded-2xl
+                            rounded-lg
+                            px-4
+                            py-3
                             transition
 
                             {{
                                 request()->is('mentors*')
 
-                                ? 'bg-blue-100 text-[#1B2B5B] font-semibold'
+                                ? 'bg-scholarhub-active text-scholarhub-primary-active font-semibold'
 
-                                : 'text-[#1B2B5B] hover:bg-blue-50 font-medium'
+                                : 'text-scholarhub-primary-dark hover:bg-scholarhub-border font-medium'
                             }}
                         "
                     >
 
-                        <x-lucide-user-round-search
+                        <x-lucide-user-star
                             class="
-                                w-7
-                                h-7
+                                h-6
+                                w-6
                             "
                         />
 
@@ -289,9 +277,9 @@
                             flex
                             items-center
                             gap-4
-                            px-5
-                            py-4
-                            rounded-2xl
+                            rounded-lg
+                            px-4
+                            py-3
                             transition
 
                             {{
@@ -300,17 +288,17 @@
                                 request()->is('student/document-payments*') ||
                                 request()->is('student/documents*')
 
-                                ? 'bg-blue-100 text-[#1B2B5B] font-semibold'
+                                ? 'bg-scholarhub-active text-scholarhub-primary-active font-semibold'
 
-                                : 'text-[#1B2B5B] hover:bg-blue-50 font-medium'
+                                : 'text-scholarhub-primary-dark hover:bg-scholarhub-border font-medium'
                             }}
                         "
                     >
 
                         <x-lucide-file-text
                             class="
-                                w-7
-                                h-7
+                                h-6
+                                w-6
                             "
                         />
 
@@ -330,9 +318,12 @@
 
             <div
                 class="
-                    border-t
-                    pt-8
-                    space-y-8
+                    flex
+                    flex-col
+                    gap-2
+                    border-t-2
+                    border-scholarhub-border
+                    pt-[18px]
                 "
             >
 
@@ -343,23 +334,23 @@
                     class="
                         flex
                         items-center
-                        gap-3
-                        rounded-2xl
-                        px-5
-                        py-4
+                        gap-4
+                        rounded-lg
+                        px-4
+                        py-3
                         transition
                         {{
                             request()->is('student/profile*')
-                                ? 'bg-blue-100 text-[#1B2B5B] font-semibold'
-                                : 'text-[#1B2B5B] hover:bg-blue-50 font-medium'
+                                ? 'bg-scholarhub-active text-scholarhub-primary-active font-semibold'
+                                : 'text-scholarhub-primary-dark hover:bg-scholarhub-border font-medium'
                         }}
                     "
                 >
 
                     <x-lucide-user
                         class="
-                            w-7
-                            h-7
+                            h-6
+                            w-6
                         "
                     />
 
@@ -370,6 +361,7 @@
                 <form
                     method="POST"
                     action="{{ route('logout') }}"
+                    class="w-full"
                 >
 
                     @csrf
@@ -379,19 +371,23 @@
 
                         class="
                             flex
+                            w-full
                             items-center
-                            gap-3
-                            text-[#1B2B5B]
-                            hover:text-red-500
-                            transition
+                            gap-4
+                            rounded-lg
+                            px-4
+                            py-3
                             font-medium
+                            text-scholarhub-primary-dark
+                            transition
+                            hover:bg-scholarhub-border
                         "
                     >
 
                         <x-lucide-log-out
                             class="
-                                w-7
-                                h-7
+                                h-6
+                                w-6
                             "
                         />
 
