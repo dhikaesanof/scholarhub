@@ -372,15 +372,32 @@
                     "
                 >
 
-                    <div
-                        class="
-                            w-16
-                            h-16
-                            rounded-xl
-                            bg-gray-200
-                            mb-5
+                    <img
+
+                        src="
+                            {{
+                                Str::startsWith(
+                                    $scholarship->thumbnail,
+                                    'http'
+                                )
+
+                                ? $scholarship->thumbnail
+
+                                : asset(
+                                    'storage/' .
+                                    $scholarship->thumbnail
+                                )
+                            }}
                         "
-                    ></div>
+
+                        class="
+                            w-14
+                            h-14
+                            rounded-xl
+                            object-cover
+                            mb-4
+                        "
+                    >
 
                     <h3
                         class="

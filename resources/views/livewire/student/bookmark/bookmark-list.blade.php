@@ -2,36 +2,131 @@
 
     {{-- HEADER --}}
 
-    <div class="mb-8">
+    <div
+        class="
+            flex
+            items-center
+            gap-4
+            mb-8
+        "
+    >
+
+        <a
+
+            href="/scholarships"
+
+            class="
+                text-[#1B2B5B]
+            "
+        >
+
+            <x-lucide-arrow-left
+                class="
+                    w-7
+                    h-7
+                "
+            />
+
+        </a>
 
         <h1
             class="
-                text-3xl
+                text-4xl
                 font-bold
-                text-gray-900
+                text-[#1B2B5B]
             "
         >
 
-            My Bookmarks
+            Saved Scholarships
 
         </h1>
 
-        <p
+    </div>
+
+    {{-- SEARCH & FILTER --}}
+
+    <div
+        class="
+            bg-white
+            border
+            rounded-2xl
+            p-4
+            shadow-sm
+            mb-8
+        "
+    >
+
+        <div
             class="
-                text-gray-500
-                mt-1
+                grid
+                grid-cols-1
+                md:grid-cols-3
+                gap-4
             "
         >
 
-            Your saved scholarship opportunities.
+            <input
 
-        </p>
+                type="text"
+
+                placeholder="Search scholarships"
+
+                class="
+                    w-full
+                    border
+                    rounded-xl
+                    p-3
+                "
+            >
+
+            <select
+                class="
+                    w-full
+                    border
+                    rounded-xl
+                    p-3
+                "
+            >
+
+                <option>
+
+                    All Status
+
+                </option>
+
+            </select>
+
+            <select
+                class="
+                    w-full
+                    border
+                    rounded-xl
+                    p-3
+                "
+            >
+
+                <option>
+
+                    All Category
+
+                </option>
+
+            </select>
+
+        </div>
 
     </div>
 
-    {{-- LIST --}}
+    {{-- SCHOLARSHIP GRID --}}
 
-    <div class="space-y-6">
+    <div
+        class="
+            grid
+            md:grid-cols-2
+            xl:grid-cols-3
+            gap-6
+        "
+    >
 
         @forelse($bookmarks as $bookmark)
 
@@ -47,215 +142,215 @@
                     bg-white
                     border
                     rounded-2xl
-                    shadow-sm
-                    p-6
-                    flex
-                    flex-col
-                    lg:flex-row
-                    justify-between
-                    gap-6
+                    p-4
+                    hover:shadow-lg
+                    transition
                 "
             >
 
-                {{-- LEFT SIDE --}}
+                {{-- THUMBNAIL --}}
 
-                <div class="flex gap-5">
+                @if($scholarship->thumbnail)
 
-                    {{-- THUMBNAIL --}}
+                    <img
 
-                    <div>
-
-                        @if($scholarship->thumbnail)
-
-                            <img
-
-                                src="
-
-                                    {{
-                                        Str::startsWith(
-
-                                            $scholarship->thumbnail,
-
-                                            'http'
-                                        )
-
-                                        ? $scholarship->thumbnail
-
-                                        : asset(
-                                            'storage/' .
-                                            $scholarship->thumbnail
-                                        )
-                                    }}
-
-                                "
-
-                                class="
-                                    w-28
-                                    h-28
-                                    object-cover
-                                    rounded-2xl
-                                    border
-                                "
-                            >
-
-                        @else
-
-                            <div
-                                class="
-                                    w-28
-                                    h-28
-                                    rounded-2xl
-                                    bg-gray-100
-                                    border
-                                    flex
-                                    items-center
-                                    justify-center
-                                    text-gray-400
-                                    text-sm
-                                "
-                            >
-
-                                No Image
-
-                            </div>
-
-                        @endif
-
-                    </div>
-
-                    {{-- CONTENT --}}
-
-                    <div>
-
-                        <h2
-                            class="
-                                text-2xl
-                                font-bold
-                                text-gray-900
-                            "
-                        >
-
-                            {{ $scholarship->title }}
-
-                        </h2>
-
-                        <p
-                            class="
-                                text-gray-600
-                                mt-1
-                            "
-                        >
-
-                            {{ $scholarship->provider }}
-
-                        </p>
-
-                        {{-- BADGES --}}
-
-                        <div
-                            class="
-                                flex
-                                flex-wrap
-                                gap-3
-                                mt-4
-                            "
-                        >
-
-                            <span
-                                class="
-                                    px-3
-                                    py-1
-                                    rounded-full
-                                    text-sm
-                                    bg-blue-100
-                                    text-blue-700
-                                "
-                            >
-
-                                {{ $scholarship->category }}
-
-                            </span>
-
-                            <span
-                                class="
-                                    px-3
-                                    py-1
-                                    rounded-full
-                                    text-sm
-                                    bg-green-100
-                                    text-green-700
-                                "
-                            >
-
-                                {{ $scholarship->funding_type }}
-
-                            </span>
-
-                            <span
-                                class="
-                                    px-3
-                                    py-1
-                                    rounded-full
-                                    text-sm
-
-                                    @if($scholarship->status === 'OPEN')
-
-                                        bg-green-100
-                                        text-green-700
-
-                                    @elseif($scholarship->status === 'CLOSED')
-
-                                        bg-red-100
-                                        text-red-700
-
-                                    @else
-
-                                        bg-yellow-100
-                                        text-yellow-700
-
-                                    @endif
-                                "
-                            >
-
-                                {{ $scholarship->status }}
-
-                            </span>
-
-                        </div>
-
-                        {{-- DEADLINE --}}
-
-                        <p
-                            class="
-                                text-sm
-                                text-gray-500
-                                mt-4
-                            "
-                        >
-
-                            Deadline:
-
+                        src="
                             {{
-                                \Carbon\Carbon::parse(
-                                    $scholarship->deadline
-                                )->format('d M Y')
+                                Str::startsWith(
+                                    $scholarship->thumbnail,
+                                    'http'
+                                )
+
+                                ? $scholarship->thumbnail
+
+                                : asset(
+                                    'storage/' .
+                                    $scholarship->thumbnail
+                                )
                             }}
+                        "
 
-                        </p>
+                        class="
+                            w-14
+                            h-14
+                            rounded-xl
+                            object-cover
+                            mb-4
+                        "
+                    >
 
-                    </div>
+                @else
 
-                </div>
+                    <div
+                        class="
+                            w-14
+                            h-14
+                            rounded-xl
+                            bg-gray-200
+                            mb-4
+                        "
+                    ></div>
 
-                {{-- ACTIONS --}}
+                @endif
+
+                {{-- TITLE --}}
+
+                <h2
+                    class="
+                        text-2xl
+                        font-bold
+                        text-[#1B2B5B]
+                    "
+                >
+
+                    {{ $scholarship->title }}
+
+                </h2>
+
+                {{-- PROVIDER --}}
+
+                <p
+                    class="
+                        text-gray-600
+                        mt-2
+                    "
+                >
+
+                    {{ $scholarship->provider }}
+
+                    •
+
+                    @if(
+                        $scholarship->status
+                        === 'OPEN'
+                    )
+
+                        Open until
+
+                        {{
+                            \Carbon\Carbon::parse(
+                                $scholarship->deadline
+                            )->format('d F Y')
+                        }}
+
+                    @elseif(
+                        $scholarship->status
+                        === 'CLOSED'
+                    )
+
+                        Closed at
+
+                        {{
+                            \Carbon\Carbon::parse(
+                                $scholarship->deadline
+                            )->format('d F Y')
+                        }}
+
+                    @else
+
+                        Open at
+
+                        {{
+                            \Carbon\Carbon::parse(
+                                $scholarship->registration_open_date
+                            )->format('d F Y')
+                        }}
+
+                    @endif
+
+                </p>
+
+                {{-- BADGES --}}
 
                 <div
                     class="
                         flex
-                        flex-col
-                        gap-3
-                        min-w-[180px]
-                        justify-center
+                        flex-wrap
+                        gap-2
+                        mt-4
+                    "
+                >
+
+                    <span
+                        class="
+                            bg-blue-100
+                            text-[#1B2B5B]
+                            px-3
+                            py-1
+                            rounded-full
+                            text-sm
+                            font-medium
+                        "
+                    >
+
+                        {{ $scholarship->category }}
+
+                    </span>
+
+                    <span
+                        class="
+                            bg-green-100
+                            text-green-700
+                            px-3
+                            py-1
+                            rounded-full
+                            text-sm
+                            font-medium
+                        "
+                    >
+
+                        {{ $scholarship->funding_type }}
+
+                    </span>
+
+                    <span
+                        class="
+                            px-3
+                            py-1
+                            rounded-full
+                            text-sm
+                            font-medium
+
+                            @if($scholarship->status === 'OPEN')
+
+                                bg-green-100
+                                text-green-700
+
+                            @elseif($scholarship->status === 'CLOSED')
+
+                                bg-red-100
+                                text-red-700
+
+                            @else
+
+                                bg-yellow-100
+                                text-yellow-700
+
+                            @endif
+                        "
+                    >
+
+                        {{
+                            str_replace(
+                                '_',
+                                ' ',
+                                $scholarship->status
+                            )
+                        }}
+
+                    </span>
+
+                </div>
+
+                {{-- FOOTER --}}
+
+                <div
+                    class="
+                        border-t
+                        mt-5
+                        pt-4
+                        flex
+                        gap-2
                     "
                 >
 
@@ -266,19 +361,17 @@
                         "
 
                         class="
-                            bg-blue-600
-                            hover:bg-blue-700
+                            flex-1
+                            bg-[#1B2B5B]
                             text-white
                             text-center
-                            px-4
                             py-3
                             rounded-xl
-                            transition
                             font-medium
                         "
                     >
 
-                        View Scholarship
+                        View Detail
 
                     </a>
 
@@ -295,18 +388,17 @@
                         "
 
                         class="
-                            bg-red-500
-                            hover:bg-red-600
-                            text-white
-                            px-4
+                            flex-1
+                            border
+                            border-[#1B2B5B]
+                            text-[#1B2B5B]
                             py-3
                             rounded-xl
-                            transition
                             font-medium
                         "
                     >
 
-                        Remove Bookmark
+                        Saved ✓
 
                     </button>
 
@@ -318,6 +410,7 @@
 
             <div
                 class="
+                    col-span-full
                     bg-white
                     border
                     rounded-2xl
