@@ -17,8 +17,58 @@ class MentorDetail extends Component
 
     public $selectedSlot = null;
 
+    private function firstBookableSlotForDate($date)
+    {
+        if (!$date) {
+
+            return null;
+        }
+
+        return MentorAvailability::where(
+                'mentor_id',
+                $this->mentor->id
+            )
+            ->where(
+                'date',
+                $date
+            )
+            ->where(
+                'is_booked',
+                false
+            )
+            ->orderBy('start_time')
+            ->get()
+            ->first(function ($slot) {
+
+                return Carbon::parse(
+
+                    $slot->date . ' ' . $slot->start_time
+
+                )->isFuture();
+            });
+    }
+
     public function selectSlot($slotId)
     {
+        $slot =
+            MentorAvailability::find(
+                $slotId
+            );
+
+        if (
+            !$slot
+            || (int) $slot->mentor_id !== (int) $this->mentor->id
+            || $slot->is_booked
+            || Carbon::parse(
+                $slot->date . ' ' . $slot->start_time
+            )->isPast()
+        ) {
+
+            $this->selectedSlot = null;
+
+            return;
+        }
+
         $this->selectedSlot = $slotId;
     }
 
@@ -26,7 +76,15 @@ class MentorDetail extends Component
     {
         $this->selectedDate = $date;
 
-        $this->selectedSlot = null;
+        $firstSlot =
+            $this->firstBookableSlotForDate(
+                $date
+            );
+
+        $this->selectedSlot =
+            $firstSlot
+                ? $firstSlot->id
+                : null;
     }
 
     public function continueBooking()
@@ -37,6 +95,35 @@ class MentorDetail extends Component
         }
 
         if (!$this->selectedSlot) {
+
+            $firstSlot =
+                $this->firstBookableSlotForDate(
+                    $this->selectedDate
+                );
+
+            $this->selectedSlot =
+                $firstSlot
+                    ? $firstSlot->id
+                    : null;
+        }
+
+        $slot =
+            $this->selectedSlot
+                ? MentorAvailability::find(
+                    $this->selectedSlot
+                )
+                : null;
+
+        if (
+            !$slot
+            || (int) $slot->mentor_id !== (int) $this->mentor->id
+            || $slot->is_booked
+            || Carbon::parse(
+                $slot->date . ' ' . $slot->start_time
+            )->isPast()
+        ) {
+
+            $this->selectedSlot = null;
 
             session()->flash(
 
@@ -132,35 +219,7 @@ class MentorDetail extends Component
             $mentorId
         );
 
-        $firstAvailability =
-
-            MentorAvailability::where(
-
-                'mentor_id',
-
-                $this->mentor->id
-            )
-
-            ->where(
-
-                'date',
-
-                '<=',
-
-                now()
-                    ->addWeek()
-                    ->toDateString()
-            )
-
-            ->orderBy('date')
-
-            ->first();
-
-        if ($firstAvailability) {
-
-            $this->selectedDate =
-                $firstAvailability->date;
-        }
+        $this->selectedDate = null;
     }
 
     public function render()
@@ -190,6 +249,16 @@ class MentorDetail extends Component
 
                 'date',
 
+                '>=',
+
+                now()
+                    ->toDateString()
+            )
+
+            ->where(
+
+                'date',
+
                 '<=',
 
                 now()
@@ -210,7 +279,9 @@ class MentorDetail extends Component
                     $slot->date . ' ' . $slot->start_time
 
                 )->isFuture();
-            });
+            })
+
+            ->values();
 
         $availableDates =
 
@@ -222,6 +293,37 @@ class MentorDetail extends Component
 
                 ->values();
 
+        if (
+            $availableDates->isNotEmpty()
+            && !$availableDates->contains($this->selectedDate)
+        ) {
+
+            $firstBookableSlot =
+            $availabilities
+                    ->where(
+                        'is_booked',
+                        false
+                    )
+                    ->first();
+
+            $this->selectedDate =
+                $firstBookableSlot
+                    ? $firstBookableSlot->date
+                    : $availableDates->first();
+
+            $this->selectedSlot =
+                $firstBookableSlot
+                    ? $firstBookableSlot->id
+                    : null;
+        }
+
+        if ($availableDates->isEmpty()) {
+
+            $this->selectedDate = null;
+
+            $this->selectedSlot = null;
+        }
+
         $filteredSlots =
 
             $availabilities
@@ -230,6 +332,28 @@ class MentorDetail extends Component
                     'date',
                     $this->selectedDate
                 );
+
+        if (
+            $filteredSlots->isNotEmpty()
+            && !$filteredSlots->contains(
+                'id',
+                $this->selectedSlot
+            )
+        ) {
+
+            $firstBookableSlot =
+                $filteredSlots
+                    ->where(
+                        'is_booked',
+                        false
+                    )
+                    ->first();
+
+            $this->selectedSlot =
+                $firstBookableSlot
+                    ? $firstBookableSlot->id
+                    : null;
+        }
 
         return view(
             'livewire.student.mentor.mentor-detail',

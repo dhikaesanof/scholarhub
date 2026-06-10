@@ -1,260 +1,216 @@
-<div>
+<div
+    class="
+        -m-10
+        min-h-full
+        bg-scholarhub-background
+        text-scholarhub-primary
+    "
+>
 
-    <div class="mb-8">
+    <header
+        class="
+            flex
+            items-center
+            gap-4
+            px-8
+            py-6
+        "
+    >
+
+        <a
+            href="/documents"
+            aria-label="Back to document catalog"
+            class="
+                flex
+                h-12
+                w-12
+                items-center
+                justify-center
+                rounded-md
+                transition
+                hover:bg-scholarhub-border
+            "
+        >
+            <x-lucide-arrow-left class="h-6 w-6" />
+        </a>
 
         <h1
             class="
-                text-3xl
+                text-[25px]
                 font-bold
+                leading-[1.2]
             "
         >
-
-            My Documents
-
+            Purchased Documents
         </h1>
 
-        <p
-            class="
-                text-gray-500
-                mt-1
-            "
-        >
+    </header>
 
-            Your purchased premium resources.
+    @if(session()->has('success') || session()->has('error'))
 
-        </p>
+        <div class="px-8 pb-4">
 
-    </div>
+            @if(session()->has('success'))
+                <div
+                    class="
+                        rounded-lg
+                        border
+                        border-green-200
+                        bg-green-50
+                        p-4
+                        text-sm
+                        font-medium
+                        text-green-700
+                    "
+                >
+                    {{ session('success') }}
+                </div>
+            @endif
 
-    <div
+            @if(session()->has('error'))
+                <div
+                    class="
+                        rounded-lg
+                        border
+                        border-red-200
+                        bg-red-50
+                        p-4
+                        text-sm
+                        font-medium
+                        text-red-700
+                    "
+                >
+                    {{ session('error') }}
+                </div>
+            @endif
+
+        </div>
+
+    @endif
+
+    <main
         class="
             grid
             grid-cols-1
-            md:grid-cols-3
             gap-6
+            px-8
+            pb-8
+            md:grid-cols-2
+            xl:grid-cols-3
         "
     >
 
         @forelse($purchases as $purchase)
 
-            <div
-                class="
-                    bg-white
-                    rounded-2xl
-                    shadow-sm
-                    border
-                    overflow-hidden
-                "
-            >
+            @component(
+                'livewire.student.document.partials.document-card',
+                [
+                    'document' => $purchase->document,
+                ]
+            )
 
-                @if($purchase->document->thumbnail)
+                @if($purchase->payment_status === 'PAID')
 
-                    <img
-
-                        src="
-
-                            {{
-                                $purchase->document->thumbnail
-
-                                ? (
-
-                                    Str::startsWith(
-
-                                        $purchase->document->thumbnail,
-
-                                        'http'
-                                    )
-
-                                    ? $purchase->document->thumbnail
-
-                                    : asset(
-                                        'storage/' .
-                                        $purchase->document->thumbnail
-                                    )
-
-                                )
-
-                                : 'https://placehold.co/600x400?text=Document'
-                            }}
-
-                            "
-
+                    <a
+                        href="{{ route('student.documents.preview', $purchase->document->id) }}"
                         class="
+                            flex
+                            h-9
                             w-full
-                            h-48
-                            object-cover
+                            items-center
+                            justify-center
+                            rounded-lg
+                            border
+                            border-scholarhub-primary
+                            px-6
+                            text-[13px]
+                            font-semibold
+                            leading-[1.2]
+                            text-scholarhub-primary
+                            transition
+                            hover:bg-scholarhub-active/60
                         "
                     >
+                        Open Document
+                    </a>
+
+                @else
+
+                    <div
+                        class="
+                            grid
+                            grid-cols-1
+                            gap-2
+                            sm:grid-cols-2
+                        "
+                    >
+                        <button
+                            type="button"
+                            wire:click="continuePayment({{ $purchase->id }})"
+                            class="
+                                flex
+                                h-9
+                                items-center
+                                justify-center
+                                rounded-lg
+                                bg-scholarhub-primary
+                                px-4
+                                text-[13px]
+                                font-semibold
+                                leading-[1.2]
+                                text-scholarhub-background
+                            "
+                        >
+                            Continue Payment
+                        </button>
+
+                        <button
+                            type="button"
+                            wire:click="cancelPurchase({{ $purchase->id }})"
+                            class="
+                                flex
+                                h-9
+                                items-center
+                                justify-center
+                                rounded-lg
+                                bg-red-600
+                                px-4
+                                text-[13px]
+                                font-semibold
+                                leading-[1.2]
+                                text-white
+                            "
+                        >
+                            Cancel
+                        </button>
+                    </div>
 
                 @endif
 
-                <div class="p-5">
-
-                    <h2
-                        class="
-                            text-xl
-                            font-bold
-                        "
-                    >
-
-                        {{
-                            $purchase->document->title
-                        }}
-
-                    </h2>
-
-                    <p
-                        class="
-                            text-gray-500
-                            mt-2
-                        "
-                    >
-
-                        {{
-                            $purchase->document->description
-                        }}
-
-                    </p>
-
-                    @if($purchase->payment_status === 'PAID')
-
-                        <a
-
-                            href="
-                                {{
-                                    route(
-
-                                        'student.documents.preview',
-
-                                        $purchase->document->id
-                                    )
-                                }}
-                            "
-
-                            class="
-                                inline-block
-                                mt-4
-                                bg-green-600
-                                text-white
-                                px-4
-                                py-2
-                                rounded-lg
-                            "
-                        >
-
-                            Open Document
-
-                        </a>
-
-                    @elseif($purchase->payment_status === 'PENDING')
-
-                        <button
-
-                            wire:click="
-                                continuePayment(
-                                    {{ $purchase->id }}
-                                )
-                            "
-
-                            class="
-                                inline-block
-                                mt-4
-                                bg-yellow-500
-                                text-white
-                                px-4
-                                py-2
-                                rounded-lg
-                            "
-                        >
-
-                            Continue Payment
-
-                        </button>
-
-                        <button
-
-                            wire:click="
-                                cancelPurchase(
-                                    {{ $purchase->id }}
-                                )
-                            "
-
-                            class="
-                                inline-block
-                                mt-2
-                                bg-red-500
-                                text-white
-                                px-4
-                                py-2
-                                rounded-lg
-                            "
-                        >
-
-                            Cancel Buying
-
-                        </button>
-
-                    @endif
-
-                </div>
-
-            </div>
+            @endcomponent
 
         @empty
 
             <div
                 class="
-                    text-gray-500
+                    rounded-lg
+                    border
+                    border-scholarhub-border
+                    bg-white
+                    p-6
+                    text-[13px]
+                    font-medium
+                    leading-[1.2]
+                    text-scholarhub-muted
+                    md:col-span-2
+                    xl:col-span-3
                 "
             >
-
                 No purchased documents yet.
-
             </div>
 
         @endforelse
 
-    </div>
-
-    @if($showPaymentModal)
-
-        <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-
-            <div class="bg-white rounded-2xl p-6 w-full max-w-md">
-
-                <h2 class="text-2xl font-bold mb-4">
-
-                    Complete Payment
-
-                </h2>
-
-                <img
-                    src="{{ asset('images/booking/qrisdummy.png') }}"
-                    class="w-64 mx-auto"
-                >
-
-                <div class="mt-6 flex gap-3">
-
-                    <button
-                        wire:click="confirmPayment"
-                        class="flex-1 bg-green-600 text-white py-2 rounded-lg"
-                    >
-                        Already Paid
-                    </button>
-
-                    <button
-                        wire:click="closePaymentModal"
-                        class="flex-1 bg-gray-200 py-2 rounded-lg"
-                    >
-                        Exit
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    @endif
+    </main>
 
 </div>

@@ -1,485 +1,718 @@
-<div class="p-6 lg:p-10 bg-gray-50 min-h-screen">
-
-    {{-- ALERTS --}}
-
-    @if(session()->has('success'))
-
-        <div
-            class="
-                bg-green-100
-                text-green-700
-                p-4
-                rounded-2xl
-                mb-6
-            "
-        >
-
-            {{ session('success') }}
-
-        </div>
-
-    @endif
-
-    @if(session()->has('error'))
-
-        <div
-            class="
-                bg-red-100
-                text-red-700
-                p-4
-                rounded-2xl
-                mb-6
-            "
-        >
-
-            {{ session('error') }}
-
-        </div>
-
-    @endif
-
-    {{-- MAIN GRID --}}
-
+@auth
     <div
         class="
-            grid
-            grid-cols-1
-            lg:grid-cols-3
-            gap-8
-            items-start
+            -m-10
+            min-h-full
+            bg-scholarhub-background
+            text-scholarhub-primary
         "
     >
 
-        {{-- LEFT CONTENT --}}
+        {{-- HEADER --}}
 
-        <div class="lg:col-span-2 space-y-8">
+        <header
+            class="
+                sticky
+                z-20
+                flex
+                items-center
+                gap-4
+                border-b-2
+                border-scholarhub-border
+                bg-scholarhub-background/90
+                px-8
+                py-5
+                backdrop-blur
+            "
+        >
 
-            {{-- HERO CARD --}}
-
-            <div
+            <a
+                href="/mentors"
+                aria-label="Back to mentors"
                 class="
-                    bg-white
-                    rounded-3xl
-                    border
-                    shadow-sm
-                    overflow-hidden
+                    flex
+                    h-12
+                    w-12
+                    items-center
+                    justify-center
+                    rounded-md
+                    text-scholarhub-primary
+                    transition
+                    hover:bg-scholarhub-border
                 "
             >
 
-                <div class="p-8">
-
-                    <div
-                        class="
-                            flex
-                            flex-col
-                            lg:flex-row
-                            gap-8
-                        "
-                    >
-
-                        {{-- PHOTO --}}
-
-                        <div class="shrink-0">
-
-                            @if($mentor->user->profile_photo)
-
-                                <img
-
-                                    src="
-
-                                        {{
-                                            Str::startsWith(
-
-                                                $mentor->user->profile_photo,
-
-                                                'http'
-                                            )
-
-                                            ? $mentor->user->profile_photo
-
-                                            : asset(
-                                                'storage/' .
-                                                $mentor->user->profile_photo
-                                            )
-                                        }}
-
-                                    "
-
-                                    class="
-                                        w-48
-                                        h-48
-                                        object-cover
-                                        rounded-3xl
-                                        border
-                                    "
-                                >
-
-                            @else
-
-                                <div
-                                    class="
-                                        w-48
-                                        h-48
-                                        rounded-3xl
-                                        border
-                                        bg-gray-100
-                                        flex
-                                        items-center
-                                        justify-center
-                                        text-gray-400
-                                        text-lg
-                                    "
-                                >
-
-                                    No Photo
-
-                                </div>
-
-                            @endif
-
-                        </div>
-
-                        {{-- MAIN INFO --}}
-
-                        <div class="flex-1">
-
-                            <div
-                                class="
-                                    flex
-                                    flex-col
-                                    lg:flex-row
-                                    lg:items-start
-                                    justify-between
-                                    gap-6
-                                "
-                            >
-
-                                <div>
-
-                                    <h1
-                                        class="
-                                            text-4xl
-                                            font-bold
-                                            text-gray-900
-                                        "
-                                    >
-
-                                        {{ $mentor->user->name }}
-
-                                    </h1>
-
-                                    <p
-                                        class="
-                                            text-lg
-                                            text-gray-500
-                                            mt-2
-                                        "
-                                    >
-
-                                        {{ $mentor->university }}
-
-                                    </p>
-
-                                    <p
-                                        class="
-                                            text-gray-400
-                                            mt-1
-                                        "
-                                    >
-
-                                        {{ $mentor->major }}
-
-                                    </p>
-
-                                </div>
-
-                                {{-- RATING --}}
-
-                                <div
-                                    class="
-                                        bg-yellow-100
-                                        text-yellow-700
-                                        px-5
-                                        py-3
-                                        rounded-2xl
-                                        flex
-                                        items-center
-                                        gap-3
-                                        h-fit
-                                    "
-                                >
-
-                                    <span class="text-2xl">
-                                        ⭐
-                                    </span>
-
-                                    <div>
-
-                                        <h3 class="font-bold text-xl">
-
-                                            {{
-                                                number_format(
-                                                    $mentor->average_rating ?? 0,
-                                                    1
-                                                )
-                                            }}
-
-                                        </h3>
-
-                                        <p class="text-sm">
-
-                                            {{ $reviews->count() }} reviews
-
-                                        </p>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            {{-- FOCUS AREA --}}
-
-                            <div class="mt-8">
-
-                                <h2
-                                    class="
-                                        text-lg
-                                        font-semibold
-                                        text-gray-900
-                                        mb-4
-                                    "
-                                >
-
-                                    Focus Areas
-
-                                </h2>
-
-                                <div
-                                    class="
-                                        flex
-                                        flex-wrap
-                                        gap-3
-                                    "
-                                >
-
-                                    @foreach(explode(',', $mentor->specialization) as $focus)
-
-                                        <span
-                                            class="
-                                                px-4
-                                                py-2
-                                                rounded-full
-                                                bg-blue-100
-                                                text-blue-700
-                                                text-sm
-                                                font-medium
-                                            "
-                                        >
-
-                                            {{ trim($focus) }}
-
-                                        </span>
-
-                                    @endforeach
-
-                                </div>
-
-                            </div>
-
-                            {{-- BIO --}}
-
-                            <div class="mt-8">
-
-                                <h2
-                                    class="
-                                        text-lg
-                                        font-semibold
-                                        text-gray-900
-                                        mb-4
-                                    "
-                                >
-
-                                    About Mentor
-
-                                </h2>
-
-                                <p
-                                    class="
-                                        text-gray-600
-                                        leading-8
-                                    "
-                                >
-
-                                    {{ $mentor->bio }}
-
-                                </p>
-
-                            </div>
-
-                            {{-- SOCIAL LINKS --}}
-
-                            <div
-                                class="
-                                    flex
-                                    flex-wrap
-                                    gap-4
-                                    mt-8
-                                "
-                            >
-
-                                @if($mentor->instagram_username)
-
-                                    <a
-
-                                        href="
-                                            https://instagram.com/{{ $mentor->instagram_username }}
-                                        "
-
-                                        target="_blank"
-
-                                        class="
-                                            bg-pink-100
-                                            text-pink-700
-                                            px-5
-                                            py-3
-                                            rounded-2xl
-                                            text-sm
-                                            font-medium
-                                        "
-                                    >
-
-                                        Instagram
-
-                                    </a>
-
-                                @endif
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
+                <x-lucide-arrow-left class="h-6 w-6" />
+
+            </a>
+
+            <div
+                class="
+                    flex
+                    min-w-0
+                    flex-col
+                    gap-1
+                "
+            >
+
+                <h1
+                    class="
+                        text-xl
+                        font-bold
+                        leading-[1.2]
+                    "
+                >
+
+                    Mentor Detail
+
+                </h1>
+
+                <p
+                    class="
+                        truncate
+                        text-base
+                        font-semibold
+                        leading-[1.2]
+                        text-scholarhub-muted-light
+                    "
+                >
+
+                    {{ $mentor->user->name }}
+
+                </p>
 
             </div>
 
-            {{-- REVIEWS --}}
+        </header>
 
-            <div
+        <main
+            class="
+                mx-auto
+                flex
+                w-full
+                max-w-[1060px]
+                flex-col
+                gap-8
+                px-8
+                pb-[76px]
+                pt-8
+                xl:max-w-[900px]
+            "
+        >
+
+            {{-- PROFILE --}}
+
+            <section
                 class="
-                    bg-white
-                    rounded-3xl
-                    border
-                    shadow-sm
-                    p-8
+                    flex
+                    flex-col
+                    gap-6
                 "
             >
+
+                @if($mentor->user->profile_photo)
+
+                    <img
+                        src="{{
+                            Str::startsWith(
+                                $mentor->user->profile_photo,
+                                'http'
+                            )
+                                ? $mentor->user->profile_photo
+                                : asset(
+                                    'storage/' .
+                                    $mentor->user->profile_photo
+                                )
+                        }}"
+                        alt="{{ $mentor->user->name }}"
+                        class="
+                            h-[120px]
+                            w-[120px]
+                            rounded-lg
+                            object-cover
+                        "
+                    >
+
+                @else
+
+                    <div
+                        aria-hidden="true"
+                        class="
+                            h-[120px]
+                            w-[120px]
+                            rounded-lg
+                            bg-[#d9d9d9]
+                        "
+                    ></div>
+
+                @endif
 
                 <div
                     class="
                         flex
-                        items-center
-                        justify-between
-                        mb-8
+                        flex-col
+                        gap-2
                     "
                 >
 
-                    <div>
+                    <h2
+                        class="
+                            text-[31px]
+                            font-bold
+                            leading-[1.2]
+                        "
+                    >
 
-                        <h2
-                            class="
-                                text-3xl
-                                font-bold
-                                text-gray-900
-                            "
-                        >
+                        {{ $mentor->user->name }}
 
-                            Student Reviews
+                    </h2>
 
-                        </h2>
+                    <p
+                        class="
+                            text-xl
+                            font-medium
+                            leading-[1.2]
+                        "
+                    >
 
-                        <p
-                            class="
-                                text-gray-500
-                                mt-2
-                            "
-                        >
+                        {{ $mentor->university }}
 
-                            What students say about this mentor.
+                    </p>
 
-                        </p>
+                    <p
+                        class="
+                            text-xl
+                            font-medium
+                            leading-[1.2]
+                        "
+                    >
 
-                    </div>
+                        {{ $mentor->major }}
+
+                    </p>
 
                 </div>
 
-                <div class="space-y-5">
+                <dl
+                    class="
+                        grid
+                        grid-cols-[max-content_minmax(0,1fr)]
+                        gap-x-6
+                        gap-y-4
+                        text-base
+                        leading-[1.2]
+                    "
+                >
 
-                    @forelse($reviews as $review)
+                    <dt
+                        class="
+                            font-semibold
+                            text-scholarhub-muted-light
+                        "
+                    >
 
-                        <div
+                        Rating
+
+                    </dt>
+
+                    <dd>
+
+                        <span
                             class="
+                                inline-flex
+                                items-center
+                                gap-1.5
+                                rounded-[26px]
+                                bg-scholarhub-rating-bg
+                                py-1.5
+                                pl-3.5
+                                pr-[15px]
+                                text-[13px]
+                                font-semibold
+                                leading-[1.2]
+                                text-scholarhub-rating-text
+                            "
+                        >
+
+                            <x-lucide-star
+                                class="
+                                    h-4
+                                    w-4
+                                    fill-scholarhub-rating-icon
+                                    text-scholarhub-rating-icon
+                                "
+                            />
+
+                            {{
+                                number_format(
+                                    $mentor->average_rating ?? $reviews->avg('rating') ?? 0,
+                                    1
+                                )
+                            }}
+
+                        </span>
+
+                    </dd>
+
+                    <dt
+                        class="
+                            font-semibold
+                            text-scholarhub-muted-light
+                        "
+                    >
+
+                        Fee
+
+                    </dt>
+
+                    <dd
+                        class="
+                            font-semibold
+                            text-scholarhub-success
+                        "
+                    >
+
+                        Rp75.000/session
+
+                    </dd>
+
+                    <dt
+                        class="
+                            font-semibold
+                            text-scholarhub-muted-light
+                        "
+                    >
+
+                        Focus Areas
+
+                    </dt>
+
+                    <dd class="font-semibold">
+
+                        {{ $mentor->specialization }}
+
+                    </dd>
+
+                    <dt
+                        class="
+                            font-semibold
+                            text-scholarhub-muted-light
+                        "
+                    >
+
+                        About Mentor
+
+                    </dt>
+
+                    <dd class="font-semibold">
+
+                        {{ $mentor->bio }}
+
+                    </dd>
+
+                </dl>
+
+                <div
+                    class="
+                        flex
+                        flex-wrap
+                        gap-4
+                        border-t
+                        border-scholarhub-border
+                        pt-4
+                    "
+                >
+
+                    @if($mentor->instagram_username)
+
+                        <a
+                            href="https://instagram.com/{{ $mentor->instagram_username }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="
+                                inline-flex
+                                h-9
+                                items-center
+                                justify-center
+                                gap-2.5
+                                rounded-[20px]
+                                bg-scholarhub-chip
+                                px-4
+                                py-2.5
+                                text-[13px]
+                                font-semibold
+                                leading-[1.2]
+                            "
+                        >
+
+                            <x-lucide-instagram class="h-5 w-5" />
+
+                            Instagram
+
+                        </a>
+
+                    @endif
+
+                    <a
+                        href="mailto:{{ $mentor->user->email }}"
+                        class="
+                            inline-flex
+                            h-9
+                            items-center
+                            justify-center
+                            gap-2.5
+                            rounded-[20px]
+                            bg-scholarhub-chip
+                            px-4
+                            py-2.5
+                            text-[13px]
+                            font-semibold
+                            leading-[1.2]
+                        "
+                    >
+
+                        <x-lucide-mail class="h-5 w-5" />
+
+                        Email
+
+                    </a>
+
+                </div>
+
+            </section>
+
+            {{-- AVAILABLE SESSIONS --}}
+
+            <section
+                class="
+                    flex
+                    flex-col
+                    gap-6
+                "
+            >
+
+                <h2
+                    class="
+                        text-[25px]
+                        font-bold
+                        leading-[1.2]
+                    "
+                >
+
+                    Available Sessions
+
+                </h2>
+
+                <div
+                    class="
+                        flex
+                        flex-wrap
+                        gap-4
+                    "
+                >
+
+                    @forelse($availableDates as $date)
+
+                        @php
+                            $dateSlots = $availabilities->where('date', $date);
+                            $dateIsUnavailable = $dateSlots->every(fn ($slot) => $slot->is_booked);
+                            $dateIsSelected = $selectedDate == $date;
+                        @endphp
+
+                        <button
+                            type="button"
+                            wire:key="mentor-date-{{ $date }}"
+                            wire:click="selectDate('{{ $date }}')"
+                            @disabled($dateIsUnavailable)
+                            class="
+                                rounded-lg
+                                px-6
+                                py-4
+                                text-base
+                                font-semibold
+                                leading-[1.2]
+                                transition
+
+                                @if($dateIsUnavailable)
+                                    cursor-not-allowed
+                                    bg-scholarhub-border
+                                    text-scholarhub-muted-light
+                                @elseif($dateIsSelected)
+                                    border
+                                    border-scholarhub-border-selected
+                                    bg-scholarhub-chip
+                                    text-scholarhub-primary
+                                @else
+                                    border
+                                    border-scholarhub-border-strong
+                                    bg-white
+                                    text-scholarhub-primary
+                                    hover:border-scholarhub-border-selected
+                                @endif
+                            "
+                        >
+
+                            {{
+                                \Carbon\Carbon::parse($date)->format('jS F Y')
+                            }}
+
+                        </button>
+
+                    @empty
+
+                        <p
+                            class="
+                                text-base
+                                font-semibold
+                                leading-[1.2]
+                                text-scholarhub-muted-light
+                            "
+                        >
+
+                            No available dates yet.
+
+                        </p>
+
+                    @endforelse
+
+                </div>
+
+                <div
+                    class="
+                        flex
+                        flex-wrap
+                        gap-4
+                    "
+                >
+
+                    @forelse($filteredSlots as $slot)
+
+                        @php
+                            $slotIsSelected = $selectedSlot == $slot->id;
+                        @endphp
+
+                        <button
+                            type="button"
+                            wire:key="mentor-slot-{{ $slot->id }}"
+                            wire:click="selectSlot({{ $slot->id }})"
+                            @disabled($slot->is_booked)
+                            class="
+                                rounded-lg
+                                px-6
+                                py-4
+                                text-base
+                                font-semibold
+                                leading-[1.2]
+                                transition
+
+                                @if($slot->is_booked)
+                                    cursor-not-allowed
+                                    bg-scholarhub-border
+                                    text-scholarhub-muted-light
+                                @elseif($slotIsSelected)
+                                    border
+                                    border-scholarhub-border-selected
+                                    bg-scholarhub-chip
+                                    text-scholarhub-primary
+                                @else
+                                    border
+                                    border-scholarhub-border-strong
+                                    bg-white
+                                    text-scholarhub-primary
+                                    hover:border-scholarhub-border-selected
+                                @endif
+                            "
+                        >
+
+                            {{
+                                \Carbon\Carbon::parse($slot->start_time)->format('g.i')
+                            }}-{{
+                                \Carbon\Carbon::parse($slot->end_time)->format('g.i A')
+                            }}
+
+                        </button>
+
+                    @empty
+
+                        <p
+                            class="
+                                text-base
+                                font-semibold
+                                leading-[1.2]
+                                text-scholarhub-muted-light
+                            "
+                        >
+
+                            No available times for this date.
+
+                        </p>
+
+                    @endforelse
+
+                </div>
+
+                <button
+                    type="button"
+                    wire:click="continueBooking"
+                    @disabled(!$selectedSlot)
+                    class="
+                        flex
+                        h-10
+                        w-fit
+                        min-w-[72px]
+                        items-center
+                        justify-center
+                        rounded-lg
+                        bg-scholarhub-primary
+                        px-4
+                        text-[13px]
+                        font-semibold
+                        leading-[1.2]
+                        text-scholarhub-background
+                        transition
+                        hover:bg-scholarhub-primary-active
+                        disabled:cursor-not-allowed
+                        disabled:bg-scholarhub-border
+                        disabled:text-scholarhub-muted-light
+                    "
+                >
+
+                    Book a Session
+
+                </button>
+
+            </section>
+
+            {{-- RECENT REVIEWS --}}
+
+            <section
+                class="
+                    flex
+                    flex-col
+                    gap-6
+                "
+            >
+
+                <h2
+                    class="
+                        text-[25px]
+                        font-bold
+                        leading-[1.2]
+                    "
+                >
+
+                    Recent Review
+
+                </h2>
+
+                <div
+                    class="
+                        grid
+                        grid-cols-1
+                        gap-6
+                        lg:grid-cols-2
+                    "
+                >
+
+                    @forelse($reviews->take(2) as $review)
+
+                        <article
+                            class="
+                                flex
+                                h-40
+                                flex-col
+                                justify-between
+                                rounded-lg
                                 border
-                                rounded-2xl
+                                border-scholarhub-border
+                                bg-white
                                 p-6
                             "
                         >
+
+                            <p
+                                class="
+                                    line-clamp-3
+                                    text-base
+                                    font-semibold
+                                    leading-[1.2]
+                                "
+                            >
+
+                                "{{ $review->review }}"
+
+                            </p>
 
                             <div
                                 class="
                                     flex
                                     items-center
                                     justify-between
-                                    mb-4
+                                    gap-4
                                 "
                             >
 
-                                <h3
+                                <p
                                     class="
-                                        font-semibold
-                                        text-lg
+                                        truncate
+                                        text-[13px]
+                                        font-medium
+                                        leading-[1.2]
                                     "
                                 >
 
                                     {{ $review->student->user->name }}
 
-                                </h3>
+                                </p>
 
-                                <div
+                                <span
                                     class="
-                                        text-yellow-500
+                                        inline-flex
+                                        items-center
+                                        gap-1.5
+                                        rounded-[26px]
+                                        bg-scholarhub-rating-bg
+                                        py-1.5
+                                        pl-3.5
+                                        pr-[15px]
+                                        text-[13px]
                                         font-semibold
+                                        leading-[1.2]
+                                        text-scholarhub-rating-text
                                     "
                                 >
 
-                                    ⭐ {{ $review->rating }}/5
+                                    <x-lucide-star
+                                        class="
+                                            h-4
+                                            w-4
+                                            fill-scholarhub-rating-icon
+                                            text-scholarhub-rating-icon
+                                        "
+                                    />
 
-                                </div>
+                                    {{ $review->rating }}
+
+                                </span>
 
                             </div>
 
-                            <p
-                                class="
-                                    text-gray-600
-                                    leading-7
-                                "
-                            >
-
-                                {{ $review->review }}
-
-                            </p>
-
-                        </div>
+                        </article>
 
                     @empty
 
                         <div
                             class="
-                                text-center
-                                py-10
-                                text-gray-500
+                                rounded-lg
+                                border
+                                border-scholarhub-border
+                                bg-white
+                                p-6
+                                text-base
+                                font-semibold
+                                leading-[1.2]
+                                text-scholarhub-muted-light
+                                lg:col-span-2
                             "
                         >
 
@@ -491,212 +724,221 @@
 
                 </div>
 
-            </div>
+                @if($reviews->count() > 0)
 
-        </div>
+                    <a
+                        href="/mentors/{{ $mentor->id }}/reviews"
+                        class="
+                            flex
+                            h-10
+                            w-fit
+                            min-w-[72px]
+                            items-center
+                            justify-center
+                            rounded-lg
+                            bg-scholarhub-primary
+                            px-4
+                            text-[13px]
+                            font-semibold
+                            leading-[1.2]
+                            text-scholarhub-background
+                            transition
+                            hover:bg-scholarhub-primary-active
+                        "
+                    >
 
-        {{-- RIGHT SIDEBAR --}}
+                        See All Reviews
 
-        <div class="lg:col-span-1">
+                    </a>
+
+                @endif
+
+            </section>
+
+        </main>
+
+    </div>
+@else
+    <div
+        class="
+            min-h-screen
+            bg-gray-50
+            p-6
+            lg:p-10
+        "
+    >
+
+        <div
+            class="
+                mx-auto
+                max-w-4xl
+                rounded-3xl
+                border
+                bg-white
+                p-8
+                shadow-sm
+            "
+        >
 
             <div
                 class="
-                    bg-white
-                    rounded-3xl
-                    border
-                    shadow-sm
-                    p-6
-                    sticky
-                    top-24
+                    flex
+                    flex-col
+                    gap-8
+                    lg:flex-row
                 "
             >
 
-                <div class="mb-8">
+                @if($mentor->user->profile_photo)
 
-                    <h2
+                    <img
+                        src="{{
+                            Str::startsWith(
+                                $mentor->user->profile_photo,
+                                'http'
+                            )
+                                ? $mentor->user->profile_photo
+                                : asset(
+                                    'storage/' .
+                                    $mentor->user->profile_photo
+                                )
+                        }}"
+                        alt="{{ $mentor->user->name }}"
                         class="
-                            text-2xl
+                            h-48
+                            w-48
+                            rounded-3xl
+                            border
+                            object-cover
+                        "
+                    >
+
+                @else
+
+                    <div
+                        aria-hidden="true"
+                        class="
+                            h-48
+                            w-48
+                            rounded-3xl
+                            border
+                            bg-gray-100
+                        "
+                    ></div>
+
+                @endif
+
+                <div class="flex-1">
+
+                    <h1
+                        class="
+                            text-4xl
                             font-bold
                             text-gray-900
                         "
                     >
 
-                        Book Mentoring Session
+                        {{ $mentor->user->name }}
+
+                    </h1>
+
+                    <p
+                        class="
+                            mt-2
+                            text-lg
+                            text-gray-500
+                        "
+                    >
+
+                        {{ $mentor->university }}
+
+                    </p>
+
+                    <p
+                        class="
+                            mt-1
+                            text-gray-400
+                        "
+                    >
+
+                        {{ $mentor->major }}
+
+                    </p>
+
+                    <h2
+                        class="
+                            mt-8
+                            text-lg
+                            font-semibold
+                            text-gray-900
+                        "
+                    >
+
+                        Focus Areas
 
                     </h2>
 
                     <p
                         class="
-                            text-gray-500
-                            mt-2
+                            mt-3
+                            text-gray-600
                         "
                     >
 
-                        Available only for the next 7 days.
+                        {{ $mentor->specialization }}
 
                     </p>
 
-                </div>
+                    <h2
+                        class="
+                            mt-8
+                            text-lg
+                            font-semibold
+                            text-gray-900
+                        "
+                    >
 
-                    {{-- DATE SELECTOR --}}
+                        About Mentor
 
-                <div
-                    class="
-                        flex
-                        gap-3
-                        overflow-x-auto
-                        pb-2
-                        mb-6
-                    "
-                >
+                    </h2>
 
-                    @foreach($availableDates as $date)
+                    <p
+                        class="
+                            mt-3
+                            leading-8
+                            text-gray-600
+                        "
+                    >
 
-                        <button
+                        {{ $mentor->bio }}
 
-                            wire:click="
-                                selectDate(
-                                    '{{ $date }}'
-                                )
-                            "
+                    </p>
 
-                            class="
-                                min-w-[100px]
-                                px-4
-                                py-3
-                                rounded-2xl
-                                border
-                                transition
+                    <a
+                        href="/login"
+                        class="
+                            mt-8
+                            inline-flex
+                            rounded-2xl
+                            bg-slate-800
+                            px-6
+                            py-3
+                            font-medium
+                            text-white
+                            transition
+                            hover:bg-slate-900
+                        "
+                    >
 
-                                {{
-                                    $selectedDate == $date
+                        Login to Book
 
-                                    ? 'bg-blue-600 text-white border-blue-600'
-
-                                    : 'bg-white hover:bg-gray-50'
-                                }}
-                            "
-                        >
-
-                            <div class="font-semibold">
-
-                                {{
-                                    \Carbon\Carbon::parse(
-                                        $date
-                                    )->format('d M')
-                                }}
-
-                            </div>
-
-                            <div class="text-sm opacity-80">
-
-                                {{
-                                    \Carbon\Carbon::parse(
-                                        $date
-                                    )->format('D')
-                                }}
-
-                            </div>
-
-                        </button>
-
-                    @endforeach
+                    </a>
 
                 </div>
-
-                {{-- SLOT LIST --}}
-
-                <div class="grid grid-cols-2 gap-3">
-
-                    @foreach($filteredSlots as $slot)
-
-                        <button
-
-                            wire:click="
-                                selectSlot(
-                                    {{ $slot->id }}
-                                )
-                            "
-
-                            @disabled($slot->is_booked)
-
-                            class="
-                                py-4
-                                rounded-2xl
-                                border
-                                font-semibold
-                                transition
-
-                                @if($slot->is_booked)
-
-                                    bg-gray-200
-                                    text-gray-500
-                                    cursor-not-allowed
-
-                                @elseif($selectedSlot == $slot->id)
-
-                                    bg-blue-600
-                                    text-white
-                                    border-blue-600
-
-                                @else
-
-                                    hover:bg-gray-50
-
-                                @endif
-                            "
-                        >
-
-                            @if($slot->is_booked)
-
-                                Booked
-
-                            @else
-
-                                {{
-                                    \Carbon\Carbon::parse(
-                                        $slot->start_time
-                                    )->format('H:i')
-                                }}
-
-                            @endif
-
-                        </button>
-
-                    @endforeach
-
-                </div>
-
-                {{-- CONFIRM BUTTON --}}
-
-                <button
-
-                    wire:click="continueBooking"
-
-                    @disabled(!$selectedSlot)
-
-                    class="
-                        w-full
-                        mt-6
-                        bg-blue-600
-                        hover:bg-blue-700
-                        disabled:bg-gray-300
-                        text-white
-                        py-4
-                        rounded-2xl
-                        font-semibold
-                        transition
-                    "
-                >
-
-                    Continue Booking
-
-                </button>
 
             </div>
 
         </div>
 
     </div>
-
-</div>
+@endauth

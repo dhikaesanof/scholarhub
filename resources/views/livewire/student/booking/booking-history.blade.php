@@ -1,169 +1,363 @@
-<div>
+<div
+    class="
+        -m-10
+        min-h-full
+        bg-scholarhub-background
+        text-scholarhub-primary
+    "
+>
 
-    <h1
+    {{-- HEADER --}}
+
+    <header
         class="
-            text-3xl
-            font-bold
-            mb-6
+            flex
+            items-center
+            gap-4
+            px-8
+            py-6
         "
     >
 
-        Booking History
-
-    </h1>
-
-    @if(session()->has('success'))
-
-        <div
+        <a
+            href="/mentors"
+            aria-label="Back to mentors"
             class="
-                bg-green-100
-                text-green-700
-                p-3
-                rounded
-                mb-5
+                flex
+                h-12
+                w-12
+                items-center
+                justify-center
+                rounded-md
+                transition
+                hover:bg-scholarhub-border
             "
         >
 
-            {{ session('success') }}
+            <x-lucide-arrow-left class="h-6 w-6" />
 
-        </div>
+        </a>
 
-    @endif
-
-    @if(session()->has('error'))
-
-        <div
+        <h1
             class="
-                bg-red-100
-                text-red-700
-                p-3
-                rounded
-                mb-5
+                text-[25px]
+                font-bold
+                leading-[1.2]
             "
         >
 
-            {{ session('error') }}
+            Booking History
 
-        </div>
+        </h1>
 
-    @endif
+    </header>
 
-    <div class="space-y-5">
+    @if(session()->has('success') || session()->has('error'))
 
-        @forelse($bookings as $booking)
+        <div class="px-8 pb-4">
 
-            <div
-                class="
-                    bg-white
-                    p-6
-                    rounded-lg
-                    shadow
-                "
-            >
+            @if(session()->has('success'))
 
-                <h2
+                <div
                     class="
-                        text-xl
-                        font-bold
+                        rounded-lg
+                        border
+                        border-green-200
+                        bg-green-50
+                        p-4
+                        text-sm
+                        font-medium
+                        text-green-700
                     "
                 >
 
-                    {{ $booking->mentor->user->name }}
-
-                </h2>
-
-                <p class="mt-2">
-
-                    Topic:
-                    {{ $booking->topic }}
-
-                </p>
-
-                <p class="mt-2">
-
-                    {{ $booking->availability->date }}
-
-                    |
-
-                    {{ $booking->availability->start_time }}
-                    -
-                    {{ $booking->availability->end_time }}
-
-                </p>
-
-                <div class="mt-4">
-
-                    @if(
-                        $booking->payment_status
-                        === 'PAID'
-                    )
-
-                        <span
-                            class="
-                                bg-green-100
-                                text-green-700
-                                px-3
-                                py-1
-                                rounded-full
-                                text-sm
-                            "
-                        >
-
-                            Paid
-
-                        </span>
-
-                    @elseif(
-                        $booking->payment_status
-                        === 'EXPIRED'
-                    )
-
-                        <span
-                            class="
-                                bg-red-100
-                                text-red-700
-                                px-3
-                                py-1
-                                rounded-full
-                                text-sm
-                            "
-                        >
-
-                            Expired
-
-                        </span>
-
-                    @endif
+                    {{ session('success') }}
 
                 </div>
 
-                @if(
-                    $booking->payment_status
-                    === 'PENDING'
-                )
+            @endif
+
+            @if(session()->has('error'))
+
+                <div
+                    class="
+                        rounded-lg
+                        border
+                        border-red-200
+                        bg-red-50
+                        p-4
+                        text-sm
+                        font-medium
+                        text-red-700
+                    "
+                >
+
+                    {{ session('error') }}
+
+                </div>
+
+            @endif
+
+        </div>
+
+    @endif
+
+    <main
+        class="
+            grid
+            grid-cols-1
+            gap-6
+            px-8
+            pb-8
+            md:grid-cols-2
+            xl:grid-cols-3
+        "
+    >
+
+        @forelse($bookings as $booking)
+
+            @php
+                $availability = $booking->availability;
+                $mentor = $booking->mentor;
+                $sessionEnd = $availability
+                    ? \Carbon\Carbon::parse(
+                        $availability->date . ' ' . $availability->end_time
+                    )
+                    : null;
+                $sessionEnded = $sessionEnd
+                    ? now()->greaterThan($sessionEnd)
+                    : false;
+                $alreadyReviewed =
+                    \App\Models\MentorReview::where(
+                        'mentor_booking_id',
+                        $booking->id
+                    )->exists();
+                $sessionStatus = $sessionEnded
+                    ? 'Completed'
+                    : (
+                        $booking->session_status
+                            ? ucfirst(strtolower($booking->session_status))
+                            : 'Upcoming'
+                    );
+                $paymentStatus =
+                    ucfirst(strtolower($booking->payment_status));
+            @endphp
+
+            <article
+                class="
+                    flex
+                    min-h-[260px]
+                    flex-col
+                    justify-between
+                    gap-4
+                    overflow-hidden
+                    rounded-lg
+                    border
+                    border-scholarhub-border
+                    bg-white
+                    p-4
+                "
+            >
+
+                <div
+                    class="
+                        flex
+                        flex-col
+                        gap-4
+                    "
+                >
+
+                    @if($mentor->user->profile_photo)
+
+                        <img
+                            src="{{
+                                Str::startsWith(
+                                    $mentor->user->profile_photo,
+                                    'http'
+                                )
+                                    ? $mentor->user->profile_photo
+                                    : asset(
+                                        'storage/' .
+                                        $mentor->user->profile_photo
+                                    )
+                            }}"
+                            alt="{{ $mentor->user->name }}"
+                            class="
+                                h-20
+                                w-20
+                                rounded-lg
+                                object-cover
+                            "
+                        >
+
+                    @else
+
+                        <div
+                            aria-hidden="true"
+                            class="
+                                h-20
+                                w-20
+                                rounded-lg
+                                bg-[#d9d9d9]
+                            "
+                        ></div>
+
+                    @endif
 
                     <div
                         class="
                             flex
-                            gap-4
-                            mt-5
+                            min-w-0
+                            flex-col
+                            gap-2
                         "
                     >
 
-                        <button
-
-                            wire:click="
-                                continuePayment(
-                                    {{ $booking->id }}
-                                )
-                            "
-
+                        <h2
                             class="
-                                bg-blue-500
-                                text-white
-                                px-5
-                                py-2
-                                rounded
+                                truncate
+                                text-xl
+                                font-semibold
+                                leading-[1.2]
+                            "
+                        >
+
+                            {{ $mentor->user->name }}
+
+                        </h2>
+
+                        <p
+                            class="
+                                truncate
+                                text-[13px]
+                                font-semibold
+                                leading-[1.2]
+                            "
+                        >
+
+                            @if($availability)
+
+                                {{
+                                    \Carbon\Carbon::parse(
+                                        $availability->date
+                                    )->format('j M')
+                                }}
+                                ·
+                                {{
+                                    \Carbon\Carbon::parse(
+                                        $availability->start_time
+                                    )->format('H:i')
+                                }}-{{
+                                    \Carbon\Carbon::parse(
+                                        $availability->end_time
+                                    )->format('H:i')
+                                }}
+
+                            @else
+
+                                Schedule unavailable
+
+                            @endif
+
+                        </p>
+
+                        <p
+                            class="
+                                truncate
+                                text-[13px]
+                                font-medium
+                                leading-[1.2]
+                                text-scholarhub-muted
+                            "
+                        >
+
+                            {{ $booking->topic }}
+
+                        </p>
+
+                    </div>
+
+                    <div
+                        class="
+                            flex
+                            flex-wrap
+                            gap-2
+                        "
+                    >
+
+                        <span
+                            class="
+                                rounded-[26px]
+                                px-3
+                                py-1
+                                text-[13px]
+                                font-semibold
+                                leading-[1.2]
+                                {{
+                                    $sessionEnded
+                                        ? 'bg-scholarhub-active/70 text-scholarhub-primary'
+                                        : 'bg-scholarhub-rating-bg text-scholarhub-rating-text'
+                                }}
+                            "
+                        >
+
+                            {{ $sessionStatus }}
+
+                        </span>
+
+                        <span
+                            class="
+                                rounded-[26px]
+                                px-3
+                                py-1
+                                text-[13px]
+                                font-semibold
+                                leading-[1.2]
+                                {{
+                                    $booking->payment_status === 'PAID'
+                                        ? 'bg-scholarhub-success-soft text-scholarhub-success-dark'
+                                        : 'bg-scholarhub-rating-bg text-scholarhub-rating-text'
+                                }}
+                            "
+                        >
+
+                            {{ $paymentStatus }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div
+                    class="
+                        flex
+                        gap-2
+                        border-t
+                        border-scholarhub-border
+                        pt-4
+                    "
+                >
+
+                    @if($booking->payment_status === 'PENDING')
+
+                        <button
+                            type="button"
+                            wire:click="continuePayment({{ $booking->id }})"
+                            class="
+                                flex
+                                h-9
+                                flex-1
+                                items-center
+                                justify-center
+                                rounded-lg
+                                bg-scholarhub-primary
+                                px-6
+                                py-2.5
+                                text-[13px]
+                                font-semibold
+                                leading-[1.2]
+                                text-scholarhub-background
                             "
                         >
 
@@ -172,117 +366,81 @@
                         </button>
 
                         <button
-
-                            wire:click="
-                                cancelBooking(
-                                    {{ $booking->id }}
-                                )
-                            "
-
+                            type="button"
+                            wire:click="cancelBooking({{ $booking->id }})"
                             class="
-                                bg-red-500
+                                flex
+                                h-9
+                                flex-1
+                                items-center
+                                justify-center
+                                rounded-lg
+                                bg-red-600
+                                px-6
+                                py-2.5
+                                text-[13px]
+                                font-semibold
+                                leading-[1.2]
                                 text-white
-                                px-5
-                                py-2
-                                rounded
                             "
                         >
 
-                            Cancel Booking
+                            Cancel
 
                         </button>
 
-                    </div>
+                    @else
 
-                    
-                @endif
-
-                @if(
-                    $booking->payment_status
-                    === 'PAID'
-                )
-
-                    <div class="mt-5">
-
-                        <button
-
-                            wire:click="
-                                viewSession(
-                                    {{ $booking->id }}
-                                )
-                            "
-
+                        <a
+                            href="/student/bookings/{{ $booking->id }}"
                             class="
-                                bg-blue-500
-                                text-white
-                                px-5
-                                py-2
-                                rounded
+                                flex
+                                h-9
+                                flex-1
+                                items-center
+                                justify-center
+                                rounded-lg
+                                bg-scholarhub-primary
+                                px-6
+                                py-2.5
+                                text-[13px]
+                                font-semibold
+                                leading-[1.2]
+                                text-scholarhub-background
                             "
                         >
 
                             View Session
 
-                        </button>
-
-                        @php
-
-                            $sessionEnd = \Carbon\Carbon::createFromFormat(
-
-                                'Y-m-d H:i:s',
-
-                                $booking->availability->date .
-                                ' ' .
-                                $booking->availability->end_time
-
-                            );
-
-                            $sessionEnded =
-                                now()->greaterThan($sessionEnd);
-
-                        @endphp
-
-                        @php
-
-                            $alreadyReviewed =
-
-                                \App\Models\MentorReview::where(
-
-                                    'mentor_booking_id',
-
-                                    $booking->id
-
-                                )->exists();
-
-                        @endphp
+                        </a>
 
                         @if(
                             $booking->payment_status === 'PAID'
-                            &&
-                            $sessionEnded
-                            &&
-                            !$alreadyReviewed
+                            && $sessionEnded
+                            && !$alreadyReviewed
                         )
 
                             <button
-
-                                wire:click="
-                                    leaveReview(
-                                        {{ $booking->id }}
-                                    )
-                                "
-
+                                type="button"
+                                wire:click="leaveReview({{ $booking->id }})"
                                 class="
-                                    bg-yellow-500
-                                    text-white
-                                    px-5
-                                    py-2
-                                    rounded
-                                    ml-4
+                                    flex
+                                    h-9
+                                    flex-1
+                                    items-center
+                                    justify-center
+                                    rounded-lg
+                                    bg-[#df900a]
+                                    px-6
+                                    py-2.5
+                                    text-[13px]
+                                    font-semibold
+                                    leading-[1.2]
+                                    text-scholarhub-background
                                 "
                             >
 
-                                Leave Review
+                                Leave a Review
 
                             </button>
 
@@ -290,12 +448,19 @@
 
                             <span
                                 class="
-                                    bg-gray-200
-                                    text-gray-700
-                                    px-4
-                                    py-2
-                                    rounded
-                                    text-sm
+                                    flex
+                                    h-9
+                                    flex-1
+                                    items-center
+                                    justify-center
+                                    rounded-lg
+                                    bg-[#fad28f]
+                                    px-6
+                                    py-2.5
+                                    text-[13px]
+                                    font-semibold
+                                    leading-[1.2]
+                                    text-[#875706]
                                 "
                             >
 
@@ -305,20 +470,27 @@
 
                         @endif
 
-                    </div>
+                    @endif
 
-                @endif
+                </div>
 
-            </div>
+            </article>
 
         @empty
 
             <div
                 class="
+                    rounded-lg
+                    border
+                    border-scholarhub-border
                     bg-white
                     p-6
-                    rounded-lg
-                    shadow
+                    text-[13px]
+                    font-medium
+                    leading-[1.2]
+                    text-scholarhub-muted
+                    md:col-span-2
+                    xl:col-span-3
                 "
             >
 
@@ -328,14 +500,10 @@
 
         @endforelse
 
-    </div>
+    </main>
 
     @include(
-    'livewire.student.booking.partials.payment-modal'
-    )
-
-    @include(
-        'livewire.student.booking.partials.session-modal'
+        'livewire.student.booking.partials.payment-modal'
     )
 
     @include(

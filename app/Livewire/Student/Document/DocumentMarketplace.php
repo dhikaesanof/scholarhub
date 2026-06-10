@@ -12,63 +12,8 @@ class DocumentMarketplace extends Component
     const STATUS_PAID = 'PAID';
     const STATUS_CANCELLED = 'CANCELLED';
 
-    public $showPaymentModal = false;
-
-    public $purchaseId = null;
-
-    public function cancelPurchase($purchaseId)
-    {
-        $purchase =
-            DocumentPurchase::find(
-                $purchaseId
-            );
-
-        $purchase->update([
-
-            'payment_status' => 'CANCELLED',
-        ]);
-
-        session()->flash(
-            'success',
-            'Purchase cancelled.'
-        );
-    }
-
-    public function continuePayment($purchaseId)
-    {
-        $this->purchaseId = $purchaseId;
-
-        $this->showPaymentModal = true;
-    }
-
-    public function closePaymentModal()
-    {
-        $this->showPaymentModal = false;
-    }
-
-    public function confirmPayment()
-    {
-        $purchase =
-            DocumentPurchase::find(
-                $this->purchaseId
-            );
-
-        $purchase->update([
-
-            'payment_status' => 'PAID',
-        ]);
-
-        $this->showPaymentModal = false;
-
-        session()->flash(
-            'success',
-            'Payment completed successfully.'
-        );
-    }
-
     public function purchase($documentId)
     {
-
         if (!auth()->check()) {
 
             return redirect('/login');
@@ -77,57 +22,57 @@ class DocumentMarketplace extends Component
         $student =
             auth()->user()?->student;
 
-        $alreadyPurchased =
-
+        $existingPurchase =
             DocumentPurchase::where(
-
                 'student_id',
-
                 $student->id
-
             )
-
             ->where(
-
                 'document_id',
-
                 $documentId
-
             )
-
-            ->where(
+            ->whereIn(
                 'payment_status',
-                'PAID'
+                [
+                    self::STATUS_PENDING,
+                    self::STATUS_PAID,
+                ]
             )
+            ->latest()
+            ->first();
 
-            ->exists();
+        if ($existingPurchase) {
 
-        if ($alreadyPurchased) {
+            if ($existingPurchase->payment_status === self::STATUS_PAID) {
 
-            return;
+                return redirect()->route(
+                    'student.documents.preview',
+                    $documentId
+                );
+            }
+
+            return redirect(
+                '/student/document-payments/' .
+                $existingPurchase->id
+            );
         }
 
-        $purchase = DocumentPurchase::create([
+        $purchase =
+            DocumentPurchase::create([
 
-            'student_id' =>
-                $student->id,
+                'student_id' =>
+                    $student->id,
 
-            'document_id' =>
-                $documentId,
+                'document_id' =>
+                    $documentId,
 
-            'payment_status' =>
-                'PENDING',
-        ]);
+                'payment_status' =>
+                    self::STATUS_PENDING,
+            ]);
 
-        $this->purchaseId = $purchase->id;
-
-        $this->showPaymentModal = true;
-
-        session()->flash(
-
-            'success',
-
-            'Document purchased successfully.'
+        return redirect(
+            '/student/document-payments/' .
+            $purchase->id
         );
     }
 
@@ -136,54 +81,51 @@ class DocumentMarketplace extends Component
         $student =
             auth()->user()?->student;
 
-        $purchasedIds = [];
+        $purchaseStatuses = [];
 
-            if ($student) {
+        if ($student) {
 
-                $purchasedIds =
+            $purchaseStatuses =
+                DocumentPurchase::where(
+                    'student_id',
+                    $student->id
+                )
+                ->whereIn(
+                    'payment_status',
+                    [
+                        self::STATUS_PENDING,
+                        self::STATUS_PAID,
+                    ]
+                )
+                ->latest()
+                ->get()
+                ->unique('document_id')
+                ->mapWithKeys(function ($purchase) {
 
-                    DocumentPurchase::where(
-
-                        'student_id',
-
-                        $student->id
-
-                    )
-
-                    ->where(
-
-                        'payment_status',
-
-                        'PAID'
-
-                    )
-
-                    ->pluck(
-                        'document_id'
-                    )
-
-                    ->toArray();
-            }
+                    return [
+                        $purchase->document_id => [
+                            'id' => $purchase->id,
+                            'status' => $purchase->payment_status,
+                        ],
+                    ];
+                })
+                ->toArray();
+        }
 
         return view(
-
             'livewire.student.document.document-marketplace',
-
             [
-
                 'documents' =>
-
                     Document::latest()
                         ->get(),
 
-                'purchasedIds' =>
-                    $purchasedIds,
+                'purchaseStatuses' =>
+                    $purchaseStatuses,
             ]
-
-        )->layout(auth()->check()
-
-            ? 'layouts.student'
-
-            : 'layouts.public');
+        )->layout(
+            auth()->check()
+                ? 'layouts.student'
+                : 'layouts.public'
+        );
     }
 }

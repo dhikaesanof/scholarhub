@@ -9,7 +9,27 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Inter', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-scholarhub-background: #faf9fd;
+    --color-scholarhub-border: #e8ebef;
+    --color-scholarhub-primary: #1b365d;
+    --color-scholarhub-primary-dark: #132642;
+    --color-scholarhub-primary-active: #193155;
+    --color-scholarhub-muted: #667892;
+    --color-scholarhub-active: #caddf2;
+    --color-scholarhub-border-strong: #b8c1cd;
+    --color-scholarhub-border-selected: #495e7d;
+    --color-scholarhub-muted-light: #96a3b4;
+    --color-scholarhub-chip: #d4e3f5;
+    --color-scholarhub-success: #006040;
+    --color-scholarhub-success-dark: #003926;
+    --color-scholarhub-success-strong: #007b52;
+    --color-scholarhub-success-border: #00875a;
+    --color-scholarhub-success-soft: #d1fae5;
+    --color-scholarhub-rating-bg: #fce1b3;
+    --color-scholarhub-rating-text: #674205;
+    --color-scholarhub-rating-icon: #f59e0b;
 
     --color-zinc-50: #fafafa;
     --color-zinc-100: #f5f5f5;

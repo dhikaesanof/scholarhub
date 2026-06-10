@@ -19,6 +19,8 @@ class MentorBooking extends Model
         'topic',
 
         'payment_status',
+
+        'session_status',
     ];
 
     public function student()

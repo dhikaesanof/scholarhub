@@ -20,14 +20,18 @@ use App\Livewire\Admin\Mentor\MentorList;
 use App\Livewire\Mentor\Profile\ProfileEdit;
 use App\Livewire\Student\Mentor\MentorDirectory;
 use App\Livewire\Student\Mentor\MentorDetail;
+use App\Livewire\Student\Mentor\MentorReviews;
 use App\Livewire\Mentor\Schedule\ScheduleList;
 use App\Livewire\Student\Booking\BookingCreate;
+use App\Livewire\Student\Booking\BookingDetail;
 use App\Livewire\Student\Booking\BookingHistory;
 use \App\Livewire\Student\Profile\ProfileStudent;
+use App\Livewire\Student\Profile\ProfileView as StudentProfileView;
 use App\Livewire\Admin\Student\StudentList;
 use App\Livewire\Admin\Mentor\MentorEarnings;
 use \App\Livewire\Admin\Document\DocumentList;
 use App\Livewire\Student\Document\DocumentMarketplace;
+use App\Livewire\Student\Document\DocumentPayment;
 use App\Http\Controllers\Student\DocumentPreviewController;
 use App\Livewire\Student\Document\MyDocuments;
 use \App\Livewire\Student\Roadmap\RoadmapDetail;
@@ -92,6 +96,8 @@ Route::get('/scholarships/{scholarship}', ScholarshipDetail::class);
 
 Route::get('/mentors', MentorDirectory::class);
 
+Route::get('/mentors/{mentorId}/reviews', MentorReviews::class);
+
 Route::get('/mentors/{mentorId}', MentorDetail::class);
 
 Route::get('/documents', DocumentMarketplace::class);
@@ -114,11 +120,17 @@ Route::middleware(['auth', 'blocked', 'role:STUDENT'])->group(function () {
     
     Route::get('/student/bookings/create/{slotId}',BookingCreate::class);
 
-    Route::get('/student/profile',ProfileStudent::class);
+    Route::get('/student/bookings/{bookingId}', BookingDetail::class);
+
+    Route::get('/student/profile', StudentProfileView::class);
+
+    Route::get('/student/profile/edit',ProfileStudent::class);
 
     Route::get('/student/documents/{id}/preview', DocumentPreviewController::class)->name('student.documents.preview');
 
     Route::get('/student/my-documents', MyDocuments::class);
+
+    Route::get('/student/document-payments/{purchaseId}', DocumentPayment::class);
 
     Route::get('/student/documents/{id}/stream',[DocumentPreviewController::class, 'stream'])->name('student.documents.stream');
 
