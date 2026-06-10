@@ -11,11 +11,13 @@ class BookingCreate extends Component
 {
     public MentorAvailability $availability;
 
-    public $topic;
+    public $topic = 'Essay Review';
 
-    public $showPaymentModal = false;
+    public $step = 'booking';
 
     public $bookingId = null;
+
+    private int $sessionPrice = 75000;
 
     public function cleanupExpiredBookings()
     {
@@ -50,14 +52,56 @@ class BookingCreate extends Component
         }
     }
 
-    public function closePaymentModal()
+    public function getPriceProperty()
     {
-        $this->showPaymentModal = false;
+        return $this->sessionPrice;
+    }
 
-        session()->flash(
-            'success',
-            'Booking saved as pending payment.'
+    public function getBookingProperty()
+    {
+        if (!$this->bookingId) {
+
+            return null;
+        }
+
+        return MentorBooking::with([
+            'mentor.user',
+            'availability',
+        ])->find(
+            $this->bookingId
         );
+    }
+
+    public function cancelBooking()
+    {
+        if ($this->bookingId) {
+
+            $booking =
+                MentorBooking::find(
+                    $this->bookingId
+                );
+
+            if ($booking) {
+
+                $booking
+                    ->availability
+                    ?->update([
+
+                        'is_booked' => false,
+                    ]);
+
+                $booking->delete();
+            }
+        }
+
+        return redirect(
+            '/mentors/' . $this->availability->mentor_id
+        );
+    }
+
+    public function cancelPayment()
+    {
+        return $this->cancelBooking();
     }
 
     public function confirmPayment()
@@ -72,12 +116,7 @@ class BookingCreate extends Component
             'payment_status' => 'PAID',
         ]);
 
-        session()->flash(
-            'success',
-            'Payment confirmed successfully.'
-        );
-
-        $this->showPaymentModal = false;
+        $this->step = 'success';
     }
 
     public function createBooking()
@@ -175,7 +214,12 @@ class BookingCreate extends Component
                 $booking->id;
         });
 
-        $this->showPaymentModal = true;
+        if (!$this->bookingId) {
+
+            return;
+        }
+
+        $this->step = 'payment';
     }
 
     public function mount($slotId)
@@ -183,7 +227,8 @@ class BookingCreate extends Component
         $this->cleanupExpiredBookings();
 
         $this->availability =
-            MentorAvailability::findOrFail(
+            MentorAvailability::with('mentor.user')
+                ->findOrFail(
                 $slotId
             );
     }

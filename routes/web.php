@@ -20,8 +20,10 @@ use App\Livewire\Admin\Mentor\MentorList;
 use App\Livewire\Mentor\Profile\ProfileEdit;
 use App\Livewire\Student\Mentor\MentorDirectory;
 use App\Livewire\Student\Mentor\MentorDetail;
+use App\Livewire\Student\Mentor\MentorReviews;
 use App\Livewire\Mentor\Schedule\ScheduleList;
 use App\Livewire\Student\Booking\BookingCreate;
+use App\Livewire\Student\Booking\BookingDetail;
 use App\Livewire\Student\Booking\BookingHistory;
 use \App\Livewire\Student\Profile\ProfileStudent;
 use App\Livewire\Admin\Student\StudentList;
@@ -92,6 +94,8 @@ Route::get('/scholarships/{scholarship}', ScholarshipDetail::class);
 
 Route::get('/mentors', MentorDirectory::class);
 
+Route::get('/mentors/{mentorId}/reviews', MentorReviews::class);
+
 Route::get('/mentors/{mentorId}', MentorDetail::class);
 
 Route::get('/documents', DocumentMarketplace::class);
@@ -113,6 +117,8 @@ Route::middleware(['auth', 'blocked', 'role:STUDENT'])->group(function () {
     Route::get('/student/bookings', BookingHistory::class);
     
     Route::get('/student/bookings/create/{slotId}',BookingCreate::class);
+
+    Route::get('/student/bookings/{bookingId}', BookingDetail::class);
 
     Route::get('/student/profile',ProfileStudent::class);
 

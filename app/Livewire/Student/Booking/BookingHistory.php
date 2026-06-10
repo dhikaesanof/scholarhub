@@ -14,15 +14,11 @@ class BookingHistory extends Component
 
     public $selectedBookingId = null;
 
-    public $showSessionModal = false;
-
-    public $selectedBooking;
-
     public $showReviewModal = false;
 
     public $reviewBookingId = null;
 
-    public $rating = 5;
+    public $rating = 0;
 
     public $review = '';
 
@@ -36,7 +32,10 @@ class BookingHistory extends Component
     public function submitReview()
     {
         $booking =
-            MentorBooking::findOrFail(
+            MentorBooking::where(
+                'student_id',
+                auth()->user()->student->id
+            )->findOrFail(
                 $this->reviewBookingId
             );
 
@@ -58,6 +57,15 @@ class BookingHistory extends Component
 
             return;
         }
+
+        $this->validate([
+
+            'rating' => 'required|integer|min:1|max:5',
+
+            'review' => 'required|string|min:3',
+
+            'strengths' => 'array',
+        ]);
 
         MentorReview::create([
 
@@ -113,20 +121,23 @@ class BookingHistory extends Component
 
     public function leaveReview($bookingId)
     {
+        MentorBooking::where(
+            'student_id',
+            auth()->user()->student->id
+        )->findOrFail(
+            $bookingId
+        );
+
         $this->reviewBookingId =
             $bookingId;
 
+        $this->rating = 0;
+
+        $this->review = '';
+
+        $this->strengths = [];
+
         $this->showReviewModal = true;
-    }
-
-    public function viewSession($bookingId)
-    {
-        $this->selectedBooking =
-            MentorBooking::findOrFail(
-                $bookingId
-            );
-
-        $this->showSessionModal = true;
     }
 
     public function mount()
@@ -243,6 +254,11 @@ class BookingHistory extends Component
                 'student_id',
                 $student->id
             )
+
+            ->with([
+                'mentor.user',
+                'availability',
+            ])
 
             ->latest()
 
