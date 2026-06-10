@@ -30,6 +30,7 @@ use App\Livewire\Admin\Student\StudentList;
 use App\Livewire\Admin\Mentor\MentorEarnings;
 use \App\Livewire\Admin\Document\DocumentList;
 use App\Livewire\Student\Document\DocumentMarketplace;
+use App\Livewire\Student\Document\DocumentPayment;
 use App\Http\Controllers\Student\DocumentPreviewController;
 use App\Livewire\Student\Document\MyDocuments;
 use \App\Livewire\Student\Roadmap\RoadmapDetail;
@@ -125,6 +126,8 @@ Route::middleware(['auth', 'blocked', 'role:STUDENT'])->group(function () {
     Route::get('/student/documents/{id}/preview', DocumentPreviewController::class)->name('student.documents.preview');
 
     Route::get('/student/my-documents', MyDocuments::class);
+
+    Route::get('/student/document-payments/{purchaseId}', DocumentPayment::class);
 
     Route::get('/student/documents/{id}/stream',[DocumentPreviewController::class, 'stream'])->name('student.documents.stream');
 

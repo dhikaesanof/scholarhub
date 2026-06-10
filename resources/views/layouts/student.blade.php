@@ -295,7 +295,10 @@
                             transition
 
                             {{
-                                request()->is('documents*')
+                                request()->is('documents*') ||
+                                request()->is('student/my-documents*') ||
+                                request()->is('student/document-payments*') ||
+                                request()->is('student/documents*')
 
                                 ? 'bg-blue-100 text-[#1B2B5B] font-semibold'
 
