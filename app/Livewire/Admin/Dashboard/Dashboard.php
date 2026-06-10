@@ -5,6 +5,12 @@ namespace App\Livewire\Admin\Dashboard;
 use Livewire\Component;
 use App\Models\Document;
 use App\Models\DocumentPurchase;
+use App\Models\Student;
+use App\Models\Mentor;
+use App\Models\Scholarship;
+use App\Models\MentorBooking;
+use App\Models\MentorReview;
+use Carbon\Carbon;
 
 class Dashboard extends Component
 {
@@ -23,6 +29,25 @@ class Dashboard extends Component
     public $totalBookings;
 
     public $recentBookings;
+
+    // New metrics
+    public $activeStudents;
+
+    public $activeMentors;
+
+    public $pendingScholarships;
+
+    public $monthlyRevenue;
+
+    public $totalMentorEarnings;
+
+    public $averageRating;
+
+    public $recentActivities;
+
+    public $topMentors;
+
+    public $topDocuments;
 
     public function mount()
     {
@@ -45,21 +70,11 @@ class Dashboard extends Component
                 'PAID'
 
             )
-
-            ->join(
-
-                'documents',
-
-                'document_purchases.document_id',
-
-                '=',
-
-                'documents.id'
-            )
-
-            ->sum(
-                'documents.price'
-            );
+            ->with('document')
+            ->get()
+            ->sum(function ($purchase) {
+                return $purchase->document->price;
+            });
 
         $this->topSellingDocument =
 
@@ -84,16 +99,16 @@ class Dashboard extends Component
             ->first();
 
         $this->totalStudents =
-            \App\Models\Student::count();
+            Student::count();
 
         $this->totalMentors =
-            \App\Models\Mentor::count();
+            Mentor::count();
 
         $this->totalScholarships =
-            \App\Models\Scholarship::count();
+            Scholarship::count();
 
         $this->totalBookings =
-            \App\Models\MentorBooking::where(
+            MentorBooking::where(
                 'payment_status',
                 'PAID'
             )
@@ -111,6 +126,105 @@ class Dashboard extends Component
             ->take(5)
 
             ->get();
+
+        // Additional metrics
+        $this->activeStudents = Student::where(
+            'created_at',
+            '>=',
+            Carbon::now()->subDays(30)
+        )->count();
+
+        $this->activeMentors = Mentor::where(
+            'created_at',
+            '>=',
+            Carbon::now()->subDays(30)
+        )->count();
+
+        $this->pendingScholarships = Scholarship::where(
+            'status',
+            '!=',
+            'APPROVED'
+        )->count();
+
+        $this->monthlyRevenue = DocumentPurchase::where(
+            'payment_status',
+            'PAID'
+        )
+            ->where(
+                'created_at',
+                '>=',
+                Carbon::now()->startOfMonth()
+            )
+            ->with('document')
+            ->get()
+            ->sum(function ($purchase) {
+                return $purchase->document->price;
+            });
+
+        $this->totalMentorEarnings = MentorBooking::where(
+            'payment_status',
+            'PAID'
+        )
+            ->with('mentor')
+            ->get()
+            ->sum(function ($booking) {
+                return $booking->mentor->session_price;
+            });
+
+        $this->averageRating = MentorReview::avg('rating') ?? 0;
+
+        $this->topMentors = Mentor::withCount([
+            'bookings' => function ($query) {
+                $query->where('payment_status', 'PAID');
+            }
+        ])
+            ->orderByDesc('bookings_count')
+            ->take(5)
+            ->get();
+
+        $this->topDocuments = Document::withCount([
+            'purchases' => function ($query) {
+                $query->where('payment_status', 'PAID');
+            }
+        ])
+            ->orderByDesc('purchases_count')
+            ->take(5)
+            ->get();
+
+        $this->recentActivities = collect([
+            [
+                'type' => 'New Student',
+                'count' => Student::where(
+                    'created_at',
+                    '>=',
+                    Carbon::now()->subDay()
+                )->count(),
+                'icon' => '👤'
+            ],
+            [
+                'type' => 'New Booking',
+                'count' => MentorBooking::where(
+                    'created_at',
+                    '>=',
+                    Carbon::now()->subDay()
+                )->count(),
+                'icon' => '📅'
+            ],
+            [
+                'type' => 'Document Sales',
+                'count' => DocumentPurchase::where(
+                    'payment_status',
+                    'PAID'
+                )
+                    ->where(
+                        'created_at',
+                        '>=',
+                        Carbon::now()->subDay()
+                    )
+                    ->count(),
+                'icon' => '📄'
+            ],
+        ]);
     }
 
     public function render()
