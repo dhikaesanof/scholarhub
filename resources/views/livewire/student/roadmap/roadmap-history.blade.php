@@ -2,40 +2,29 @@
 
     {{-- HEADER --}}
 
-    <div class="mb-8">
+    <div class="mb-10">
 
         <h1
             class="
                 text-4xl
                 font-bold
-                text-gray-900
+                text-[#1B2B5B]
             "
         >
 
-            My Roadmaps
+            All Your Roadmaps
 
         </h1>
 
-        <p
-            class="
-                text-gray-500
-                mt-2
-            "
-        >
-
-            Track your scholarship preparation progress.
-
-        </p>
-
     </div>
 
-    {{-- ROADMAP LIST --}}
+    {{-- ROADMAP GRID --}}
 
     <div
         class="
             grid
-            grid-cols-1
             md:grid-cols-2
+            xl:grid-cols-3
             gap-6
         "
     >
@@ -46,227 +35,172 @@
                 class="
                     bg-white
                     border
-                    rounded-3xl
-                    shadow-sm
-                    p-6
-                    flex
-                    flex-col
-                    justify-between
+                    rounded-2xl
+                    p-5
+                    hover:shadow-lg
+                    transition
                 "
             >
 
-                {{-- TOP CONTENT --}}
+                {{-- THUMBNAIL --}}
 
-                <div>
+                @if(
+                    $result->scholarship->thumbnail
+                )
 
-                    {{-- SCHOLARSHIP INFO --}}
+                    <img
+
+                        src="
+                            {{
+                                Str::startsWith(
+                                    $result->scholarship->thumbnail,
+                                    'http'
+                                )
+
+                                ? $result->scholarship->thumbnail
+
+                                : asset(
+                                    'storage/' .
+                                    $result->scholarship->thumbnail
+                                )
+                            }}
+                        "
+
+                        class="
+                            w-14
+                            h-14
+                            rounded-xl
+                            object-cover
+                            mb-4
+                        "
+                    >
+
+                @else
+
+                    <div
+                        class="
+                            w-14
+                            h-14
+                            rounded-xl
+                            bg-gray-200
+                            mb-4
+                        "
+                    ></div>
+
+                @endif
+
+                {{-- TITLE --}}
+
+                <h2
+                    class="
+                        text-2xl
+                        font-bold
+                        text-[#1B2B5B]
+                    "
+                >
+
+                    {{
+                        $result
+                            ->scholarship
+                            ->title
+                    }}
+
+                </h2>
+
+                {{-- PROVIDER --}}
+
+                <p
+                    class="
+                        text-gray-600
+                        mt-1
+                    "
+                >
+
+                    {{
+                        $result
+                            ->scholarship
+                            ->provider
+                    }}
+
+                </p>
+
+                {{-- PROGRESS --}}
+
+                <div class="mt-5">
 
                     <div
                         class="
                             flex
+                            justify-between
                             items-center
-                            gap-4
-                            mb-5
+                            mb-2
                         "
                     >
 
-                        @if(
-                            $result->scholarship->thumbnail
-                        )
-
-                            <img
-
-                                src="
-
-                                    {{
-                                        Str::startsWith(
-
-                                            $result->scholarship->thumbnail,
-
-                                            'http'
-                                        )
-
-                                        ? $result->scholarship->thumbnail
-
-                                        : asset(
-                                            'storage/' .
-                                            $result->scholarship->thumbnail
-                                        )
-                                    }}
-
-                                "
-
-                                class="
-                                    w-20
-                                    h-20
-                                    object-cover
-                                    rounded-2xl
-                                    border
-                                "
-                            >
-
-                        @else
-
-                            <div
-                                class="
-                                    w-20
-                                    h-20
-                                    rounded-2xl
-                                    bg-gray-100
-                                    border
-                                "
-                            ></div>
-
-                        @endif
-
-                        <div>
-
-                            <h2
-                                class="
-                                    text-2xl
-                                    font-bold
-                                    text-gray-900
-                                "
-                            >
-
-                                {{
-                                    $result->scholarship->title
-                                }}
-
-                            </h2>
-
-                            <p
-                                class="
-                                    text-gray-500
-                                    mt-1
-                                "
-                            >
-
-                                {{
-                                    $result->scholarship->provider
-                                }}
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                    {{-- PROGRESS SECTION --}}
-
-                    <div class="mt-6">
-
-                        <div
+                        <span
                             class="
-                                flex
-                                items-center
-                                justify-between
-                                mb-3
+                                font-medium
+                                text-[#1B2B5B]
                             "
                         >
 
-                            <p
-                                class="
-                                    text-gray-600
-                                    font-medium
-                                "
-                            >
+                            Progress
 
-                                Roadmap Progress
+                        </span>
 
-                            </p>
-
-                            <p
-                                class="
-                                    text-blue-600
-                                    font-bold
-                                    text-lg
-                                "
-                            >
-
-                                {{
-                                    $result->progress
-                                }}%
-
-                            </p>
-
-                        </div>
-
-                        {{-- BAR --}}
-
-                        <div
+                        <span
                             class="
-                                w-full
-                                bg-gray-200
-                                rounded-full
-                                h-4
-                                overflow-hidden
-                            "
-                        >
-
-                            <div
-
-                                class="
-                                    bg-blue-600
-                                    h-4
-                                    rounded-full
-                                "
-
-                                style="
-                                    width:
-                                    {{
-                                        $result->progress
-                                    }}%
-                                "
-                            ></div>
-
-                        </div>
-
-                    </div>
-
-                    {{-- SCORE --}}
-
-                    <div class="mt-6">
-
-                        <p
-                            class="
-                                text-sm
-                                text-gray-500
-                            "
-                        >
-
-                            Assessment Score
-
-                        </p>
-
-                        <h3
-                            class="
-                                text-3xl
                                 font-bold
-                                text-gray-900
-                                mt-1
+                                text-[#1B2B5B]
                             "
                         >
 
                             {{
-                                round(
-                                    $result->readiness_percentage
-                                )
+                                $result->progress
                             }}%
 
-                        </h3>
+                        </span>
+
+                    </div>
+
+                    <div
+                        class="
+                            h-3
+                            bg-gray-200
+                            rounded-full
+                            overflow-hidden
+                        "
+                    >
+
+                        <div
+
+                            class="
+                                h-3
+                                bg-[#1B2B5B]
+                                rounded-full
+                            "
+
+                            style="
+                                width:
+                                {{
+                                    $result->progress
+                                }}%
+                            "
+                        ></div>
 
                     </div>
 
                 </div>
 
-                {{-- BUTTON --}}
+                {{-- FOOTER BUTTONS --}}
 
                 <div
                     class="
-                        mt-8
                         border-t
-                        pt-5
+                        mt-5
+                        pt-4
+                        flex
+                        gap-2
                     "
                 >
 
@@ -277,20 +211,39 @@
                         "
 
                         class="
-                            block
-                            w-full
-                            bg-slate-800
-                            hover:bg-slate-900
+                            flex-1
+                            bg-[#1B2B5B]
                             text-white
                             text-center
                             py-3
-                            rounded-2xl
+                            rounded-xl
                             font-medium
-                            transition
                         "
                     >
 
                         View Roadmap
+
+                    </a>
+
+                    <a
+
+                        href="
+                            /assessment/result/{{ $result->id }}
+                        "
+
+                        class="
+                            flex-1
+                            border
+                            border-[#1B2B5B]
+                            text-[#1B2B5B]
+                            text-center
+                            py-3
+                            rounded-xl
+                            font-medium
+                        "
+                    >
+
+                        Assessment Result
 
                     </a>
 
@@ -302,13 +255,13 @@
 
             <div
                 class="
+                    col-span-full
                     bg-white
                     border
-                    rounded-3xl
+                    rounded-2xl
                     p-10
                     text-center
                     text-gray-500
-                    col-span-full
                 "
             >
 

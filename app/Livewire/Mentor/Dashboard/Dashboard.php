@@ -87,6 +87,42 @@ class Dashboard extends Component
                 'PAID'
             )
 
+            ->whereHas(
+
+                'availability',
+
+                function ($query) {
+
+                    $query
+
+                        ->where(function ($q) {
+
+                            $q->whereDate(
+                                'date',
+                                '>',
+                                now()->toDateString()
+                            );
+
+                        })
+
+                        ->orWhere(function ($q) {
+
+                            $q
+
+                                ->whereDate(
+                                    'date',
+                                    now()->toDateString()
+                                )
+
+                                ->whereTime(
+                                    'start_time',
+                                    '>',
+                                    now()->format('H:i:s')
+                                );
+                        });
+                }
+            )
+
             ->take(2)
 
             ->get();

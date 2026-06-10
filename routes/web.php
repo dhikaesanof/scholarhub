@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Volt\Volt;
 use App\Livewire\Admin\Scholarship\ScholarshipList;
 use App\Livewire\Admin\Scholarship\CreateScholarship;
@@ -33,6 +34,51 @@ use \App\Livewire\Student\Roadmap\RoadmapDetail;
 use App\Livewire\Student\Roadmap\RoadmapHistory;
 use App\Livewire\Public\LandingPage;
 use App\Livewire\Mentor\Profile\ProfileView;
+use App\Models\User;
+use App\Models\Scholarship;
+use App\Notifications\ScholarshipClosingSoonNotification;
+
+Route::get(
+    '/test-notification',
+    function () {
+
+        $user =
+            User::first();
+
+        $scholarship =
+            Scholarship::first();
+
+        $user->notify(
+
+            new ScholarshipClosingSoonNotification(
+                $scholarship
+            )
+        );
+
+        return 'Notification Sent';
+    }
+);
+
+Route::get('/test-email', function () {
+
+    Mail::raw(
+
+        'Hello from ScholarHub',
+
+        function ($message) {
+
+            $message->to(
+                'dhikaesanof@student.ub.ac.id'
+            );
+
+            $message->subject(
+                'ScholarHub Test'
+            );
+        }
+    );
+
+    return 'Email sent!';
+});
 
 Route::get('/', LandingPage::class)->name('home');
 
@@ -100,25 +146,25 @@ Route::middleware(['auth', 'blocked', 'role:MENTOR'])->group(function () {
 
 Route::middleware(['auth', 'blocked', 'role:ADMIN'])->group(function () {
 
-    Route::get('/admin/dashboard', AdminDashboard::class);
+    Route::get('/admin/dashboard', AdminDashboard::class)->name('admin.dashboard');
 
-    Route::get('/admin/scholarships', ScholarshipList::class);
+    Route::get('/admin/scholarships', ScholarshipList::class)->name('admin.scholarships');
 
-    Route::get('/admin/scholarships/create', CreateScholarship::class);
+    Route::get('/admin/scholarships/create', CreateScholarship::class)->name('admin.scholarships.create');
 
-    Route::get('/admin/mentors', MentorList::class);
+    Route::get('/admin/scholarships/{scholarship}/edit', EditScholarship::class)->name('admin.scholarships.edit');
+    
+    Route::get('/admin/scholarships/{scholarship}/assessments', QuestionList::class)->name('admin.scholarships.assessments');
+    
+    Route::get('/admin/mentors', MentorList::class)->name('admin.mentors');
+    
+    Route::get('/admin/mentor-earnings', MentorEarnings::class)->name('admin.mentor-earnings');
+    
+    Route::get('/admin/assessment/questions', QuestionList::class)->name('admin.assessment.questions');
+    
+    Route::get('/admin/students', StudentList::class)->name('admin.students');
 
-    Route::get('/admin/scholarships/{scholarship}/edit', EditScholarship::class);
-
-    Route::get('/admin/assessment/questions', QuestionList::class);
-
-    Route::get('/admin/scholarships/{scholarship}/assessments', QuestionList::class);
-
-    Route::get('/admin/students', StudentList::class);
-
-    Route::get('/admin/mentor-earnings', MentorEarnings::class);
-
-    Route::get('/admin/documents', DocumentList::class);
+    Route::get('/admin/documents', DocumentList::class)->name('admin.documents');
 
 });
 

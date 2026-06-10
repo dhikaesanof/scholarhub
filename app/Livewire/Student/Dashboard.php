@@ -6,9 +6,49 @@ use Livewire\Component;
 use App\Models\Scholarship;
 use App\Models\AssessmentResult;
 use App\Models\MentorBooking;
+use App\Models\Bookmark;
 
 class Dashboard extends Component
 {
+    public function bookmark($scholarshipId)
+    {
+        if (!auth()->check()) {
+
+            return redirect('/login');
+        }
+        
+        Bookmark::firstOrCreate([
+            'student_id' => auth()->user()?->student->id,
+            'scholarship_id' => $scholarshipId,
+        ]);
+    }
+
+    public function isBookmarked($scholarshipId)
+    {
+        return Bookmark::where(
+            'student_id',
+            auth()->user()?->student->id
+        )
+        ->where(
+            'scholarship_id',
+            $scholarshipId
+        )
+        ->exists();
+    }
+    
+    public function removeBookmark($scholarshipId)
+    {
+        Bookmark::where(
+            'student_id',
+            auth()->user()->student->id
+        )
+        ->where(
+            'scholarship_id',
+            $scholarshipId
+        )
+        ->delete();
+    }
+    
     public function render()
     {
         $notifications = collect();

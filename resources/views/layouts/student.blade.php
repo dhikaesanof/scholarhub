@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -7,282 +8,413 @@
 
     <meta
         name="viewport"
-        content="
-            width=device-width,
-            initial-scale=1.0
-        "
+        content="width=device-width, initial-scale=1.0"
     >
+
+    <title>ScholarHub Student</title>
 
     @vite([
         'resources/css/app.css',
         'resources/js/app.js'
     ])
 
-    <title>
-
-        Student Dashboard
-
-    </title>
+    @livewireStyles
 
 </head>
 
-<body class="bg-gray-100">
+<body class="bg-[#F5F7FB]">
 
-    <div class="flex min-h-screen">
+    <div class="flex h-screen overflow-hidden">
 
-        <!-- Sidebar -->
+        {{-- SIDEBAR --}}
 
-        <div
+        <aside
             class="
-                w-64
+                w-72
                 bg-white
-                shadow-lg
-                p-5
+                border-r
+                px-6
+                py-8
+                flex
+                flex-col
+                justify-between
+                h-screen
+                sticky
+                top-0
             "
         >
 
-            <h1
-                class="
-                    text-2xl
-                    font-bold
-                    mb-8
-                "
-            >
+            <div>
 
-                ScholarHub
+                {{-- LOGO --}}
 
-            </h1>
+                <div
+                    class="
+                        flex
+                        items-center
+                        gap-4
+                        mb-12
+                    "
+                >
 
-            <nav class="space-y-3">
-                
-                @auth
+                    <div
+                        class="
+                            w-14
+                            h-14
+                            rounded-2xl
+                            bg-blue-950
+                            flex
+                            items-center
+                            justify-center
+                        "
+                    >
+
+                        <x-lucide-school
+                            class="
+                                w-7
+                                h-7
+                                text-white
+                            "
+                        />
+
+                    </div>
+
+                    <div>
+
+                        <h1
+                            class="
+                                text-3xl
+                                font-bold
+                                text-[#1B2B5B]
+                            "
+                        >
+
+                            ScholarHub
+
+                        </h1>
+
+                        <p
+                            class="
+                                text-blue-700
+                                text-lg
+                                font-medium
+                            "
+                        >
+
+                            Student
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {{-- MENU --}}
+
+                <nav
+                    class="
+                        flex
+                        flex-col
+                        gap-3
+                    "
+                >
+
+                    {{-- HOME --}}
+
                     <a
+
                         href="/dashboard"
 
                         class="
-                            block
-                            px-3
-                            py-2
-                            rounded-lg
-                            text-gray-700
-                            hover:bg-gray-100
+                            flex
+                            items-center
+                            gap-4
+                            px-5
+                            py-4
+                            rounded-2xl
+                            transition
+
+                            {{
+                                request()->is('dashboard')
+
+                                ? 'bg-blue-100 text-[#1B2B5B] font-semibold'
+
+                                : 'text-[#1B2B5B] hover:bg-blue-50 font-medium'
+                            }}
                         "
                     >
 
-                        Dashboard
+                        <x-lucide-house
+                            class="
+                                w-7
+                                h-7
+                            "
+                        />
+
+                        <span>
+
+                            Home
+
+                        </span>
 
                     </a>
-                @else
+
+                    {{-- SCHOLARSHIPS --}}
+
                     <a
-                        href="/login"
+
+                        href="/scholarships"
 
                         class="
-                            block
-                            px-3
-                            py-2
-                            rounded-lg
-                            text-gray-700
-                            hover:bg-gray-100
+                            flex
+                            items-center
+                            gap-4
+                            px-5
+                            py-4
+                            rounded-2xl
+                            transition
+
+                            {{
+                                request()->is('scholarships*')
+
+                                ? 'bg-blue-100 text-[#1B2B5B] font-semibold'
+
+                                : 'text-[#1B2B5B] hover:bg-blue-50 font-medium'
+                            }}
                         "
                     >
 
-                        Login
+                        <x-lucide-graduation-cap
+                            class="
+                                w-7
+                                h-7
+                            "
+                        />
+
+                        <span>
+
+                            Scholarships
+
+                        </span>
 
                     </a>
-                @endauth
+
+                    {{-- ROADMAP --}}
+
+                    <a
+
+                        href="/student/roadmaps"
+
+                        class="
+                            flex
+                            items-center
+                            gap-4
+                            px-5
+                            py-4
+                            rounded-2xl
+                            transition
+
+                            {{
+                                request()->is('student/roadmaps*')
+
+                                ? 'bg-blue-100 text-[#1B2B5B] font-semibold'
+
+                                : 'text-[#1B2B5B] hover:bg-blue-50 font-medium'
+                            }}
+                        "
+                    >
+
+                        <x-lucide-map
+                            class="
+                                w-7
+                                h-7
+                            "
+                        />
+
+                        <span>
+
+                            Roadmap
+
+                        </span>
+
+                    </a>
+
+                    {{-- MENTORS --}}
+
+                    <a
+
+                        href="/mentors"
+
+                        class="
+                            flex
+                            items-center
+                            gap-4
+                            px-5
+                            py-4
+                            rounded-2xl
+                            transition
+
+                            {{
+                                request()->is('mentors*')
+
+                                ? 'bg-blue-100 text-[#1B2B5B] font-semibold'
+
+                                : 'text-[#1B2B5B] hover:bg-blue-50 font-medium'
+                            }}
+                        "
+                    >
+
+                        <x-lucide-user-round-search
+                            class="
+                                w-7
+                                h-7
+                            "
+                        />
+
+                        <span>
+
+                            Mentors
+
+                        </span>
+
+                    </a>
+
+                    {{-- DOCUMENTS --}}
+
+                    <a
+
+                        href="/documents"
+
+                        class="
+                            flex
+                            items-center
+                            gap-4
+                            px-5
+                            py-4
+                            rounded-2xl
+                            transition
+
+                            {{
+                                request()->is('documents*')
+
+                                ? 'bg-blue-100 text-[#1B2B5B] font-semibold'
+
+                                : 'text-[#1B2B5B] hover:bg-blue-50 font-medium'
+                            }}
+                        "
+                    >
+
+                        <x-lucide-file-text
+                            class="
+                                w-7
+                                h-7
+                            "
+                        />
+
+                        <span>
+
+                            Documents
+
+                        </span>
+
+                    </a>
+
+                </nav>
+
+            </div>
+
+            {{-- PROFILE SECTION --}}
+
+            <div
+                class="
+                    border-t
+                    pt-8
+                    space-y-8
+                "
+            >
 
                 <a
-                    href="/scholarships"
 
-                    class="
-                        block
-                        px-3
-                        py-2
-                        rounded-lg
-                        text-gray-700
-                        hover:bg-gray-100
-                    "
-                >
-
-                    Scholarships
-
-                </a>
-
-                <a
-                    href="/assessment/history"
-
-                    class="
-                        block
-                        px-3
-                        py-2
-                        rounded-lg
-                        text-gray-700
-                        hover:bg-gray-100
-                    "
-                >
-
-                    Assessment History
-
-                </a>
-
-                 <a
-                    href="/student/roadmaps"
-
-                    class="
-                        block
-                        px-3
-                        py-2
-                        rounded-lg
-                        text-gray-700
-                        hover:bg-gray-100
-                    "
-                >
-
-                    Roadmap History
-
-                </a>
-
-                <a
-                    href="/bookmarks"
-
-                    class="
-                        block
-                        px-3
-                        py-2
-                        rounded-lg
-                        text-gray-700
-                        hover:bg-gray-100
-                    "
-                >
-
-                    Bookmarks
-
-                </a>
-
-                <a
-                    href="/mentors"
-
-                    class="
-                        block
-                        px-3
-                        py-2
-                        rounded-lg
-                        text-gray-700
-                        hover:bg-gray-100
-                    "
-                >
-
-                    Mentorship
-
-                </a>
-
-                <a
-                    href="/student/bookings"
-                    class="
-                        block
-                        px-3
-                        py-2
-                        rounded-lg
-                        text-gray-700
-                        hover:bg-gray-100
-                    "
-                >
-
-                    Booking History
-
-                </a>
-
-                <a
-                    href="/documents"
-
-                    class="
-                        block
-                        px-3
-                        py-2
-                        rounded-lg
-                        text-gray-700
-                        hover:bg-gray-100
-                    "
-                >
-
-                    Documents
-
-                </a>
-
-                <a
-                    href="/student/my-documents"
-
-                    class="
-                        block
-                        px-3
-                        py-2
-                        rounded-lg
-                        text-gray-700
-                        hover:bg-gray-100
-                    "
-                >
-
-                    My Documents
-
-                </a>
-
-                <a
                     href="/student/profile"
 
                     class="
-                        block
-                        px-3
-                        py-2
-                        rounded-lg
-                        text-gray-700
-                        hover:bg-gray-100
+                        flex
+                        items-center
+                        gap-3
+                        text-[#1B2B5B]
+                        hover:text-blue-700
+                        transition
+                        font-medium
                     "
                 >
+
+                    <x-lucide-user
+                        class="
+                            w-7
+                            h-7
+                        "
+                    />
 
                     Profile
 
                 </a>
 
-            </nav>
-
-            <form
-                method="POST"
-                action="{{ route('logout') }}"
-                class="mt-10"
-            >
-
-                @csrf
-
-                <button
-                    type="submit"
-
-                    class="
-                        w-full
-                        bg-red-500
-                        hover:bg-red-600
-                        text-white
-                        py-2
-                        rounded-lg
-                    "
+                <form
+                    method="POST"
+                    action="{{ route('logout') }}"
                 >
 
-                    Logout
+                    @csrf
 
-                </button>
+                    <button
+                        type="submit"
 
-            </form>
+                        class="
+                            flex
+                            items-center
+                            gap-3
+                            text-[#1B2B5B]
+                            hover:text-red-500
+                            transition
+                            font-medium
+                        "
+                    >
 
-        </div>
+                        <x-lucide-log-out
+                            class="
+                                w-7
+                                h-7
+                            "
+                        />
 
-        <!-- Content -->
+                        Logout
 
-        <div class="flex-1 p-8">
+                    </button>
+
+                </form>
+
+            </div>
+
+        </aside>
+
+        {{-- MAIN CONTENT --}}
+
+        <main
+            class="
+                flex-1
+                overflow-y-auto
+                p-10
+            "
+        >
 
             {{ $slot }}
 
-        </div>
+        </main>
 
     </div>
 
+    @livewireScripts
+
 </body>
+
 </html>

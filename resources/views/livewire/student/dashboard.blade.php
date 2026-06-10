@@ -1,29 +1,70 @@
-<div
-    class="
-        grid
-        grid-cols-1
-        lg:grid-cols-3
-        gap-8
-    "
->
+<div class="space-y-8">
 
-    {{-- LEFT CONTENT --}}
+    {{-- HEADER --}}
 
     <div
         class="
-            lg:col-span-2
-            space-y-8
+            flex
+            items-center
+            gap-4
         "
     >
 
-        {{-- LATEST ASSESSMENT --}}
+        <div class="text-5xl">
+
+            👋
+
+        </div>
+
+        <div>
+
+            <h1
+                class="
+                    text-4xl
+                    font-bold
+                    text-[#1B2B5B]
+                "
+            >
+
+                Hello,
+                {{ auth()->user()->name }}!
+
+            </h1>
+
+            <p
+                class="
+                    text-lg
+                    text-gray-500
+                "
+            >
+
+                Let's continue your scholarship preparation today.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    {{-- TOP SECTION --}}
+
+    <div
+        class="
+            grid
+            lg:grid-cols-3
+            gap-6
+        "
+    >
+
+        {{-- ROADMAP --}}
 
         <div
             class="
+                lg:col-span-2
                 bg-white
                 rounded-3xl
                 p-8
-                shadow
+                shadow-sm
             "
         >
 
@@ -32,80 +73,84 @@
                     flex
                     justify-between
                     items-start
-                    gap-5
                 "
             >
 
                 <div>
 
-                    <h2
-                        class="
-                            text-3xl
-                            font-bold
-                            text-gray-900
-                        "
-                    >
-
-                        Latest Readiness
-
-                    </h2>
-
                     <p
                         class="
                             text-gray-500
+                        "
+                    >
+
+                        Your Roadmap
+
+                    </p>
+
+                    <h2
+                        class="
+                            text-4xl
+                            font-bold
+                            text-[#1B2B5B]
                             mt-2
                         "
                     >
 
-                        Your latest scholarship progress.
+                        {{
 
-                    </p>
+                            $latestAssessment
+
+                                ? $latestAssessment
+                                    ->scholarship
+                                    ->title
+
+                                : 'No Assessment Yet'
+
+                        }}
+
+                    </h2>
 
                 </div>
 
-                @if($latestAssessment)
+                <div class="text-right">
 
-                    <div class="text-right">
+                    <p
+                        class="
+                            text-gray-500
+                        "
+                    >
 
-                        <h3
-                            class="
-                                text-5xl
-                                font-bold
-                                text-blue-600
-                            "
-                        >
+                        Readiness Score
 
-                            {{
-                                round(
+                    </p>
+
+                    <h2
+                        class="
+                            text-5xl
+                            font-bold
+                            text-[#1B2B5B]
+                        "
+                    >
+
+                        {{
+
+                            $latestAssessment
+
+                                ? round(
                                     $latestAssessment
                                         ->readiness_percentage
                                 )
-                            }}%
 
-                        </h3>
+                                : 0
 
-                        <p
-                            class="
-                                text-gray-500
-                                mt-2
-                            "
-                        >
+                        }}%
 
-                            {{
-                                $latestAssessment
-                                    ->scholarship
-                                    ->title
-                            }}
+                    </h2>
 
-                        </p>
-
-                    </div>
-
-                @endif
+                </div>
 
             </div>
-
-            {{-- ROADMAP PREVIEW --}}
 
             <div
                 class="
@@ -114,33 +159,30 @@
                 "
             >
 
-                @forelse($latestRoadmaps as $roadmap)
+                @forelse(
+                    $latestRoadmaps
+                    as $roadmap
+                )
 
                     <div
                         class="
+                            bg-[#F8FAFC]
                             border
                             rounded-2xl
                             p-5
-                            flex
-                            justify-between
-                            items-center
                         "
                     >
 
-                        <div>
+                        <p
+                            class="
+                                font-semibold
+                                text-[#1B2B5B]
+                            "
+                        >
 
-                            <p
-                                class="
-                                    font-semibold
-                                    text-gray-900
-                                "
-                            >
+                            {{ $roadmap->task }}
 
-                                {{ $roadmap->task }}
-
-                            </p>
-
-                        </div>
+                        </p>
 
                     </div>
 
@@ -148,10 +190,10 @@
 
                     <div
                         class="
-                            bg-green-100
+                            bg-green-50
                             text-green-700
-                            p-5
                             rounded-2xl
+                            p-5
                         "
                     >
 
@@ -163,8 +205,6 @@
 
             </div>
 
-            {{-- BUTTON --}}
-
             @if($latestAssessment)
 
                 <a
@@ -173,14 +213,14 @@
 
                     class="
                         inline-block
-                        mt-6
-                        bg-blue-600
-                        hover:bg-blue-700
+                        mt-8
+                        bg-[#1B2B5B]
                         text-white
                         px-6
                         py-3
-                        rounded-2xl
-                        transition
+                        rounded-xl
+                        font-medium
+                        hover:bg-[#243A79]
                     "
                 >
 
@@ -192,320 +232,76 @@
 
         </div>
 
-        {{-- RECOMMENDED SCHOLARSHIPS --}}
+        {{-- EVENTS --}}
 
         <div
             class="
                 bg-white
                 rounded-3xl
-                p-8
-                shadow
+                p-6
+                shadow-sm
             "
         >
 
-            <div
+            <h2
                 class="
-                    flex
-                    justify-between
-                    items-center
+                    text-2xl
+                    font-bold
+                    text-[#1B2B5B]
                 "
             >
 
-                <h2
-                    class="
-                        text-3xl
-                        font-bold
-                    "
-                >
+                Upcoming Events
 
-                    Recommended Scholarships
-
-                </h2>
-
-                <a
-
-                    href="/student/scholarships"
-
-                    class="
-                        text-blue-600
-                        font-medium
-                    "
-                >
-
-                    View All
-
-                </a>
-
-            </div>
+            </h2>
 
             <div
                 class="
-                    grid
-                    md:grid-cols-2
-                    gap-5
-                    mt-8
+                    mt-6
+                    space-y-4
                 "
             >
 
-                @foreach(
-                    $recommendedScholarships
-                    as $scholarship
+                @forelse(
+                    $notifications
+                    as $notification
                 )
 
                     <div
                         class="
+                            bg-[#F8FAFC]
                             border
                             rounded-2xl
-                            p-5
-                            hover:shadow-md
-                            transition
+                            p-4
                         "
                     >
 
-                        <div
+                        <h3
                             class="
-                                flex
-                                justify-between
-                                items-start
-                                gap-4
+                                font-bold
+                                text-[#1B2B5B]
                             "
                         >
 
-                            <div>
+                            {{
+                                $notification['title']
+                            }}
 
-                                <h3
-                                    class="
-                                        text-xl
-                                        font-bold
-                                        text-gray-900
-                                    "
-                                >
+                        </h3>
 
-                                    {{ $scholarship->title }}
-
-                                </h3>
-
-                                <p
-                                    class="
-                                        text-gray-500
-                                        mt-2
-                                    "
-                                >
-
-                                    {{
-                                        $scholarship
-                                            ->provider
-                                    }}
-
-                                </p>
-
-                            </div>
-
-                            <span
-                                class="
-                                    bg-blue-100
-                                    text-blue-700
-                                    text-sm
-                                    px-3
-                                    py-1
-                                    rounded-full
-                                "
-                            >
-
-                                {{
-                                    $scholarship
-                                        ->education_level
-                                }}
-
-                            </span>
-
-                        </div>
-
-                        <a
-
-                            href="
-                                /scholarships/{{ $scholarship->id }}
-                            "
-
+                        <p
                             class="
-                                inline-block
-                                mt-5
-                                text-blue-600
-                                font-medium
+                                text-sm
+                                text-gray-500
+                                mt-2
                             "
                         >
 
-                            View Scholarship →
+                            {{
+                                $notification['message']
+                            }}
 
-                        </a>
-
-                    </div>
-
-                @endforeach
-
-            </div>
-
-        </div>
-
-    </div>
-
-    {{-- RIGHT SIDEBAR --}}
-
-    <div
-        class="
-            space-y-6
-        "
-    >
-
-        {{-- NOTIFICATIONS --}}
-
-        <div
-            class="
-                bg-white
-                rounded-3xl
-                shadow
-                overflow-hidden
-            "
-        >
-
-            <div
-                class="
-                    border-l-4
-                    border-yellow-500
-                    p-6
-                "
-            >
-
-                <h2
-                    class="
-                        text-2xl
-                        font-bold
-                        text-gray-900
-                    "
-                >
-
-                    Event
-
-                </h2>
-
-                <p
-                    class="
-                        text-gray-500
-                        mt-2
-                    "
-                >
-
-                    Important updates and reminders.
-
-                </p>
-
-            </div>
-
-            <div
-                class="
-                    p-6
-                    space-y-5
-                "
-            >
-
-                @forelse($notifications as $notification)
-
-                    <div
-                        class="
-                            border
-                            rounded-2xl
-                            p-5
-                        "
-                    >
-
-                        <div
-                            class="
-                                flex
-                                items-start
-                                gap-4
-                            "
-                        >
-
-                            <div>
-
-                                @if(
-                                    $notification['type']
-                                    == 'closing'
-                                )
-
-                                    <div
-                                        class="
-                                            w-3
-                                            h-3
-                                            rounded-full
-                                            bg-red-500
-                                            mt-2
-                                        "
-                                    ></div>
-
-                                @elseif(
-                                    $notification['type']
-                                    == 'opening'
-                                )
-
-                                    <div
-                                        class="
-                                            w-3
-                                            h-3
-                                            rounded-full
-                                            bg-green-500
-                                            mt-2
-                                        "
-                                    ></div>
-
-                                @else
-
-                                    <div
-                                        class="
-                                            w-3
-                                            h-3
-                                            rounded-full
-                                            bg-blue-500
-                                            mt-2
-                                        "
-                                    ></div>
-
-                                @endif
-
-                            </div>
-
-                            <div>
-
-                                <h3
-                                    class="
-                                        font-bold
-                                        text-gray-900
-                                    "
-                                >
-
-                                    {{
-                                        $notification['title']
-                                    }}
-
-                                </h3>
-
-                                <p
-                                    class="
-                                        text-sm
-                                        text-gray-500
-                                        mt-2
-                                    "
-                                >
-
-                                    {{
-                                        $notification['message']
-                                    }}
-
-                                </p>
-
-                            </div>
-
-                        </div>
+                        </p>
 
                     </div>
 
@@ -513,21 +309,271 @@
 
                     <div
                         class="
-                            bg-gray-50
-                            rounded-2xl
-                            p-5
                             text-gray-500
-                            text-center
                         "
                     >
 
-                        No notifications yet.
+                        No events available.
 
                     </div>
 
                 @endforelse
 
             </div>
+
+        </div>
+
+    </div>
+
+    {{-- SCHOLARSHIP SECTION --}}
+
+    <div
+        class="
+            bg-white
+            rounded-3xl
+            p-8
+            shadow-sm
+        "
+    >
+
+        <h2
+            class="
+                text-4xl
+                font-bold
+                text-[#1B2B5B]
+                mb-8
+            "
+        >
+
+            Recommended Scholarships
+
+        </h2>
+
+        <div
+            class="
+                grid
+                md:grid-cols-3
+                gap-6
+            "
+        >
+
+            @foreach(
+                $recommendedScholarships
+                as $scholarship
+            )
+
+                <div
+                    class="
+                        border
+                        rounded-2xl
+                        p-5
+                        hover:shadow-lg
+                        transition
+                    "
+                >
+
+                    <div
+                        class="
+                            w-16
+                            h-16
+                            rounded-xl
+                            bg-gray-200
+                            mb-5
+                        "
+                    ></div>
+
+                    <h3
+                        class="
+                            text-2xl
+                            font-bold
+                            text-[#1B2B5B]
+                        "
+                    >
+
+                        {{ $scholarship->title }}
+
+                    </h3>
+
+                    <p
+                        class="
+                            text-gray-500
+                            mt-2
+                        "
+                    >
+
+                        {{ $scholarship->provider }}
+
+                        •
+
+                        Open until
+
+                        {{
+
+                            \Carbon\Carbon::parse(
+                                $scholarship->deadline
+                            )->format('d F Y')
+
+                        }}
+
+                    </p>
+
+                    <div
+                        class="
+                            flex
+                            flex-wrap
+                            gap-2
+                            mt-4
+                        "
+                    >
+
+                        <span
+                            class="
+                                bg-blue-100
+                                text-[#1B2B5B]
+                                px-3
+                                py-1
+                                rounded-full
+                                text-sm
+                            "
+                        >
+
+                            {{
+                                $scholarship
+                                    ->education_level
+                            }}
+
+                        </span>
+
+                        <span
+                            class="
+                                bg-green-100
+                                text-green-700
+                                px-3
+                                py-1
+                                rounded-full
+                                text-sm
+                            "
+                        >
+
+                            Open
+
+                        </span>
+
+                    </div>
+
+                    <div
+                        class="
+                            border-t
+                            mt-5
+                            pt-4
+                            flex
+                            gap-3
+                        "
+                    >
+
+                        <a
+
+                            href="/scholarships/{{ $scholarship->id }}"
+
+                            class="
+                                flex-1
+                                text-center
+                                bg-[#1B2B5B]
+                                text-white
+                                py-3
+                                rounded-xl
+                                font-medium
+                            "
+                        >
+
+                            View Detail
+
+                        </a>
+
+                        @if(
+                            $this->isBookmarked(
+                                $scholarship->id
+                            )
+                        )
+
+                            <button
+
+                                wire:click="
+                                    removeBookmark(
+                                        {{ $scholarship->id }}
+                                    )
+                                "
+
+                                class="
+                                    flex-1
+                                    border
+                                    border-[#1B2B5B]
+                                    text-[#1B2B5B]
+                                    py-3
+                                    rounded-xl
+                                    font-medium
+                                "
+                            >
+
+                                Saved ✓
+
+                            </button>
+
+                        @else
+
+                            <button
+
+                                wire:click="
+                                    bookmark(
+                                        {{ $scholarship->id }}
+                                    )
+                                "
+
+                                class="
+                                    flex-1
+                                    border
+                                    border-[#1B2B5B]
+                                    text-[#1B2B5B]
+                                    py-3
+                                    rounded-xl
+                                    font-medium
+                                "
+                            >
+
+                                Save
+
+                            </button>
+
+                        @endif
+
+                    </div>
+
+                </div>
+
+            @endforeach
+
+        </div>
+
+        <div class="mt-8">
+
+            <a
+
+                href="/scholarships"
+
+                class="
+                    inline-block
+                    bg-[#1B2B5B]
+                    text-white
+                    px-6
+                    py-3
+                    rounded-xl
+                    font-medium
+                "
+            >
+
+                View All Scholarships
+
+            </a>
 
         </div>
 
