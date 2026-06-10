@@ -344,10 +344,15 @@
                         flex
                         items-center
                         gap-3
-                        text-[#1B2B5B]
-                        hover:text-blue-700
+                        rounded-2xl
+                        px-5
+                        py-4
                         transition
-                        font-medium
+                        {{
+                            request()->is('student/profile*')
+                                ? 'bg-blue-100 text-[#1B2B5B] font-semibold'
+                                : 'text-[#1B2B5B] hover:bg-blue-50 font-medium'
+                        }}
                     "
                 >
 

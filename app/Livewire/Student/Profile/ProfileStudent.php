@@ -28,6 +28,20 @@ class ProfileStudent extends Component
 
     public $profile_photo;
 
+    public function saveEdit()
+    {
+        $this->updateProfile();
+
+        if (
+            $this->current_password ||
+            $this->new_password ||
+            $this->new_password_confirmation
+        ) {
+
+            $this->updatePassword();
+        }
+    }
+
     public function updatePassword()
     {
 

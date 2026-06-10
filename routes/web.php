@@ -26,6 +26,7 @@ use App\Livewire\Student\Booking\BookingCreate;
 use App\Livewire\Student\Booking\BookingDetail;
 use App\Livewire\Student\Booking\BookingHistory;
 use \App\Livewire\Student\Profile\ProfileStudent;
+use App\Livewire\Student\Profile\ProfileView as StudentProfileView;
 use App\Livewire\Admin\Student\StudentList;
 use App\Livewire\Admin\Mentor\MentorEarnings;
 use \App\Livewire\Admin\Document\DocumentList;
@@ -121,7 +122,9 @@ Route::middleware(['auth', 'blocked', 'role:STUDENT'])->group(function () {
 
     Route::get('/student/bookings/{bookingId}', BookingDetail::class);
 
-    Route::get('/student/profile',ProfileStudent::class);
+    Route::get('/student/profile', StudentProfileView::class);
+
+    Route::get('/student/profile/edit',ProfileStudent::class);
 
     Route::get('/student/documents/{id}/preview', DocumentPreviewController::class)->name('student.documents.preview');
 
