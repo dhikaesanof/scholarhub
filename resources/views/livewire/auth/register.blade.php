@@ -35,60 +35,130 @@ new #[Layout('components.layouts.auth')] class extends Component {
     }
 }; ?>
 
-<div class="flex flex-col gap-6">
-    <x-auth-header title="Create an account" description="Enter your details below to create your account" />
+<div
+    class="
+        flex
+        w-full
+        max-w-[684px]
+        flex-col
+        gap-14
+        overflow-hidden
+        rounded-lg
+        border
+        border-scholarhub-border
+        bg-white
+        p-8
+        text-scholarhub-primary
+    "
+>
+    <div class="flex flex-col gap-6">
+        <a href="{{ route('home') }}" wire:navigate class="flex items-center gap-3 text-xl font-bold leading-[1.2]">
+            <span class="flex h-[33px] w-[33px] items-center justify-center rounded-[10px] bg-scholarhub-primary p-[6.667px] text-white">
+                <x-lucide-school class="h-5 w-5" />
+            </span>
+            ScholarHub
+        </a>
 
-    <!-- Session Status -->
-    <x-auth-session-status class="text-center" :status="session('status')" />
+        <div class="flex flex-col gap-2">
+            <h1 class="text-[25px] font-bold leading-[1.2]">
+                Create an account
+            </h1>
+            <p class="text-base font-medium leading-[1.2]">
+                Enter your details below to create your account.
+            </p>
+        </div>
+    </div>
+
+    <x-auth-session-status class="text-base font-medium text-scholarhub-success" :status="session('status')" />
 
     <form wire:submit="register" class="flex flex-col gap-6">
-        <!-- Name -->
-        <div class="grid gap-2">
-            <flux:input wire:model="name" id="name" label="{{ __('Name') }}" type="text" name="name" required autofocus autocomplete="name" placeholder="Full name" />
+        <div class="flex flex-col gap-4">
+            <div>
+                <input
+                    wire:model="name"
+                    id="name"
+                    type="text"
+                    name="name"
+                    required
+                    autofocus
+                    autocomplete="name"
+                    placeholder="Your full name"
+                    class="h-14 w-full rounded-lg border border-scholarhub-border-strong/50 bg-white px-4 text-base font-medium leading-[1.2] text-scholarhub-primary placeholder:text-scholarhub-muted focus:border-scholarhub-primary focus:outline-none focus:ring-2 focus:ring-scholarhub-active"
+                >
+                @error('name')
+                    <p class="mt-2 text-sm font-medium text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div>
+                <input
+                    wire:model="email"
+                    id="email"
+                    type="email"
+                    name="email"
+                    required
+                    autocomplete="email"
+                    placeholder="Your email"
+                    class="h-14 w-full rounded-lg border border-scholarhub-border-strong/50 bg-white px-4 text-base font-medium leading-[1.2] text-scholarhub-primary placeholder:text-scholarhub-muted focus:border-scholarhub-primary focus:outline-none focus:ring-2 focus:ring-scholarhub-active"
+                >
+                @error('email')
+                    <p class="mt-2 text-sm font-medium text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div>
+                <div class="relative">
+                    <input
+                        wire:model="password"
+                        id="password"
+                        type="password"
+                        name="password"
+                        required
+                        autocomplete="new-password"
+                        placeholder="Your password"
+                        class="h-14 w-full rounded-lg border border-scholarhub-border-strong/50 bg-white px-4 pr-12 text-base font-medium leading-[1.2] text-scholarhub-primary placeholder:text-scholarhub-muted focus:border-scholarhub-primary focus:outline-none focus:ring-2 focus:ring-scholarhub-active"
+                    >
+                    <x-lucide-eye-off class="pointer-events-none absolute right-4 top-1/2 h-6 w-6 -translate-y-1/2" />
+                </div>
+                @error('password')
+                    <p class="mt-2 text-sm font-medium text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div>
+                <div class="relative">
+                    <input
+                        wire:model="password_confirmation"
+                        id="password_confirmation"
+                        type="password"
+                        name="password_confirmation"
+                        required
+                        autocomplete="new-password"
+                        placeholder="Confirm password"
+                        class="h-14 w-full rounded-lg border border-scholarhub-border-strong/50 bg-white px-4 pr-12 text-base font-medium leading-[1.2] text-scholarhub-primary placeholder:text-scholarhub-muted focus:border-scholarhub-primary focus:outline-none focus:ring-2 focus:ring-scholarhub-active"
+                    >
+                    <x-lucide-eye-off class="pointer-events-none absolute right-4 top-1/2 h-6 w-6 -translate-y-1/2" />
+                </div>
+                @error('password_confirmation')
+                    <p class="mt-2 text-sm font-medium text-red-600">{{ $message }}</p>
+                @enderror
+            </div>
         </div>
 
-        <!-- Email Address -->
-        <div class="grid gap-2">
-            <flux:input wire:model="email" id="email" label="{{ __('Email address') }}" type="email" name="email" required autocomplete="email" placeholder="email@example.com" />
-        </div>
+        <div class="flex flex-col gap-6">
+            <button
+                type="submit"
+                class="flex h-12 w-full items-center justify-center rounded-lg bg-scholarhub-primary px-4 text-base font-semibold leading-[1.2] text-scholarhub-background"
+            >
+                Sign Up
+            </button>
 
-        <!-- Password -->
-        <div class="grid gap-2">
-            <flux:input
-                wire:model="password"
-                id="password"
-                label="{{ __('Password') }}"
-                type="password"
-                name="password"
-                required
-                autocomplete="new-password"
-                placeholder="Password"
-            />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="grid gap-2">
-            <flux:input
-                wire:model="password_confirmation"
-                id="password_confirmation"
-                label="{{ __('Confirm password') }}"
-                type="password"
-                name="password_confirmation"
-                required
-                autocomplete="new-password"
-                placeholder="Confirm password"
-            />
-        </div>
-
-        <div class="flex items-center justify-end">
-            <flux:button type="submit" variant="primary" class="w-full">
-                {{ __('Create account') }}
-            </flux:button>
+            <p class="text-base font-medium leading-[1.2]">
+                Already have an account?
+                <a href="{{ route('login') }}" wire:navigate class="font-semibold underline">
+                    Log In
+                </a>
+            </p>
         </div>
     </form>
-
-    <div class="space-x-1 text-center text-sm text-zinc-600 dark:text-zinc-400">
-        Already have an account?
-        <x-text-link href="{{ route('login') }}">Log in</x-text-link>
-    </div>
 </div>
