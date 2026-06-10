@@ -24,7 +24,7 @@
 
             <p
                 class="
-                    text-blue-600
+                    text-[#1B3764]
                     font-semibold
                     mb-5
                 "
@@ -77,8 +77,8 @@
                     href="/register"
 
                     class="
-                        bg-blue-600
-                        hover:bg-blue-700
+                        bg-[#1B3764]
+                        hover:bg-blue-800
                         text-white
                         px-8
                         py-4
@@ -100,7 +100,7 @@
                         border
                         border-gray-300
                         hover:border-blue-500
-                        hover:text-blue-600
+                        hover:text-[#1B3764]
                         px-8
                         py-4
                         rounded-2xl
@@ -145,7 +145,7 @@
                     class="
                         text-6xl
                         font-bold
-                        text-blue-600
+                        text-[#1B3764]
                         mt-4
                     "
                 >
@@ -249,7 +249,7 @@
                     class="
                         text-4xl
                         font-bold
-                        text-blue-600
+                        text-[#1B3764]
                     "
                 >
 
@@ -284,7 +284,7 @@
                     class="
                         text-4xl
                         font-bold
-                        text-blue-600
+                        text-[#1B3764]
                     "
                 >
 
@@ -319,7 +319,7 @@
                     class="
                         text-4xl
                         font-bold
-                        text-blue-600
+                        text-[#1B3764]
                     "
                 >
 
@@ -354,7 +354,7 @@
                     class="
                         text-4xl
                         font-bold
-                        text-blue-600
+                        text-[#1B3764]
                     "
                 >
 

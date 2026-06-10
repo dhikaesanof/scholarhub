@@ -359,7 +359,7 @@
                         "
 
                         class="
-                            bg-blue-600
+                            bg-[#1B3764]
                             hover:bg-blue-700
                             text-white
                             px-6
@@ -383,7 +383,7 @@
                         target="_blank"
 
                         class="
-                            bg-green-600
+                            bg-green-800
                             hover:bg-green-700
                             text-white
                             px-6

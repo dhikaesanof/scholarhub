@@ -1,134 +1,253 @@
-<div class="space-y-6">
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-            <flux:heading size="xl">Assessment Questions - {{ $scholarship->title ?? 'Beasiswa' }}</flux:heading>
-            <flux:subheading>Kelola daftar pertanyaan dan opsi jawaban untuk assessment kesiapan mahasiswa.</flux:subheading>
+<div class="min-h-screen bg-[#f5f7fb]">
+
+    {{-- HEADER --}}
+    <div class="border-b bg-white px-8 py-5 flex items-center justify-between">
+
+        <div class="flex items-center gap-4">
+            <a
+                href="#"
+                class="text-[#1B3764] hover:opacity-80"
+            >
+                ←
+            </a>
+
+            <div>
+                <h1 class="text-3xl font-bold text-[#1B3764]">
+                    Assessment Questions
+                </h1>
+
+                <p class="text-gray-500 font-medium">
+                    for {{ $scholarship->title }}
+                </p>
+            </div>
         </div>
+
+        <div class="flex items-center gap-3">
+
+            <button
+                type="submit"
+                form="question-form"
+                class="bg-[#1B3764] hover:bg-[#163055] text-white px-6 py-3 rounded-xl font-semibold shadow-sm transition"
+            >
+                ✓ Save Assessment
+            </button>
+
+            <button
+                class="border border-[#1B3764] text-[#1B3764] px-6 py-3 rounded-xl font-semibold hover:bg-[#eef3ff] transition"
+            >
+                ✕ Discard Edit
+            </button>
+
+        </div>
+
     </div>
 
-    <flux:card>
-        <flux:heading size="lg" class="mb-4">
-            {{ $editingQuestionId ? 'Edit Question' : 'Create Question' }}
-        </flux:heading>
+    {{-- CONTENT --}}
+    <div class="max-w-5xl mx-auto px-6 py-10">
 
-        <form wire:submit="save" class="space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="md:col-span-3">
-                    <flux:textarea 
-                        label="Question" 
-                        wire:model="question" 
-                        rows="2" 
-                        placeholder="Masukkan pertanyaan..." 
-                        required 
-                    />
-                </div>
-                <div class="md:col-span-1">
-                    <flux:input 
-                        type="number"
-                        label="Weight" 
-                        wire:model="weight" 
-                        placeholder="Contoh: 10"
-                        required 
-                    />
-                </div>
+        {{-- TITLE --}}
+        @if($editingQuestionId)
+
+            <h2 class="text-4xl font-bold text-[#1B3764] mb-8">
+                Edit Question
+            </h2>
+
+        @else
+
+            <h2 class="text-4xl font-bold text-[#1B3764] mb-8">
+                Create Question
+            </h2>
+
+        @endif
+
+        {{-- FORM --}}
+        <form
+            wire:submit="save"
+            id="question-form"
+            class="space-y-8"
+        >
+
+            {{-- QUESTION --}}
+            <div>
+
+                <label class="block text-2xl font-semibold text-[#1B3764] mb-3">
+                    Question
+                </label>
+
+                <textarea
+                    wire:model="question"
+                    class="w-full rounded-2xl border border-gray-200 bg-white px-5 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-[#1B3764]"
+                    rows="3"
+                ></textarea>
+
             </div>
 
-            <div class="mt-8 border-t border-gray-200 pt-6">
-                <div class="flex justify-between items-center mb-4">
-                    <div>
-                        <flux:heading size="md">Answer Options</flux:heading>
-                    </div>
-                    <flux:button size="sm" variant="secondary" icon="plus" wire:click="addOption">
-                        Add Option
-                    </flux:button>
-                </div>
+            {{-- WEIGHT --}}
+            <div class="max-w-md">
+
+                <label class="block text-2xl font-semibold text-[#1B3764] mb-3">
+                    Weight
+                </label>
+
+                <input
+                    type="number"
+                    wire:model="weight"
+                    class="w-full rounded-2xl border border-gray-200 bg-white px-5 py-4 text-lg focus:outline-none focus:ring-2 focus:ring-[#1B3764]"
+                >
+
+            </div>
+
+            {{-- ANSWER OPTIONS --}}
+            <div>
+
+                <h3 class="text-3xl font-bold text-[#1B3764] mb-6">
+                    Answer Options
+                </h3>
 
                 <div class="space-y-4">
-                    @foreach($options as $index => $option)
-                        <div class="flex gap-4 items-start bg-gray-50 p-4 rounded-xl border border-gray-200">
-                            <div class="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div class="md:col-span-2">
-                                    <flux:input 
-                                        label="Option Text" 
-                                        wire:model="options.{{ $index }}.text" 
-                                        placeholder="Teks opsi jawaban" 
-                                        required 
-                                    />
-                                </div>
-                                
-                                <flux:input 
-                                    type="number"
-                                    label="Score" 
-                                    wire:model="options.{{ $index }}.score" 
-                                    placeholder="Nilai opsi"
-                                    required 
-                                />
 
-                                <flux:textarea 
-                                    label="Roadmap Suggestion" 
+                    @foreach($options as $index => $option)
+
+                        <div class="bg-white border border-gray-200 rounded-2xl p-6 flex gap-6 items-start">
+
+                            {{-- OPTION TEXT --}}
+                            <div class="flex-1">
+
+                                <label class="text-sm text-gray-400 font-medium">
+                                    Option {{ $index + 1 }}
+                                </label>
+
+                                <input
+                                    type="text"
+                                    wire:model="options.{{ $index }}.text"
+                                    placeholder="Option Text"
+                                    class="w-full mt-1 text-xl font-semibold text-[#1B3764] border-0 focus:ring-0 p-0"
+                                >
+
+                            </div>
+
+                            {{-- SCORE --}}
+                            <div class="w-40">
+
+                                <label class="text-sm text-gray-400 font-medium">
+                                    Option Score
+                                </label>
+
+                                <input
+                                    type="number"
+                                    wire:model="options.{{ $index }}.score"
+                                    placeholder="Score"
+                                    class="w-full mt-1 text-2xl font-bold text-[#1B3764] border-0 focus:ring-0 p-0"
+                                >
+
+                            </div>
+
+                            {{-- ROADMAP --}}
+                            <div class="flex-1">
+
+                                <label class="text-sm text-gray-400 font-medium">
+                                    Roadmap Suggestion
+                                </label>
+
+                                <textarea
                                     wire:model="options.{{ $index }}.roadmap"
-                                    placeholder="Saran roadmap terkait (opsional)..."
-                                    rows="1"
-                                />
+                                    placeholder="Roadmap Suggestion"
+                                    rows="2"
+                                    class="w-full mt-1 text-lg font-semibold text-[#1B3764] border-0 focus:ring-0 p-0 resize-none"
+                                ></textarea>
+
                             </div>
-                            
-                            <div class="pt-8">
-                                <flux:button variant="ghost" color="danger" icon="trash" wire:click="removeOption({{ $index }})" aria-label="Remove Option" />
+
+                            {{-- DELETE --}}
+                            <div>
+
+                                <button
+                                    type="button"
+                                    wire:click="removeOption({{ $index }})"
+                                    class="border border-red-400 text-red-500 rounded-xl p-3 hover:bg-red-50 transition"
+                                >
+                                    🗑
+                                </button>
+
                             </div>
+
                         </div>
+
                     @endforeach
 
-                    @if(count($options) === 0)
-                        <div class="text-sm text-gray-500 text-center py-6 bg-gray-50 rounded-xl border border-dashed border-gray-300">
-                            Belum ada opsi jawaban. Klik tombol "Add Option" di atas.
-                        </div>
-                    @endif
                 </div>
+
+                {{-- ACTION BUTTONS --}}
+                <div class="flex items-center gap-4 mt-6">
+
+                    <button
+                        type="button"
+                        wire:click="addOption"
+                        class="border border-[#1B3764] text-[#1B3764] px-6 py-3 rounded-xl font-semibold hover:bg-[#eef3ff] transition"
+                    >
+                        ＋ Add Option
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="bg-[#1B3764] hover:bg-[#163055] text-white px-6 py-3 rounded-xl font-semibold shadow-sm transition"
+                    >
+                        ✓ Save Question
+                    </button>
+
+                </div>
+
             </div>
 
-            <div class="flex justify-end space-x-3 mt-8 pt-4 border-t border-gray-100">
-                @if($editingQuestionId)
-                    <flux:button type="button" variant="ghost" wire:click="$set('editingQuestionId', null)">
-                        Cancel Edit
-                    </flux:button>
-                @endif
-                <flux:button type="submit" variant="primary">
-                    Save Question
-                </flux:button>
-            </div>
         </form>
-    </flux:card>
 
-    <flux:card>
-        <flux:heading size="lg" class="mb-4">Daftar Pertanyaan</flux:heading>
-        
-        <div class="space-y-4">
-            @forelse($questions as $q)
-                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm flex flex-col md:flex-row justify-between md:items-center gap-4">
-                    <div class="space-y-2 flex-1">
-                        <p class="text-sm text-gray-500 font-medium">Scholarship: {{ $q->scholarship->title }}</p>
-                        <p class="font-medium text-gray-900 text-lg">{{ $q->question }}</p>
-                        <div class="flex gap-2 text-sm text-gray-600">
-                            <flux:badge size="sm" color="blue">Weight: {{ $q->weight }}</flux:badge>
-                            <flux:badge size="sm" color="zinc">{{ $q->options ? $q->options->count() : 0 }} Options</flux:badge>
+        {{-- SAVED QUESTIONS --}}
+        <div class="mt-14">
+
+            <h2 class="text-4xl font-bold text-[#1B3764] mb-8">
+                Saved Questions
+            </h2>
+
+            <div class="space-y-6">
+
+                @foreach($questions as $question)
+
+                    <div class="bg-white border border-gray-200 rounded-2xl p-6">
+
+                        <h3 class="text-3xl font-bold text-[#1B3764] mb-4">
+                            {{ $question->question }}
+                        </h3>
+
+                        <p class="text-2xl font-semibold text-[#1B3764] mb-6">
+                            Weight: {{ $question->weight }}
+                        </p>
+
+                        <div class="flex items-center gap-4">
+
+                            <button
+                                wire:click="edit({{ $question->id }})"
+                                class="bg-[#1B3764] hover:bg-[#163055] text-white px-5 py-3 rounded-xl font-semibold transition"
+                            >
+                                Edit Question
+                            </button>
+
+                            <button
+                                wire:click="delete({{ $question->id }})"
+                                class="bg-red-700 hover:bg-red-800 text-white px-5 py-3 rounded-xl font-semibold transition"
+                            >
+                                Delete Question
+                            </button>
+
                         </div>
+
                     </div>
-                    
-                    <div class="flex items-center space-x-2 shrink-0">
-                        <flux:button size="sm" variant="secondary" icon="pencil" wire:click="edit({{ $q->id }})">
-                            Edit
-                        </flux:button>
-                        <flux:button size="sm" variant="danger" icon="trash" wire:click="delete({{ $q->id }})">
-                            Delete
-                        </flux:button>
-                    </div>
-                </div>
-            @empty
-                <div class="text-center py-8 text-gray-500 border-2 border-dashed border-gray-200 rounded-xl">
-                    <flux:icon.book-open-text class="w-8 h-8 mx-auto mb-3 text-gray-400" />
-                    <p>Belum ada pertanyaan. Silakan buat pertanyaan baru di atas.</p>
-                </div>
-            @endforelse
+
+                @endforeach
+
+            </div>
+
         </div>
-    </flux:card>
+
+    </div>
+
 </div>

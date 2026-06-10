@@ -42,7 +42,7 @@
             "
 
             class="
-                bg-blue-600
+                bg-[#1B3764]
                 text-white
                 px-5
                 py-3
