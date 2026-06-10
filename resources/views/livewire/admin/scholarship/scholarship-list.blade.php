@@ -1,353 +1,95 @@
-<div class="p-8">
-
-    {{-- HEADER --}}
-
-    <div
-        class="
-            flex
-            items-center
-            justify-between
-            mb-8
-        "
-    >
-
+<div class="space-y-6">
+    
+    {{-- HEADER SECTION --}}
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-
-            <h1
-                class="
-                    text-3xl
-                    font-bold
-                    text-gray-900
-                "
-            >
-
-                Scholarship List
-
-            </h1>
-
-            <p
-                class="
-                    text-gray-500
-                    mt-1
-                "
-            >
-
-                Total Scholarships:
-                {{ count($scholarships) }}
-
-            </p>
-
+            <flux:heading size="xl">Scholarship List</flux:heading>
+            <flux:subheading>Total Scholarships: {{ count($scholarships) }}</flux:subheading>
         </div>
-
-        <a
-            href="/admin/scholarships/create"
-
-            class="
-                bg-blue-600
-                hover:bg-blue-700
-                text-white
-                px-5
-                py-3
-                rounded-xl
-                font-medium
-                transition
-            "
-        >
-
-            + Add Scholarship
-
-        </a>
-
+        <flux:button variant="primary" icon="plus" href="/admin/scholarships/create">
+            Add Scholarship
+        </flux:button>
     </div>
 
-    {{-- LIST --}}
-
-    <div class="space-y-6">
-
-        @foreach($scholarships as $scholarship)
-
-            <div
-                class="
-                    bg-white
-                    border
-                    rounded-2xl
-                    shadow-sm
-                    p-6
-                    flex
-                    justify-between
-                    gap-6
-                "
-            >
-
-                {{-- LEFT SIDE --}}
-
-                <div class="flex gap-5">
-
+    {{-- LIST SECTION --}}
+    <div class="grid grid-cols-1 gap-5">
+        @forelse($scholarships as $scholarship)
+            <flux:card class="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between transition hover:shadow-md">
+                
+                {{-- LEFT SIDE: THUMBNAIL & CONTENT --}}
+                <div class="flex flex-col sm:flex-row gap-5 flex-1 w-full">
+                    
                     {{-- THUMBNAIL --}}
-
-                    <div>
-
+                    <div class="shrink-0">
                         @if($scholarship->thumbnail)
-
                             <img
-
-                                src="
-
-                                    {{
-                                        Str::startsWith(
-
-                                            $scholarship->thumbnail,
-
-                                            'http'
-                                        )
-
-                                        ? $scholarship->thumbnail
-
-                                        : asset(
-                                            'storage/' .
-                                            $scholarship->thumbnail
-                                        )
-                                    }}
-
-                                "
-
-                                class="
-                                    w-28
-                                    h-28
-                                    object-cover
-                                    rounded-2xl
-                                    border
-                                "
+                                src="{{ Str::startsWith($scholarship->thumbnail, 'http') ? $scholarship->thumbnail : asset('storage/' . $scholarship->thumbnail) }}"
+                                alt="{{ $scholarship->title }}"
+                                class="w-full h-40 sm:w-32 sm:h-32 object-cover rounded-xl border border-gray-200"
                             >
-
                         @else
-
-                            <div
-                                class="
-                                    w-28
-                                    h-28
-                                    rounded-2xl
-                                    bg-gray-100
-                                    flex
-                                    items-center
-                                    justify-center
-                                    text-gray-400
-                                    text-sm
-                                    border
-                                "
-                            >
-
-                                No Image
-
+                            <div class="w-full h-40 sm:w-32 sm:h-32 rounded-xl bg-gray-50 flex flex-col items-center justify-center text-gray-400 border border-gray-200">
+                                <flux:icon.photo class="w-8 h-8 mb-1 text-gray-300" />
+                                <span class="text-xs font-medium">No Image</span>
                             </div>
-
                         @endif
-
                     </div>
 
-                    {{-- CONTENT --}}
-
-                    <div>
-
-                        <h2
-                            class="
-                                text-2xl
-                                font-bold
-                                text-gray-900
-                            "
-                        >
-
-                            {{ $scholarship->title }}
-
-                        </h2>
-
-                        <p
-                            class="
-                                text-gray-600
-                                mt-1
-                            "
-                        >
-
-                            {{ $scholarship->provider }}
-
-                        </p>
+                    {{-- CONTENT INFO --}}
+                    <div class="flex flex-col justify-center space-y-3 w-full">
+                        <div>
+                            <flux:heading size="lg" class="!mb-0 line-clamp-1">{{ $scholarship->title }}</flux:heading>
+                            <div class="text-sm text-gray-500 font-medium mt-0.5">{{ $scholarship->provider }}</div>
+                        </div>
 
                         {{-- BADGES --}}
-
-                        <div
-                            class="
-                                flex
-                                gap-3
-                                mt-4
-                                flex-wrap
-                            "
-                        >
-
-                            <span
-                                class="
-                                    px-3
-                                    py-1
-                                    rounded-full
-                                    text-sm
-                                    bg-blue-100
-                                    text-blue-700
-                                "
-                            >
-
-                                {{ $scholarship->category }}
-
-                            </span>
-
-                            <span
-                                class="
-                                    px-3
-                                    py-1
-                                    rounded-full
-                                    text-sm
-                                    bg-green-100
-                                    text-green-700
-                                "
-                            >
-
-                                {{ $scholarship->funding_type }}
-
-                            </span>
-
-                            <span
-                                class="
-                                    px-3
-                                    py-1
-                                    rounded-full
-                                    text-sm
-
-                                    @if($scholarship->status === 'OPEN')
-
-                                        bg-green-100
-                                        text-green-700
-
-                                    @elseif($scholarship->status === 'CLOSED')
-
-                                        bg-red-100
-                                        text-red-700
-
-                                    @else
-
-                                        bg-yellow-100
-                                        text-yellow-700
-
-                                    @endif
-                                "
-                            >
-
+                        <div class="flex flex-wrap gap-2">
+                            <flux:badge size="sm" color="blue">{{ $scholarship->category }}</flux:badge>
+                            <flux:badge size="sm" color="emerald">{{ $scholarship->funding_type }}</flux:badge>
+                            
+                            <flux:badge size="sm" color="{{ $scholarship->status === 'OPEN' ? 'green' : ($scholarship->status === 'CLOSED' ? 'red' : 'yellow') }}">
                                 {{ $scholarship->status }}
-
-                            </span>
-
+                            </flux:badge>
                         </div>
 
                         {{-- DEADLINE --}}
-
-                        <p
-                            class="
-                                text-sm
-                                text-gray-500
-                                mt-4
-                            "
-                        >
-
-                            Deadline:
-                            {{ $scholarship->deadline }}
-
-                        </p>
-
+                        <div class="text-sm text-gray-500 flex items-center gap-1.5 pt-1">
+                            <flux:icon.calendar class="w-4 h-4 text-gray-400" />
+                            <span>Deadline: <span class="font-medium text-gray-800">{{ $scholarship->deadline }}</span></span>
+                        </div>
                     </div>
-
                 </div>
 
-                {{-- ACTIONS --}}
-
-                <div
-                    class="
-                        flex
-                        flex-col
-                        gap-3
-                        min-w-[180px]
-                    "
-                >
-
-                    <a
-
-                        href="
-                            /admin/scholarships/{{ $scholarship->id }}/edit
-                        "
-
-                        class="
-                            bg-yellow-500
-                            hover:bg-yellow-600
-                            text-white
-                            text-center
-                            px-4
-                            py-2
-                            rounded-xl
-                            transition
-                        "
-                    >
-
+                {{-- RIGHT SIDE: ACTIONS --}}
+                <div class="flex flex-row md:flex-col gap-2 shrink-0 w-full md:w-40 mt-2 md:mt-0 border-t md:border-t-0 border-gray-100 pt-4 md:pt-0">
+                    <flux:button variant="secondary" size="sm" icon="pencil" href="/admin/scholarships/{{ $scholarship->id }}/edit" class="w-full justify-start">
                         Edit
+                    </flux:button>
+                    
+                    <flux:button variant="secondary" size="sm" icon="clipboard-list" href="/admin/scholarships/{{ $scholarship->id }}/assessments" class="w-full justify-start">
+                        Assessments
+                    </flux:button>
 
-                    </a>
-
-                    <a
-
-                        href="
-                            /admin/scholarships/{{ $scholarship->id }}/assessments
-                        "
-
-                        class="
-                            bg-blue-600
-                            hover:bg-blue-700
-                            text-white
-                            text-center
-                            px-4
-                            py-2
-                            rounded-xl
-                            transition
-                        "
-                    >
-
-                        Manage Assessment
-
-                    </a>
-
-                    <button
-
-                        wire:click="
-                            delete(
-                                {{ $scholarship->id }}
-                            )
-                        "
-
-                        class="
-                            bg-red-500
-                            hover:bg-red-600
-                            text-white
-                            px-4
-                            py-2
-                            rounded-xl
-                            transition
-                        "
-                    >
-
+                    <flux:button variant="danger" size="sm" icon="trash" wire:click="delete({{ $scholarship->id }})" wire:confirm="Yakin ingin menghapus beasiswa ini?" class="w-full justify-start">
                         Delete
-
-                    </button>
-
+                    </flux:button>
                 </div>
 
-            </div>
+            </flux:card>
 
-        @endforeach
-
+        @empty
+            {{-- EMPTY STATE --}}
+            <flux:card class="flex flex-col items-center justify-center py-16 text-gray-500 border-dashed border-2">
+                <div class="bg-gray-50 p-4 rounded-full mb-4">
+                    <flux:icon.inbox class="w-8 h-8 text-gray-400" />
+                </div>
+                <flux:heading size="lg">Belum Ada Beasiswa</flux:heading>
+                <p class="text-sm mt-1 text-center max-w-sm">Daftar beasiswa masih kosong. Tambahkan beasiswa baru agar mahasiswa dapat mulai melihat dan mendaftar.</p>
+                <flux:button variant="primary" icon="plus" href="/admin/scholarships/create" class="mt-6">
+                    Add New Scholarship
+                </flux:button>
+            </flux:card>
+        @endforelse
     </div>
 
 </div>
