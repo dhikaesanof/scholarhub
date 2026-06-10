@@ -41,16 +41,28 @@ class RoadmapHistory extends Component
                     )
                     ->count();
 
-            $result->progress =
+            $roadmapCompletion =
                 $total > 0
 
-                ? round(
-                    (
-                        $completed / $total
-                    ) * 100
+                ? (
+                    $completed / $total
                 )
 
                 : 0;
+
+            $result->progress = round(
+
+                $result->readiness_percentage +
+
+                (
+                    (
+                        100 -
+                        $result->readiness_percentage
+                    )
+
+                    * $roadmapCompletion
+                )
+            );
 
             return $result;
         });

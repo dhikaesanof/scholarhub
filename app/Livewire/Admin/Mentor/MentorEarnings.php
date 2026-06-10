@@ -33,6 +33,8 @@ class MentorEarnings extends Component
 
                     ->count();
 
+            $sessionPrice = $mentor->session_price ?? 75000;
+
             $this->earnings[] = [
 
                 'mentor' =>
@@ -42,7 +44,7 @@ class MentorEarnings extends Component
                     $paidBookings,
 
                 'income' =>
-                    $paidBookings * 75000,
+                    $paidBookings * $sessionPrice,
             ];
         }
     }
