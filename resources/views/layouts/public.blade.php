@@ -65,7 +65,7 @@
                 class="
                     text-2xl
                     font-bold
-                    text-blue-600
+                    text-[#1B3764]
                 "
             >
 
@@ -84,7 +84,7 @@
 
                 <a
                     href="/scholarships"
-                    class="text-gray-600 hover:text-blue-600"
+                    class="text-gray-600 hover:text-[#1B3764]"
                 >
 
                     Scholarships
@@ -93,7 +93,7 @@
 
                 <a
                     href="/mentors"
-                    class="text-gray-600 hover:text-blue-600"
+                    class="text-gray-600 hover:text-[#1B3764]"
                 >
 
                     Mentors
@@ -102,7 +102,7 @@
 
                 <a
                     href="/documents"
-                    class="text-gray-600 hover:text-blue-600"
+                    class="text-gray-600 hover:text-[#1B3764]"
                 >
 
                     Documents
@@ -156,8 +156,8 @@
                         href="/register"
 
                         class="
-                            bg-blue-600
-                            hover:bg-blue-700
+                            bg-[#1B3764]
+                            hover:bg-blue-800
                             text-white
                             px-5
                             py-2

@@ -26,6 +26,8 @@ class MentorList extends Component
 
     public $specialization;
 
+    public $session_price;
+
     public function toggleBlock($id)
     {
         $user =
@@ -79,6 +81,9 @@ class MentorList extends Component
 
             'specialization' =>
                 'required',
+
+            'session_price' =>
+                'nullable|numeric|min:0',
         ]);
 
         $user = User::create([
@@ -117,6 +122,9 @@ class MentorList extends Component
 
             'specialization' =>
                 $this->specialization,
+
+            'session_price' =>
+                $this->session_price,
         ]);
 
         session()->flash(
@@ -148,6 +156,8 @@ class MentorList extends Component
             'achievements',
 
             'specialization',
+
+            'session_price',
         ]);
 
         $this->showForm = false;

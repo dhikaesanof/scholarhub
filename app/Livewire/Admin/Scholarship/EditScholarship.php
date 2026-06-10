@@ -100,19 +100,10 @@ class EditScholarship extends Component
             'status' => 'required',
         ]);
 
-        $thumbnailPath = null;
+        $thumbnailPath = $this->scholarship->thumbnail;
 
         if ($this->thumbnail) {
-
-            $thumbnailPath =
-
-                $this->thumbnail
-                    ->store(
-
-                        'scholarships',
-
-                        'public'
-                    );
+            $thumbnailPath = $this->thumbnail->store('scholarships', 'public');
         }
 
         $this->scholarship->update([
@@ -133,6 +124,13 @@ class EditScholarship extends Component
             'registration_link' => $this->registration_link,
             'status' => $this->status,
         ]);
+
+        return redirect('/admin/scholarships');
+    }
+
+    public function deleteScholarship()
+    {
+        $this->scholarship->delete();
 
         return redirect('/admin/scholarships');
     }

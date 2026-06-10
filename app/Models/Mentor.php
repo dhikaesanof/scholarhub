@@ -27,6 +27,8 @@ class Mentor extends Model
         'gmeet_link',
 
         'instagram_username',
+
+        'session_price',
     ];
 
     public function bookings()

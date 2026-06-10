@@ -11,42 +11,27 @@
         "
     >
 
-        <div>
+        <h1
+            class="
+                text-4xl
+                font-bold
+                text-[#1B2B5B]
+            "
+        >
 
-            <h1
-                class="
-                    text-3xl
-                    font-bold
-                    text-gray-900
-                "
-            >
+            Scholarship Management
 
-                Scholarship List
-
-            </h1>
-
-            <p
-                class="
-                    text-gray-500
-                    mt-1
-                "
-            >
-
-                Total Scholarships:
-                {{ count($scholarships) }}
-
-            </p>
-
-        </div>
+        </h1>
 
         <a
+
             href="/admin/scholarships/create"
 
             class="
-                bg-blue-600
-                hover:bg-blue-700
+                bg-[#1B2B5B]
+                hover:bg-[#162449]
                 text-white
-                px-5
+                px-6
                 py-3
                 rounded-xl
                 font-medium
@@ -60,9 +45,16 @@
 
     </div>
 
-    {{-- LIST --}}
+    {{-- GRID --}}
 
-    <div class="space-y-6">
+    <div
+        class="
+            grid
+            md:grid-cols-2
+            xl:grid-cols-3
+            gap-6
+        "
+    >
 
         @foreach($scholarships as $scholarship)
 
@@ -71,207 +63,230 @@
                     bg-white
                     border
                     rounded-2xl
-                    shadow-sm
-                    p-6
-                    flex
-                    justify-between
-                    gap-6
+                    p-4
+                    hover:shadow-lg
+                    transition
                 "
             >
 
-                {{-- LEFT SIDE --}}
-
-                <div class="flex gap-5">
-
-                    {{-- THUMBNAIL --}}
-
-                    <div>
-
-                        @if($scholarship->thumbnail)
-
-                            <img
-
-                                src="
-
-                                    {{
-                                        Str::startsWith(
-
-                                            $scholarship->thumbnail,
-
-                                            'http'
-                                        )
-
-                                        ? $scholarship->thumbnail
-
-                                        : asset(
-                                            'storage/' .
-                                            $scholarship->thumbnail
-                                        )
-                                    }}
-
-                                "
-
-                                class="
-                                    w-28
-                                    h-28
-                                    object-cover
-                                    rounded-2xl
-                                    border
-                                "
-                            >
-
-                        @else
-
-                            <div
-                                class="
-                                    w-28
-                                    h-28
-                                    rounded-2xl
-                                    bg-gray-100
-                                    flex
-                                    items-center
-                                    justify-center
-                                    text-gray-400
-                                    text-sm
-                                    border
-                                "
-                            >
-
-                                No Image
-
-                            </div>
-
-                        @endif
-
-                    </div>
-
-                    {{-- CONTENT --}}
-
-                    <div>
-
-                        <h2
-                            class="
-                                text-2xl
-                                font-bold
-                                text-gray-900
-                            "
-                        >
-
-                            {{ $scholarship->title }}
-
-                        </h2>
-
-                        <p
-                            class="
-                                text-gray-600
-                                mt-1
-                            "
-                        >
-
-                            {{ $scholarship->provider }}
-
-                        </p>
-
-                        {{-- BADGES --}}
-
-                        <div
-                            class="
-                                flex
-                                gap-3
-                                mt-4
-                                flex-wrap
-                            "
-                        >
-
-                            <span
-                                class="
-                                    px-3
-                                    py-1
-                                    rounded-full
-                                    text-sm
-                                    bg-blue-100
-                                    text-blue-700
-                                "
-                            >
-
-                                {{ $scholarship->category }}
-
-                            </span>
-
-                            <span
-                                class="
-                                    px-3
-                                    py-1
-                                    rounded-full
-                                    text-sm
-                                    bg-green-100
-                                    text-green-700
-                                "
-                            >
-
-                                {{ $scholarship->funding_type }}
-
-                            </span>
-
-                            <span
-                                class="
-                                    px-3
-                                    py-1
-                                    rounded-full
-                                    text-sm
-
-                                    @if($scholarship->status === 'OPEN')
-
-                                        bg-green-100
-                                        text-green-700
-
-                                    @elseif($scholarship->status === 'CLOSED')
-
-                                        bg-red-100
-                                        text-red-700
-
-                                    @else
-
-                                        bg-yellow-100
-                                        text-yellow-700
-
-                                    @endif
-                                "
-                            >
-
-                                {{ $scholarship->status }}
-
-                            </span>
-
-                        </div>
-
-                        {{-- DEADLINE --}}
-
-                        <p
-                            class="
-                                text-sm
-                                text-gray-500
-                                mt-4
-                            "
-                        >
-
-                            Deadline:
-                            {{ $scholarship->deadline }}
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-                {{-- ACTIONS --}}
+                {{-- TOP SECTION --}}
 
                 <div
                     class="
                         flex
-                        flex-col
-                        gap-3
-                        min-w-[180px]
+                        justify-between
+                        items-start
+                        mb-4
+                    "
+                >
+
+                    {{-- THUMBNAIL --}}
+
+                    @if($scholarship->thumbnail)
+
+                        <img
+
+                            src="
+                                {{
+                                    Str::startsWith(
+                                        $scholarship->thumbnail,
+                                        'http'
+                                    )
+
+                                    ? $scholarship->thumbnail
+
+                                    : asset(
+                                        'storage/' .
+                                        $scholarship->thumbnail
+                                    )
+                                }}
+                            "
+
+                            class="
+                                w-14
+                                h-14
+                                rounded-xl
+                                object-cover
+                            "
+                        >
+
+                    @else
+
+                        <div
+                            class="
+                                w-14
+                                h-14
+                                rounded-xl
+                                bg-gray-200
+                            "
+                        ></div>
+
+                    @endif
+
+                    {{-- STATUS --}}
+
+                    <span
+                        class="
+                            px-4
+                            py-1
+                            rounded-full
+                            text-sm
+                            font-medium
+
+                            @if($scholarship->status === 'OPEN')
+
+                                bg-green-100
+                                text-green-700
+
+                            @elseif($scholarship->status === 'CLOSED')
+
+                                bg-red-100
+                                text-red-700
+
+                            @else
+
+                                bg-yellow-100
+                                text-yellow-700
+
+                            @endif
+                        "
+                    >
+
+                        {{
+                            str_replace(
+                                '_',
+                                ' ',
+                                ucfirst(
+                                    strtolower(
+                                        $scholarship->status
+                                    )
+                                )
+                            )
+                        }}
+
+                    </span>
+
+                </div>
+
+                {{-- TITLE --}}
+
+                <h2
+                    class="
+                        text-2xl
+                        font-bold
+                        text-[#1B2B5B]
+                    "
+                >
+
+                    {{ $scholarship->title }}
+
+                </h2>
+
+                {{-- PROVIDER + DATE --}}
+
+                <p
+                    class="
+                        text-gray-600
+                        mt-2
+                    "
+                >
+
+                    {{ $scholarship->provider }}
+
+                    •
+
+                    @if(
+                        $scholarship->status === 'OPEN'
+                    )
+
+                        Open until
+
+                        {{
+                            \Carbon\Carbon::parse(
+                                $scholarship->deadline
+                            )->format('d F Y')
+                        }}
+
+                    @elseif(
+                        $scholarship->status === 'CLOSED'
+                    )
+
+                        Closed at
+
+                        {{
+                            \Carbon\Carbon::parse(
+                                $scholarship->deadline
+                            )->format('d F Y')
+                        }}
+
+                    @else
+
+                        Open at
+
+                        {{
+                            \Carbon\Carbon::parse(
+                                $scholarship->registration_open_date
+                            )->format('d F Y')
+                        }}
+
+                    @endif
+
+                </p>
+
+                {{-- BADGES --}}
+
+                <div
+                    class="
+                        flex
+                        flex-wrap
+                        gap-2
+                        mt-4
+                    "
+                >
+
+                    <span
+                        class="
+                            bg-blue-100
+                            text-[#1B2B5B]
+                            px-3
+                            py-1
+                            rounded-full
+                            text-sm
+                            font-medium
+                        "
+                    >
+
+                        {{ $scholarship->category }}
+
+                    </span>
+
+                    <span
+                        class="
+                            bg-green-100
+                            text-green-700
+                            px-3
+                            py-1
+                            rounded-full
+                            text-sm
+                            font-medium
+                        "
+                    >
+
+                        {{ $scholarship->funding_type }}
+
+                    </span>
+
+                </div>
+
+                {{-- BUTTONS --}}
+
+                <div
+                    class="
+                        border-t
+                        mt-5
+                        pt-4
+                        flex
+                        gap-2
                     "
                 >
 
@@ -282,18 +297,17 @@
                         "
 
                         class="
-                            bg-yellow-500
-                            hover:bg-yellow-600
+                            flex-1
+                            bg-[#1B2B5B]
                             text-white
                             text-center
-                            px-4
-                            py-2
+                            py-3
                             rounded-xl
-                            transition
+                            font-medium
                         "
                     >
 
-                        Edit
+                        Edit Detail
 
                     </a>
 
@@ -304,43 +318,20 @@
                         "
 
                         class="
-                            bg-blue-600
-                            hover:bg-blue-700
-                            text-white
+                            flex-1
+                            border
+                            border-[#1B2B5B]
+                            text-[#1B2B5B]
                             text-center
-                            px-4
-                            py-2
+                            py-3
                             rounded-xl
-                            transition
+                            font-medium
                         "
                     >
 
-                        Manage Assessment
+                        Edit Assessment
 
                     </a>
-
-                    <button
-
-                        wire:click="
-                            delete(
-                                {{ $scholarship->id }}
-                            )
-                        "
-
-                        class="
-                            bg-red-500
-                            hover:bg-red-600
-                            text-white
-                            px-4
-                            py-2
-                            rounded-xl
-                            transition
-                        "
-                    >
-
-                        Delete
-
-                    </button>
 
                 </div>
 

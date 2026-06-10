@@ -1,160 +1,37 @@
-<div>
-
-    <div
-        class="
-            flex
-            items-center
-            justify-between
-            mb-8
-        "
-    >
-
+<div class="space-y-8">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-
-            <h1
-                class="
-                    text-3xl
-                    font-bold
-                "
-            >
-
-                Mentor Earnings
-
-            </h1>
-
-            <p
-                class="
-                    text-gray-500
-                    mt-1
-                "
-            >
-
-                Monitor mentor transactions and income.
-
-            </p>
-
+            <h1 class="text-3xl font-semibold text-slate-950">Mentor Earnings</h1>
+            <p class="text-slate-600 mt-1">Monitor mentor transactions and total session income.</p>
         </div>
-
     </div>
 
-    <div
-        class="
-            bg-white
-            rounded-2xl
-            shadow-sm
-            border
-            overflow-hidden
-        "
-    >
-
-        <table class="w-full">
-
-            <thead
-                class="
-                    bg-gray-100
-                "
-            >
-
+    <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+        <table class="min-w-full divide-y divide-slate-200">
+            <thead class="bg-slate-50">
                 <tr>
-
-                    <th class="p-4 text-left">
-
-                        Mentor
-
-                    </th>
-
-                    <th class="p-4 text-left">
-
-                        University
-
-                    </th>
-
-                    <th class="p-4 text-left">
-
-                        Paid Sessions
-
-                    </th>
-
-                    <th class="p-4 text-left">
-
-                        Total Income
-
-                    </th>
-
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-slate-600">Mentor</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-slate-600">University</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-slate-600">Paid Sessions</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-slate-600">Price per Session</th>
+                    <th class="px-6 py-4 text-left text-sm font-semibold text-slate-600">Total Income</th>
                 </tr>
-
             </thead>
-
-            <tbody>
-
-                @foreach($earnings as $data)
-
-                    <tr
-                        class="
-                            border-t
-                        "
-                    >
-
-                        <td class="p-4">
-
-                            {{
-                                $data['mentor']
-                                    ->user
-                                    ->name
-                            }}
-
-                        </td>
-
-                        <td class="p-4">
-
-                            {{
-                                $data['mentor']
-                                    ->university
-                            }}
-
-                        </td>
-
-                        <td class="p-4">
-
-                            {{
-                                $data['total_sessions']
-                            }}
-
-                        </td>
-
-                        <td
-                            class="
-                                p-4
-                                font-semibold
-                                text-green-600
-                            "
-                        >
-
-                            Rp
-                            {{
-
-                                number_format(
-
-                                    $data['income'],
-
-                                    0,
-
-                                    ',',
-
-                                    '.'
-                                )
-                            }}
-
-                        </td>
-
+            <tbody class="divide-y divide-slate-200 bg-white">
+                @forelse($earnings as $data)
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-6 py-4 text-sm font-medium text-slate-900">{{ $data['mentor']->user->name }}</td>
+                        <td class="px-6 py-4 text-sm text-slate-600">{{ $data['mentor']->university }}</td>
+                        <td class="px-6 py-4 text-sm text-slate-600">{{ $data['total_sessions'] }}</td>
+                        <td class="px-6 py-4 text-sm text-slate-600">Rp {{ number_format($data['mentor']->session_price) }}</td>
+                        <td class="px-6 py-4 text-sm font-semibold text-emerald-700">Rp {{ number_format($data['income']) }}</td>
                     </tr>
-
-                @endforeach
-
+                @empty
+                    <tr>
+                        <td colspan="5" class="px-6 py-10 text-center text-slate-500">No earnings data available.</td>
+                    </tr>
+                @endforelse
             </tbody>
-
         </table>
-
     </div>
-
 </div>
