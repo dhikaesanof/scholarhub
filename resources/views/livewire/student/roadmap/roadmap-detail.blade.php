@@ -2,31 +2,240 @@
 
     {{-- HEADER --}}
 
-    <div class="mb-8">
+    <div
+        class="
+            flex
+            items-start
+            gap-4
+            mb-10
+        "
+    >
 
-        <h1
+        <a
+
+            href="/student/roadmaps"
+
             class="
-                text-4xl
-                font-bold
-                text-gray-900
+                text-[#1B2B5B]
+                mt-1
             "
         >
 
-            Scholarship Roadmap
+            <x-lucide-arrow-left
+                class="
+                    w-7
+                    h-7
+                "
+            />
 
-        </h1>
+        </a>
 
-        <p
+        <div>
+
+            <h1
+                class="
+                    text-3xl
+                    font-bold
+                    text-[#1B2B5B]
+                "
+            >
+
+                Your Roadmap
+
+            </h1>
+
+            <p
+                class="
+                    text-lg
+                    text-gray-400
+                "
+            >
+
+                {{
+                    $result
+                        ->scholarship
+                        ->title
+                }}
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div
+        class="
+            bg-white
+            border
+            rounded-2xl
+            p-6
+            mb-8
+        "
+    >
+
+        <div
             class="
-                text-gray-500
-                mt-2
+                flex
+                items-center
+                gap-6
             "
         >
 
-            Complete your roadmap step by step
-            to improve your scholarship readiness.
+            @if(
+                $result->scholarship->thumbnail
+            )
 
-        </p>
+                <img
+
+                    src="
+                        {{
+                            Str::startsWith(
+                                $result->scholarship->thumbnail,
+                                'http'
+                            )
+
+                            ? $result->scholarship->thumbnail
+
+                            : asset(
+                                'storage/' .
+                                $result->scholarship->thumbnail
+                            )
+                        }}
+                    "
+
+                    class="
+                        w-24
+                        h-24
+                        rounded-2xl
+                        object-cover
+                    "
+                >
+
+            @else
+
+                <div
+                    class="
+                        w-24
+                        h-24
+                        rounded-2xl
+                        bg-gray-200
+                    "
+                ></div>
+
+            @endif
+
+            <div>
+
+                <h2
+                    class="
+                        text-4xl
+                        font-bold
+                        text-[#1B2B5B]
+                    "
+                >
+
+                    {{
+                        $result
+                            ->scholarship
+                            ->title
+                    }}
+
+                </h2>
+
+                <p
+                    class="
+                        text-xl
+                        text-gray-600
+                        mt-2
+                    "
+                >
+
+                    {{
+                        $result
+                            ->scholarship
+                            ->provider
+                    }}
+
+                </p>
+
+                <div
+                    class="
+                        flex
+                        gap-2
+                        mt-4
+                        flex-wrap
+                    "
+                >
+
+                    <span
+                        class="
+                            bg-blue-100
+                            text-[#1B2B5B]
+                            px-4
+                            py-2
+                            rounded-full
+                            text-sm
+                            font-medium
+                        "
+                    >
+
+                        {{
+                            $result
+                                ->scholarship
+                                ->category
+                        }}
+
+                    </span>
+
+                    <span
+                        class="
+                            bg-green-100
+                            text-green-700
+                            px-4
+                            py-2
+                            rounded-full
+                            text-sm
+                            font-medium
+                        "
+                    >
+
+                        {{
+                            $result
+                                ->scholarship
+                                ->funding_type
+                        }}
+
+                    </span>
+
+                    <span
+                        class="
+                            bg-green-100
+                            text-green-700
+                            px-4
+                            py-2
+                            rounded-full
+                            text-sm
+                            font-medium
+                        "
+                    >
+
+                        {{
+                            str_replace(
+                                '_',
+                                ' ',
+                                $result
+                                    ->scholarship
+                                    ->status
+                            )
+                        }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
@@ -55,71 +264,54 @@
             class="
                 bg-white
                 border
-                rounded-3xl
-                shadow-sm
-                p-8
+                rounded-2xl
+                p-6
                 mb-8
             "
         >
 
-            <div
+            <h2
                 class="
-                    flex
-                    items-center
-                    justify-between
-                    mb-4
+                    text-3xl
+                    font-bold
+                    text-[#1B2B5B]
                 "
             >
 
-                <div>
+                Progress
 
-                    <h2
-                        class="
-                            text-2xl
-                            font-bold
-                            text-gray-900
-                        "
-                    >
+            </h2>
 
-                        Progress
+            <p
+                class="
+                    text-gray-500
+                    mt-2
+                "
+            >
 
-                    </h2>
+                Keep improving your readiness.
 
-                    <p
-                        class="
-                            text-gray-500
-                            mt-1
-                        "
-                    >
-
-                        Keep improving your readiness.
-
-                    </p>
-
-                </div>
-
-                <div
-                    class="
-                        text-4xl
-                        font-bold
-                        text-blue-600
-                    "
-                >
-
-                    {{ $progress }}%
-
-                </div>
-
-            </div>
-
-            {{-- PROGRESS BAR --}}
+            </p>
 
             <div
                 class="
-                    w-full
+                    text-5xl
+                    font-bold
+                    text-[#1B2B5B]
+                    mt-6
+                "
+            >
+
+                {{ $progress }}%
+
+            </div>
+
+            <div
+                class="
+                    mt-4
+                    h-3
                     bg-gray-200
                     rounded-full
-                    h-5
                     overflow-hidden
                 "
             >
@@ -127,10 +319,9 @@
                 <div
 
                     class="
-                        bg-blue-600
-                        h-5
+                        h-3
+                        bg-[#1B2B5B]
                         rounded-full
-                        transition-all
                     "
 
                     style="
@@ -168,122 +359,94 @@
 
         <div class="space-y-5">
 
+            <div class="mb-5">
+
+                <h2
+                    class="
+                        text-4xl
+                        font-bold
+                        text-[#1B2B5B]
+                    "
+                >
+
+                    Complete your roadmap
+
+                </h2>
+
+                <p
+                    class="
+                        text-gray-500
+                        mt-2
+                    "
+                >
+
+                    One step at a time to improve your readiness.
+
+                </p>
+
+            </div>
+
             @foreach($roadmaps as $roadmap)
 
                 <div
                     class="
-                        bg-white
                         border
-                        rounded-3xl
-                        shadow-sm
-                        p-6
+                        rounded-2xl
+                        p-5
                         flex
                         items-center
-                        justify-between
-                        gap-5
+                        gap-4
+
+                        {{
+                            $roadmap->is_completed
+
+                            ? 'bg-green-50'
+
+                            : 'bg-white'
+                        }}
                     "
                 >
 
-                    {{-- LEFT SIDE --}}
+                    <input
 
-                    <div
-                        class="
-                            flex
-                            items-center
-                            gap-5
-                        "
-                    >
+                        type="checkbox"
 
-                        <input
-
-                            type="checkbox"
-
-                            wire:click="
-                                toggleRoadmap(
-                                    {{ $roadmap->id }}
-                                )
-                            "
-
-                            @checked(
-                                $roadmap->is_completed
+                        wire:click="
+                            toggleRoadmap(
+                                {{ $roadmap->id }}
                             )
+                        "
 
-                            class="
-                                w-6
-                                h-6
-                                rounded
-                            "
-                        >
-
-                        <div>
-
-                            <p
-                                class="
-                                    text-lg
-                                    text-gray-800
-
-                                    @if(
-                                        $roadmap->is_completed
-                                    )
-
-                                        line-through
-                                        text-gray-400
-
-                                    @endif
-                                "
-                            >
-
-                                {{ $roadmap->task }}
-
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                    {{-- STATUS --}}
-
-                    <div>
-
-                        @if(
+                        @checked(
                             $roadmap->is_completed
                         )
 
-                            <span
-                                class="
-                                    bg-green-100
-                                    text-green-700
-                                    px-4
-                                    py-2
-                                    rounded-full
-                                    text-sm
-                                "
-                            >
+                        class="
+                            w-6
+                            h-6
+                            rounded
+                            shrink-0
+                        "
+                    >
 
-                                Completed
+                    <p
+                        class="
+                            text-lg
+                            text-[#1B2B5B]
 
-                            </span>
+                            {{
+                                $roadmap->is_completed
 
-                        @else
+                                ? 'line-through opacity-60'
 
-                            <span
-                                class="
-                                    bg-yellow-100
-                                    text-yellow-700
-                                    px-4
-                                    py-2
-                                    rounded-full
-                                    text-sm
-                                "
-                            >
+                                : ''
+                            }}
+                        "
+                    >
 
-                                In Progress
+                        {{ $roadmap->task }}
 
-                            </span>
-
-                        @endif
-
-                    </div>
+                    </p>
 
                 </div>
 
