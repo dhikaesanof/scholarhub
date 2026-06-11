@@ -24,9 +24,6 @@
 
     <header
         class="
-            sticky
-            top-0
-            z-20
             flex
             items-center
             gap-4

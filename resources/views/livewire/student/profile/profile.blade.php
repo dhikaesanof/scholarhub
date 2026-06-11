@@ -27,8 +27,6 @@
 
     <header
         class="
-            sticky
-            z-20
             flex
             h-[90px]
             items-center
